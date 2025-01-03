@@ -20,10 +20,10 @@ image3D creer_image3D(int lignes, int colonnes)
         Erreur("Erreur malloc image3D");
     }
     /*printf("Image allouée\n.");*/
-    Im->image = (int***)malloc(sizeof(int***)*lignes);
+    Im->image = (int **)malloc(sizeof(int **) * lignes);
     for (int i = 0; i < lignes; i++)
     {
-        Im->image[i] = (int **)malloc(sizeof(int **) * colonnes);
+        Im->image[i] = (int **)malloc(sizeof(int *) * colonnes);
         if (Im->image[i] == NULL)
         {
             Erreur("Erreur malloc image3D");
@@ -54,14 +54,14 @@ image2D creer_image2D(int lignes, int colonnes)
         Erreur("Erreur malloc image2D");
     }
     Im->image = (int **)malloc(sizeof(int *) * lignes);
-     if (Im->image == NULL)
+    if (Im->image == NULL)
     {
         Erreur("Erreur malloc image2D");
     }
 
     for (int i = 0; i < colonnes; i++)
     {
-        Im->image[i] = (int*)malloc(sizeof(int));
+        Im->image[i] = (int *)malloc(sizeof(int));
         if (Im->image[i] == NULL)
         {
             Erreur("Erreur malloc image2D");
@@ -74,26 +74,63 @@ image2D creer_image2D(int lignes, int colonnes)
 void lire_image3D(FILE *filename, image3D im)
 {
     int v1;
-    for(int k = 0;k<3;k++){
-    for (int i = 0; i < im->lignes; i++)
+    int lignes, colonnes;
+    lignes = im->lignes;
+    colonnes = im->colonnes;
+    for (int k = 0; k < 3; k++)
     {
-        for (int j = 0; j < im->colonnes; j++)
+        for (int i = 0; i <lignes; i++)
         {
-            fscanf(filename, "%d",&v1);
-            im->image[i][j][k] = v1;
+
+            for (int j = 0; j <colonnes; j++)
+            {
+
+                fscanf(filename, "%d", &v1);
+                im->image[i][j][k] = v1;
+            }
         }
     }
-    }
-    for (int i = 0; i < im->lignes; i++)
-    {
-        for (int j = 0; j < im->colonnes; j++)
-        {
-            printf("%2d %2d %2d ", im->image[i][j][R], im->image[i][j][G], im->image[i][j][B]);
-        }
-        printf("\n");
-    }
-     printf("\n");
+    printf("\n");
 }
-/*void lire_image2D(FILE *filename, image2D im)
-{
-}*/
+
+image2D RGB_to_GREY(image3D im,histogramme *hist,int nb_bits){
+    int taille = 1<<(nb_bits*3);
+    printf("taille = %d\n",taille);
+    hist->tab = (int*)calloc(taille,sizeof(int));
+    hist->taille = taille;
+    if(hist->tab == NULL){
+        Erreur("Malloc histogramme RGB_to_GREY");
+    }
+    int8b r,g,b;
+    int8b somme = 0;
+    image2D im_retour = creer_image2D(im->lignes,im->colonnes);
+    for(int i = 0;i<im->lignes;i++){
+        for(int j = 0;j<im->colonnes;j++){
+            r = im->image[i][j][R];
+            g = im->image[i][j][G];
+            b = im->image[i][j][B];
+            somme = quantification(r,g,b,nb_bits);
+            //im_retour->image[i][j] = r*COEFF_R+g*COEFF_G+b*COEFF_B;
+            im_retour->image[i][j] = somme;
+            hist->tab[somme]++;
+        }
+    }
+
+    return im_retour;
+
+}
+
+
+int quantification(int8b r_8b,int8b g_8b,int8b b_8b, int nb_bits){
+    if(nb_bits<1 || nb_bits>NB_PIXELS_MAX){
+        Erreur("Quantification : NB_BITS INVALIDE");
+    }
+
+    unsigned char r = r_8b>>(NB_PIXELS_MAX-nb_bits)&((1<<nb_bits)-1);
+    unsigned char g = g_8b>>(NB_PIXELS_MAX-nb_bits)&((1<<nb_bits)-1);
+    unsigned char b = b_8b>>(NB_PIXELS_MAX-nb_bits)&((1<<nb_bits)-1);
+    return r<<(2*nb_bits)|g<<(nb_bits)|b;
+    
+}
+
+
