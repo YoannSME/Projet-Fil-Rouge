@@ -1,58 +1,43 @@
-# TP INFO : Programmation impérative : visualisation des images manipulées
-# appel depuis le shell : python3 script_image.py
-# vérifier votre répertoire de travail
+import os
+import numpy as np
+import matplotlib.pyplot as plt
 
+# Chemin WSL
+PATH = r"C:\Users\isaac\OneDrive\Bureau\1A SRI\PFR-1\PFR1_traitement_images\traitement_images"
 
-# bibliothèques à importer
-import numpy as np               # pour la gestion des tableaux de type array
-import matplotlib as mp          # pour travailler avec tout type de figures
-import matplotlib.pyplot as plt  # pour tracer des figures
-import os                        # pour les fonctionalités dépendantes du système d'explotation (os)
+# Demande du nom du fichier
+nom_fichier = 'image.txt'
+fichier_complet = os.path.join(PATH, nom_fichier)
 
+# Vérification si le fichier existe
+if not os.path.exists(fichier_complet):
+    print(f"Erreur : fichier {fichier_complet} introuvable.")
+    exit(1)
 
-# mémorisation du chemin vers le dossier contenant les données à traiter
-# à adapter en fonction de votre home 
-PATH = '/home/iswakz/PFR1/traitement_images/Test/'
+# Ouverture et lecture du fichier
+with open(fichier_complet, "r") as fichier:
+    # Lecture des dimensions
+    ligne_dim = fichier.readline().strip()
+    hauteur, largeur = map(int, ligne_dim.split())
 
-# siasir du fichier .dat à traiter
-nom_fichier = input('Image à afficher')
+    # Création d'une matrice NumPy
+    image_lue = np.zeros((hauteur, largeur), dtype=int)
 
-# récupération du nom sans l'extension
-nom_seul, ext = os.path.splitext(nom_fichier)
-print(nom_seul, ext)
+    # Chargement des pixels
+    for i in range(hauteur):
+        ligne = fichier.readline().strip()
+        if not ligne:  # Vérifie les lignes manquantes
+            raise ValueError(f"Ligne {i+1} manquante dans le fichier.")
+        
+        liste_valeur = ligne.split()
+        if len(liste_valeur) != largeur:
+            raise ValueError(f"Ligne {i+1} invalide : {len(liste_valeur)} colonnes au lieu de {largeur}.")
+        
+        image_lue[i] = [int(val) for val in liste_valeur]
 
-# ouverture du fichier .dat (fichier texte) et conversion en array
-fichier = open(PATH + nom_fichier, "r")
+# Affichage de l'image
+plt.imshow(image_lue, cmap='gray', vmin=0, vmax=1)
+plt.title(nom_fichier)
 
-# lecture de la première ligne contenant la hauteur et la largeur de la matrice
-ligne_dim = fichier.readline()
-liste_dim = ligne_dim.split()
-print('TRACE Dimensions = ', liste_dim)
-val_dim = [int(val) for val in liste_dim]
-hauteur = val_dim[0]
-largeur = val_dim[1]
-
-print('TRACE valeurs dimensions après conversion = ', ligne_dim, ' = ', hauteur, ' x ', largeur)
-
-# définition d'une matrice d'entiers à la bonne dimension
-image_lue = np.zeros((hauteur, largeur), dtype=int)
-
-# chargement ligne par ligne de la matrice à partir du fichier texte
-for i in range(1,hauteur+1) :
-    ligne_fichier = fichier.readline()
-    liste_valeur = ligne_fichier.split()
-    #print(liste_valeur)
-    image_lue[i-1] = [int(val) for val in liste_valeur]
-
-# affichage du contenu de la matrice
-print(image_lue)
-
-# fermeture du fichier initialement ouvert
-fichier.close()
-
-# affichage de la matrice comme une image en niveaux de gris
-plt.imshow(image_lue,cmap='gray')
-
-# sauvegarde au format jpg
-plt.savefig(PATH + nom_seul + '.jpg')
-print('TRACE image sauvegardée au format jpg : ', PATH + nom_seul + '.jpg')
+# Affichage ou sauvegarde
+plt.show()
