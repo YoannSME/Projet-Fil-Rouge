@@ -207,70 +207,69 @@ const char *nom_couleur(CouleurNom c)
     }
 }
 
+void rgb_to_hsv(char r, char g, char b, float *h, float *s, float *v, int max_val)
+{
+    float rf = (float)r / max_val;
+    float gf = (float)g / max_val;
+    float bf = (float)b / max_val;
+
+    // Trouver max et min
+    float maxC = (rf > gf) ? ((rf > bf) ? rf : bf) : ((gf > bf) ? gf : bf);
+    float minC = (rf < gf) ? ((rf < bf) ? rf : bf) : ((gf < bf) ? gf : bf);
+    float delta = maxC - minC;
+
+    // Calcul de V (Valeur)
+    *v = maxC;
+
+    // Calcul de S (Saturation)
+    *s = (maxC < 1e-6) ? 0 : (delta / maxC);
+
+    // Calcul de H (Teinte)
+    if (delta < 1e-6)
+    {
+        *h = 0; // Gris ou blanc
+    }
+    else if (maxC == rf)
+    {
+        *h = 60 * ((gf - bf) / delta);
+        if (*h < 0)
+            *h += 360; // Corriger les valeurs négatives
+    }
+    else if (maxC == gf)
+    {
+        *h = 60 * (((bf - rf) / delta) + 2);
+    }
+    else
+    {
+        *h = 60 * (((rf - gf) / delta) + 4);
+    }
+    *h = *h / 2;
+}
 CouleurNom conversion_couleur(int valeur, int nb_bits)
-{ // couleur 24 bits
-    unsigned char r = (valeur >> (2 * nb_bits)) & ((1 << nb_bits) - 1);
-    unsigned char g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);
-    unsigned char b = valeur & ((1 << nb_bits) - 1);
+{                                                              // couleur 24 bits
+    char r = (valeur >> (2 * nb_bits)) & ((1 << nb_bits) - 1); // Valeur rouge : les N premiers bits
+    char g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);       // Valeur verte : les N bits du milieu
+    char b = valeur & ((1 << nb_bits) - 1);                    // Valeur bleu : les N bits de fin
 
-    unsigned int max_val = (1 << nb_bits) - 1;
-    float thr80 = 0.8f * max_val; // "haut"
-    float thr20 = 0.2f * max_val; // "bas"
-
-    // Convertir r,g,b en float pour comparer
-    float rf = (float)r, gf = (float)g, bf = (float)b;
-
-    // BLANC : r,g,b > ~80% du max
-    if (rf > thr80 && gf > thr80 && bf > thr80)
-    {
-        return COL_BLANC;
-    }
-
-    // GRIS : r,g,b assez proches, ni trop clair ni trop sombre
-    {
-        float diff_rg = fabsf(rf - gf);
-        float diff_rb = fabsf(rf - bf);
-        float diff_gb = fabsf(gf - bf);
-        float moy = (rf + gf + bf) / 3.0f;
-        // ex. on veut diff < 0.2*max, et moy entre 0.2*max et 0.8*max
-        if (diff_rg < 0.2f * max_val &&
-            diff_rb < 0.2f * max_val &&
-            diff_gb < 0.2f * max_val &&
-            moy > thr20 && moy < thr80)
-        {
-            return COL_GRIS;
-        }
-    }
-
-    // ROUGE
-    if (r > 0.6f * max_val && r > g + 0.2f * max_val && r > b + 0.2f * max_val)
-    {
-        return COL_ROUGE;
-    }
-
-    // JAUNE : r,g forts, b faible
-    if (r > 0.4f * max_val && g > 0.4f * max_val && b < 0.3f * max_val)
+    int max_val = ((1 << nb_bits - 1) | (1 << nb_bits) - 1);
+    float h, s, v;
+    rgb_to_hsv(r, g, b, &h, &s, &v, max_val);
+    if ((h >= 13 && h <= 24) && // Teinte jaune
+        (s >= 0.44) &&          // Saturation suffisante
+        (v >= 0.3))
     {
         return COL_JAUNE;
     }
-
-    // ORANGE : r très fort, g moyen, b faible
-    if (r > 0.4f * max_val && g > 0.3f * max_val && b < 0.2f * max_val)
-    {
-        return COL_ORANGE;
-    }
-
-    // BLEU : b nettement plus grand que r et g
-    if (b > 0.6f * max_val && b > r + 0.2f * max_val && b > g + 0.2f * max_val)
-    {
+    if ((h >= 100 && h <= 140) && // Teinte bleue
+        (s >= 0.4) &&             // Saturation élevée
+        (v >= 0.3))
         return COL_BLEU;
-    }
+    if ((h >= 7 && h <= 13) && // Teinte orange
+        (s >= 0.5) &&           // Saturation suffisante
+        (v >= 0.3))
+        return COL_ORANGE;
 
-    if (g > 0.8f * max_val && g > r + 0.2f * max_val && g > b + 0.2f * max_val)
-    {
-        return COL_VERT;
-    }
-    return COL_INCONNU;
+    return COL_INCONNU; ///
 }
 
 image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits)
@@ -285,7 +284,7 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits)
             couleur_actuelle = conversion_couleur(img->image[i][j], nb_bits);
             if (strcmp(nom_couleur(couleur_actuelle), nom_couleur(couleur)) == 0)
             {
-                im_retour->image[i][j] = 255;
+                im_retour->image[i][j] = 1;
             }
             else
             {

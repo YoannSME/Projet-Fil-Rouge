@@ -26,41 +26,28 @@ void afficher_hist(histogramme h){
 
 int main(int argc,char** argv){
     FILE* filename;
+    if(argc<2){
+        fprintf(stderr,"Usage");
+        exit(1);
+    }
     /*char buffer[512];*/
-    if((filename = fopen("Data/IMG_5389.txt","r+")) == NULL){
+    char chemin[512] = "Data/IMG_";
+    
+    strcat(chemin,argv[1]);
+    strcat(chemin,".txt");
+    if((filename = fopen(chemin,"r+")) == NULL){
         perror("fopen");
         exit(1);
     }
-    /*printf("Fichier ouvert\n");*/
-
-    /*int lignes, colonnes, dimension;
-
-    if (fscanf(filename, "%d %d %d", &lignes, &colonnes, &dimension) != 3)
-    {
-        fprintf(stderr, "Image non valide.\n");
-        exit(EXIT_FAILURE);
-    }
-    printf("\n%3d %3d %d\n",lignes,colonnes,dimension);
-
-    image3D_ptr Im;
-    if(dimension == 3){
-         Im = creer_image3D(lignes,colonnes);
-        lire_image3D(filename,Im);
-    }
-
-    image2D_ptr im_2;
-    histogramme hist;
-    int nb_bits = 4;
-    im_2 = RGB_to_GREY(Im,&hist,2);
-    */
-   int nb_bits = 6;
+ 
+   int nb_bits = 4;
    CouleurNom ***lut = build_lut(nb_bits);
      if(!lut){
         fprintf(stderr, "Echec de build_lut.\n");
         return 1;
      }
    image2D_ptr im = pre_traitement(filename,nb_bits);
-    image2D_ptr img = seuillage(im,COL_JAUNE,nb_bits);
+    image2D_ptr img = seuillage(im,COL_ORANGE,nb_bits);
     afficherImage(img);
 
     
