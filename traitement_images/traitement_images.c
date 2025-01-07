@@ -243,7 +243,6 @@ void rgb_to_hsv(char r, char g, char b, float *h, float *s, float *v, int max_va
     {
         *h = 60 * (((rf - gf) / delta) + 4);
     }
-    *h = *h / 2;
 }
 CouleurNom conversion_couleur(int valeur, int nb_bits)
 {                                                              // couleur 24 bits
@@ -251,12 +250,20 @@ CouleurNom conversion_couleur(int valeur, int nb_bits)
     char g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);       // Valeur verte : les N bits du milieu
     char b = valeur & ((1 << nb_bits) - 1);                    // Valeur bleu : les N bits de fin
 
-    int max_val = ((1 << nb_bits - 1) | (1 << nb_bits) - 1);
+
+    
+    int max_val = (1<<(nb_bits-1))| ((1<<nb_bits)-1);
     float h, s, v;
     rgb_to_hsv(r, g, b, &h, &s, &v, max_val);
-    if ((h >= 13 && h <= 24) && // Teinte jaune
-        (s >= 0.44) &&          // Saturation suffisante
-        (v >= 0.3))
+
+
+    /*switch(nb_bits) {
+        case 2: s*=1.2;
+        
+    }*/
+    if ((h >= 39 && h <= 70) && // Teinte jaune
+        (s >= 0.6) &&          // Saturation suffisante
+        (v >= 0.4))
     {
         return COL_JAUNE;
     }

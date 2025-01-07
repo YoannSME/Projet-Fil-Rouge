@@ -18,16 +18,14 @@ int quantification(int8b r_8b,int8b g_8b,int8b b_8b, int nb_bits){
     
 }
 int main(void){
-    int r = 255;
-    int g = 128;
-    int b = 64;
+  
 
     //printf("val = %d\n",quantification(r,g,b,2));
     int taille = 1<<(9);
     printf("taille = %d\n",taille);
     
-    int nb_bits = 2;
-    int nombre_bits = ((1<<nb_bits-1) | (1<<nb_bits)-1); //
+    int nb_bits = 4;
+    int nombre_bits = (1<<(nb_bits-1))| ((1<<nb_bits)-1); //
     int rouge = nombre_bits<<2*nb_bits;
     int vert = nombre_bits<<nb_bits;
     int bleu = nombre_bits;
