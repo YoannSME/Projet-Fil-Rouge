@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#define max(a,b) (((a) > (b)) ? (a) : (b))
 
 #include "traitement_images.h"
 
@@ -10,6 +12,8 @@ void Erreur(char *message)
     fprintf(stderr, "%s.\n", message);
     exit(EXIT_FAILURE);
 }
+
+
 
 image3D_ptr creer_image3D(int lignes, int colonnes)
 {
@@ -225,9 +229,10 @@ void rgb_to_hsv(char r, char g, char b, float *h, float *s, float *v, int max_va
     *s = (maxC < 1e-6) ? 0 : (delta / maxC);
 
     // Calcul de H (Teinte)
-    if (delta < 1e-6)
+    if (delta == 0)
     {
         *h = 0; // Gris ou blanc
+
     }
     else if (maxC == rf)
     {
@@ -250,29 +255,25 @@ CouleurNom conversion_couleur(int valeur, int nb_bits)
     char g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);       // Valeur verte : les N bits du milieu
     char b = valeur & ((1 << nb_bits) - 1);                    // Valeur bleu : les N bits de fin
 
-
-    
-    int max_val = (1<<(nb_bits-1))| ((1<<nb_bits)-1);
+    int max_val = (1 << (nb_bits - 1)) | ((1 << nb_bits) - 1);
     float h, s, v;
     rgb_to_hsv(r, g, b, &h, &s, &v, max_val);
 
-
-    /*switch(nb_bits) {
-        case 2: s*=1.2;
-        
-    }*/
     if ((h >= 39 && h <= 70) && // Teinte jaune
-        (s >= 0.6) &&          // Saturation suffisante
+        (s >= 0.6) &&           
         (v >= 0.4))
     {
         return COL_JAUNE;
     }
-    if ((h >= 100 && h <= 140) && // Teinte bleue
-        (s >= 0.4) &&             // Saturation élevée
-        (v >= 0.3))
+    if ((h >= 200 && h <= 275) && // Teinte bleue
+        (s >= 0.5) &&            
+        (v >= 0.4))
+    {
         return COL_BLEU;
-    if ((h >= 7 && h <= 13) && // Teinte orange
-        (s >= 0.5) &&           // Saturation suffisante
+    }
+
+    if ((h >= 3 && h <= 28) && // Teinte orange
+        (s >= 0.3) &&          
         (v >= 0.3))
         return COL_ORANGE;
 
@@ -302,63 +303,86 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits)
     return im_retour;
 }
 
-CouleurNom ***build_lut(unsigned int nb_bits)
-{
-    unsigned int size = 1 << nb_bits; // 4,8,16
-    // Allouer la table 3D
-    // On va faire un triple pointeur LUT[size][size][size]
-    // En C, on peut faire un malloc "en dur" ou un malloc triple-niveaux,
-    // ou un bloc 1D. Pour la démonstration, faisons triple-niveaux simple.
+int compter_voisins(const image2D_ptr image, int x, int y) {
+    int lignes = image->lignes;
+    int colonnes = image->colonnes;
+    int voisins = 0;
 
-    // 1) Créer un pointeur de pointeurs de pointeurs
-    CouleurNom ***lut = malloc(size * sizeof(*lut));
-    if (!lut)
-        return NULL;
+    // Parcourir les 8 voisins
+    for (int dx = -1; dx <= 1; dx++) {
+        for (int dy = -1; dy <= 1; dy++) {
+            if (dx == 0 && dy == 0) continue; // Ignorer le pixel central
+            int nx = x + dx;
+            int ny = y + dy;
 
-    for (unsigned int r = 0; r < size; r++)
-    {
-        lut[r] = malloc(size * sizeof(*(lut[r])));
-        if (!lut[r])
-            return NULL;
-
-        for (unsigned int g = 0; g < size; g++)
-        {
-            lut[r][g] = malloc(size * sizeof(*(lut[r][g])));
-            if (!lut[r][g])
-                return NULL;
-        }
-    }
-
-    // 2) Remplir la table
-    for (unsigned int r = 0; r < size; r++)
-    {
-        for (unsigned int g = 0; g < size; g++)
-        {
-            for (unsigned int b = 0; b < size; b++)
-            {
-                unsigned char val = r << (2 * nb_bits) | g << (nb_bits) | b;
-                lut[r][g][b] = conversion_couleur(val, nb_bits);
+            // Vérifier si le voisin est dans les limites de l'image et est un pixel de l'objet
+            if (nx >= 0 && nx < lignes && ny >= 0 && ny < colonnes && image->image[nx][ny] == 1) {
+                voisins++;
             }
         }
     }
 
-    return lut;
+    return voisins;
 }
 
-// Libérer la LUT
-void free_lut(CouleurNom ***lut, unsigned int nb_bits)
-{
-    unsigned int size = 1 << nb_bits;
-    for (unsigned int r = 0; r < size; r++)
-    {
-        for (unsigned int g = 0; g < size; g++)
-        {
-            free(lut[r][g]);
+
+image2D_ptr encadrer(const image2D_ptr image_binarise) {
+    int delta = 3; // Élargissement du cadre
+    int lignes = image_binarise->lignes;
+    int colonnes = image_binarise->colonnes;
+
+    // Initialiser les limites avec des valeurs impossibles
+    int col_gauche = colonnes, col_droite = -1;
+    int lig_haut = lignes, lig_bas = -1;
+    int cpt = 0;
+
+    // Seuil minimal pour qu'un pixel soit considéré comme faisant partie d'un objet
+    int seuil_voisins =6;
+
+    // Parcourir l'image pour trouver les limites de l'objet
+    for (int i = 0; i < lignes; i++) {
+        for (int j = 0; j < colonnes; j++) {
+            if (image_binarise->image[i][j] == 1) {
+                // Vérifier si le pixel a suffisamment de voisins
+                if (compter_voisins(image_binarise, i, j) >= seuil_voisins) {
+                    cpt++; // Compteur de pixels de l'objet
+
+                    // Mise à jour des limites
+                    if (j < col_gauche) col_gauche = j; // Colonne gauche
+                    if (j > col_droite) col_droite = j; // Colonne droite
+                    if (i < lig_haut) lig_haut = i;     // Ligne supérieure
+                    if (i > lig_bas) lig_bas = i;       // Ligne inférieure
+                }
+            }
         }
-        free(lut[r]);
     }
-    free(lut);
+
+    // Si aucun pixel significatif n'a été trouvé, retourner l'image inchangée
+    if (col_gauche > col_droite || lig_haut > lig_bas || cpt < 20) {
+        printf("Aucun objet détecté ou objet trop petit.\n");
+        return image_binarise;
+    }
+
+    // Élargir les limites avec delta
+    lig_haut = max(lig_haut - 1 - delta, 0);
+    lig_bas = min(lig_bas + 1 + delta, lignes - 1);
+    col_gauche = max(col_gauche - 1 - delta, 0);
+    col_droite = min(col_droite + 1 + delta, colonnes - 1);
+
+    // Tracer le cadre sur l'image
+    for (int j = col_gauche; j <= col_droite; j++) {
+        image_binarise->image[lig_haut][j] = 1; // Ligne du haut
+        image_binarise->image[lig_bas][j] = 1;  // Ligne du bas
+    }
+    for (int i = lig_haut; i <= lig_bas; i++) {
+        image_binarise->image[i][col_gauche] = 1; // Colonne gauche
+        image_binarise->image[i][col_droite] = 1; // Colonne droite
+    }
+
+    return image_binarise;
 }
+
+
 
 void free_image3D(image3D_ptr im)
 {

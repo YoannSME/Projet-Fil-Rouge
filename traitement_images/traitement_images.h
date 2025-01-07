@@ -68,6 +68,7 @@ const char *nom_couleur(CouleurNom c);
 CouleurNom conversion_couleur(int valeur, int nb_bits);
 void free_lut(CouleurNom ***lut, unsigned int nb_bits);
 CouleurNom ***build_lut(unsigned int nb_bits);
+image2D_ptr encadrer(const image2D_ptr image_binarise);
 
 
 image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits);

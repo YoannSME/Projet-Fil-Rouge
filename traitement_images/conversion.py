@@ -2,22 +2,25 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Chemin WSL
 PATH = r"C:\Users\isaac\OneDrive\Bureau\1A SRI\PFR-1\PFR1_traitement_images\traitement_images\sortie"
 
-# Demande du nom du fichier
 lst_fichier = os.listdir(PATH)
-for nom_fichier in lst_fichier:
-    fichier_complet = os.path.join(PATH, nom_fichier)
 
+cpt = 0
+for nom_fichier in lst_fichier:
+    # Ignorer tout fichier non .txt
+    if not nom_fichier.endswith(".txt"):
+        continue
+    
+    fichier_complet = os.path.join(PATH, nom_fichier)
 
     # Vérification si le fichier existe
     if not os.path.exists(fichier_complet):
         print(f"Erreur : fichier {fichier_complet} introuvable.")
-        exit(1)
+        continue
 
-    # Ouverture et lecture du fichier
-    with open(fichier_complet, "r") as fichier:
+    # Lecture du fichier texte
+    with open(fichier_complet, "r", encoding="utf-8") as fichier:
         # Lecture des dimensions
         ligne_dim = fichier.readline().strip()
         hauteur, largeur = map(int, ligne_dim.split())
@@ -28,27 +31,28 @@ for nom_fichier in lst_fichier:
         # Chargement des pixels
         for i in range(hauteur):
             ligne = fichier.readline().strip()
-            if not ligne:  # Vérifie les lignes manquantes
-                raise ValueError(f"Ligne {i+1} manquante dans le fichier.")
+            if not ligne:
+                raise ValueError(f"Ligne {i+1} manquante dans le fichier {nom_fichier}.")
             
             liste_valeur = ligne.split()
             if len(liste_valeur) != largeur:
-                raise ValueError(f"Ligne {i+1} invalide : {len(liste_valeur)} colonnes au lieu de {largeur}.")
+                raise ValueError(
+                    f"Ligne {i+1} invalide : {len(liste_valeur)} colonnes au lieu de {largeur} dans {nom_fichier}."
+                )
             
             image_lue[i] = [int(val) for val in liste_valeur]
 
-    # Affichage de l'image
+    # Création d'une nouvelle figure
+    plt.figure()
     plt.imshow(image_lue, cmap='gray', vmin=0, vmax=1)
     plt.title(nom_fichier)
 
-    # Affichage ou sauvegarde
-    plt.show()
+    # Nom de sortie .png basé sur le nom du fichier .txt
+    base_name = os.path.splitext(nom_fichier)[0]
+    output_name = f"{base_name,cpt}.png"  # ou "_output.png", etc.
+    output_path = os.path.join(PATH, output_name)
+    cpt+=1
 
-
-
-
-
-
-
-
-
+    # Sauvegarde de l'image
+    plt.savefig(output_path)
+    plt.close()  # on ferme la figure
