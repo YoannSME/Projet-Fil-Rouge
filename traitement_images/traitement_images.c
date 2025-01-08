@@ -346,7 +346,7 @@ image2D_ptr encadrer(image2D_ptr image_binarise,boite_englobante* bteEnglobante)
     lig_haut = max(lig_haut - 1 - delta, 0);
     lig_bas = min(lig_bas + 1 + delta, lignes - 1);
     col_gauche = max(col_gauche - 1 - delta, 0);
-    col_droite = min(col_droite + 1 + delta, colonnes - 1);
+    col_droite = min(col_droite + 1 + delta, colonnes -  1);
 
     
 
