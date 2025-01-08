@@ -69,6 +69,7 @@ const char *nom_couleur(CouleurNom c);
 CouleurNom conversion_couleur(int valeur);
 
 image2D_ptr encadrer(image2D_ptr image_binarises,boite_englobante*);
+void creer_boiteEnglobante(boite_englobante* bteEnglobante,int lig_haut,int lig_bas,int col_gauche,int col_droite, image2D_ptr im);
 void etablir_nbBits(int );
 
 image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur);

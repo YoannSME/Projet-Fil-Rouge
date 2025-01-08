@@ -4,6 +4,8 @@
 #include <math.h>
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b) (((a) > (b)) ? (a) : (b))
+#define max3(a, b, c) ((a) > (b) ? ((a) > (c) ? (a) : (c)) : ((b) > (c) ? (b) : (c)))
+#define min3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
 
 #include "traitement_images.h"
 int nb_bits;
@@ -184,22 +186,24 @@ const char *nom_couleur(CouleurNom c)
     }
 }
 
-void rgb_to_hsv(int8b r, int8b g, int8b b, float *h, float *s, float *v, int max_val)
+void rgb_to_hsv(int8b r, int8b g, int8b b, float *h, float *s, float *v, int max_val) //REPRESENTATION HSV POUR CAPTER L'OMBRE (MERCI LE COURS DE TRAITEMENT D'IMAGE)
 {
     float rf = (float)r / max_val;
     float gf = (float)g / max_val;
     float bf = (float)b / max_val;
 
-    // Trouver max et min
-    float maxC = (rf > gf) ? ((rf > bf) ? rf : bf) : ((gf > bf) ? gf : bf);
-    float minC = (rf < gf) ? ((rf < bf) ? rf : bf) : ((gf < bf) ? gf : bf);
+   
+    float maxC = max3(rf,gf,bf);
+    float minC = min3(rf,gf,bf);
     float delta = maxC - minC;
 
     // Calcul de V (Valeur)
     *v = maxC;
 
     // Calcul de S (Saturation)
-    *s = (maxC < 1e-6) ? 0 : (delta / maxC);
+    if(maxC<1e-6)*s=0;
+    else *s=(delta/maxC);
+        
 
     // Calcul de H (Teinte)
     if (delta == 0)
@@ -211,7 +215,7 @@ void rgb_to_hsv(int8b r, int8b g, int8b b, float *h, float *s, float *v, int max
     {
         *h = 60 * ((gf - bf) / delta);
         if (*h < 0)
-            *h += 360; // Corriger les valeurs négatives
+            *h += 360;
     }
     else if (maxC == gf)
     {
@@ -223,7 +227,7 @@ void rgb_to_hsv(int8b r, int8b g, int8b b, float *h, float *s, float *v, int max
     }
 }
 CouleurNom conversion_couleur(int valeur)
-{                                                              // couleur 24 bits
+{                                                              
     int8b r = (valeur >> (2 * nb_bits)) & ((1 << nb_bits) - 1); // Valeur rouge : les N premiers bits
     int8b g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);       // Valeur verte : les N bits du milieu
     int8b b = valeur & ((1 << nb_bits) - 1);                    // Valeur bleu : les N bits de fin
@@ -289,7 +293,6 @@ int compter_voisins(const image2D_ptr image, int x, int y) {
             int nx = x + dx;
             int ny = y + dy;
 
-            // Vérifier si le voisin est dans les limites de l'image et est un pixel de l'objet
             if (nx >= 0 && nx < lignes && ny >= 0 && ny < colonnes && image->image[nx][ny] == 1) {
                 voisins++;
             }
@@ -305,7 +308,7 @@ image2D_ptr encadrer(image2D_ptr image_binarise,boite_englobante* bteEnglobante)
     int lignes = image_binarise->lignes;
     int colonnes = image_binarise->colonnes;
 
-    // Initialiser les limites avec des valeurs impossibles
+    // Initialiser les limites ac vals aléatoires
     int col_gauche = colonnes, col_droite = -1;
     int lig_haut = lignes, lig_bas = -1;
     int cpt = 0;
@@ -347,9 +350,7 @@ image2D_ptr encadrer(image2D_ptr image_binarise,boite_englobante* bteEnglobante)
 
     
 
-
-
-    // Tracer le cadre sur l'image
+    // Tracer le cadre sur l'image optionnel présent juste pour les tests
     for (int j = col_gauche; j <= col_droite; j++) {
         image_binarise->image[lig_haut][j] = 1; // Ligne du haut
         image_binarise->image[lig_bas][j] = 1;  // Ligne du bas
