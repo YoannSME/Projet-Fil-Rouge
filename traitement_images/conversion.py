@@ -2,7 +2,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-PATH = r"C:\Users\isaac\OneDrive\Bureau\1A SRI\PFR-1\PFR1_traitement_images\traitement_images\sortie"
+PATH = os.getcwd()
+PATH+="/sortie"
 
 lst_fichier = os.listdir(PATH)
 

@@ -2,13 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "traitement_images.h" // Contient les déclarations de pre_traitement, seuillage, etc.
+#include "traitement_images.h" 
 
-// Affichage simple d’une image 2D quantifiée
 void afficherImage(image2D_ptr im, FILE *fileout)
 {
-    // On peut afficher dans la console et/ou dans le fichier de sortie.
-    // Ici, juste un exemple : impression dans 'fileout'.
     fprintf(fileout, "%d %d\n", im->lignes, im->colonnes);
     for (int i = 0; i < im->lignes; i++)
     {
@@ -20,7 +17,6 @@ void afficherImage(image2D_ptr im, FILE *fileout)
     }
 }
 
-// Affichage d’un histogramme (optionnel)
 void afficher_hist(histogramme h)
 {
     int taille = h.taille;
@@ -38,23 +34,28 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        fprintf(stderr, "Usage[%s] nombre de bits de quantification", argv[0]);
+        fprintf(stderr, "Usage[%s] nombre de bits de quantification\n", argv[0]);
         exit(1);
     }
 
-    clock_t
-        temps_initial, /* Temps initial en micro-secondes */
-        temps_final;   /* Temps final en micro-secondes */
-    float
-        temps_cpu;
-    /* Temps total en secondes */
-    temps_initial = clock();
     int nb_bits = atoi(argv[1]);
+    if(nb_bits <3||nb_bits >7){
+        fprintf(stderr, "Nombre de bits de quantification invalide, choisir entre 3 et 7, 2 pour les coquins.\n");
+        if(nb_bits !=2){
+            exit(1);
+            
+            
+        }
+    }
+
+    etablir_nbBits(nb_bits);
+    
+
 
     FILE *filename = NULL, *fileout = NULL;
     image2D_ptr im = NULL;
     image2D_ptr img = NULL;
-
+    boite_englobante b;
     
     char chemin[20][512] = {
         "IMG_5389", "IMG_5390", "IMG_5391", "IMG_5392",
@@ -63,10 +64,17 @@ int main(int argc, char **argv)
         "IMG_5401", "IMG_5402", "IMG_5403", "IMG_5404",
         "IMG_5405", "IMG_5406", "IMG_5407", "IMG_5408"};
 
-    //char chemin[1][512] = {"IMG_5391"};
+    //char chemin[1][512] = {"IMG_5394"};
     char buffer[512];
     char sortie[512];
 
+    clock_t
+        temps_initial, /* Temps initial en micro-secondes */
+        temps_final;   /* Temps final en micro-secondes */
+    float
+        temps_cpu;
+    /* Temps total en secondes */
+    temps_initial = clock();
     for (int i = 0; i < 20; i++)
     {
         sprintf(buffer, "Data/%s.txt", chemin[i]);
@@ -88,12 +96,14 @@ int main(int argc, char **argv)
             continue;
         }
 
-        im = pre_traitement(filename, nb_bits);
+        im = pre_traitement(filename);
 
-        img = seuillage(im, COL_JAUNE, nb_bits);
-        img = encadrer(img);
+        img = seuillage(im, COL_BLEU);
+        img = encadrer(img,&b);
 
         afficherImage(img, fileout);
+        if(b.image!=NULL)
+        fprintf(stderr,"Coordonnées boite englobalte : %d %d %d %d - Aire = %d\n",b.coordonnes[0],b.coordonnes[1],b.coordonnes[2],b.coordonnes[3],b.aire);
 
         fclose(fileout);
         fclose(filename);

@@ -31,9 +31,10 @@ typedef struct{
 }histogramme;
 
 typedef struct{
-    image3D image;
+    image2D_ptr image;
     int coordonnes[4];
-}boite_engloblante;
+    int aire;
+}boite_englobante;
 
 
 typedef enum {
@@ -55,21 +56,20 @@ image2D_ptr creer_image2D(int ,int );
 
 void lire_image3D(FILE* ,image3D_ptr);
 /*void lire_image2D(FILE* filename,image2D im);*/
-int quantification(int8b r_8b,int8b g_8b,int8b b_8b, int nb_bits);
-image2D_ptr RGB_to_GREY(image3D_ptr im,histogramme* ,int nb_bits);
+int quantification(int8b r_8b,int8b g_8b,int8b b_8b);
+image2D_ptr RGB_to_GREY(image3D_ptr im,histogramme*);
 void free_image3D(image3D_ptr im);
 void free_image2D(image2D_ptr im);
 
 void free_histogramme(histogramme hist);
 
-image2D_ptr pre_traitement(FILE *filename, int nb_bits);
+image2D_ptr pre_traitement(FILE *filename);
 
 const char *nom_couleur(CouleurNom c);
-CouleurNom conversion_couleur(int valeur, int nb_bits);
-void free_lut(CouleurNom ***lut, unsigned int nb_bits);
-CouleurNom ***build_lut(unsigned int nb_bits);
-image2D_ptr encadrer(const image2D_ptr image_binarise);
+CouleurNom conversion_couleur(int valeur);
 
+image2D_ptr encadrer(image2D_ptr image_binarises,boite_englobante*);
+void etablir_nbBits(int );
 
-image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits);
+image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur);
 #endif

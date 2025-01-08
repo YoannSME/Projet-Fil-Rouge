@@ -6,14 +6,16 @@
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 
 #include "traitement_images.h"
-
+int nb_bits;
 void Erreur(char *message)
 {
     fprintf(stderr, "%s.\n", message);
     exit(EXIT_FAILURE);
 }
 
-
+void etablir_nbBits(int nb){
+    nb_bits = nb;
+}
 
 image3D_ptr creer_image3D(int lignes, int colonnes)
 {
@@ -25,7 +27,7 @@ image3D_ptr creer_image3D(int lignes, int colonnes)
     Im->lignes = lignes;
     Im->colonnes = colonnes;
 
-    /*printf("Image allouée\n.");*/
+    
     Im->image = malloc(lignes * sizeof(*Im->image));
     if (Im->image == NULL)
     {
@@ -39,7 +41,7 @@ image3D_ptr creer_image3D(int lignes, int colonnes)
         {
             Erreur("Erreur malloc image3D");
         }
-        /*printf("Image[i] allouée\n.");*/
+        
 
         for (int j = 0; j < colonnes; j++)
         {
@@ -48,7 +50,7 @@ image3D_ptr creer_image3D(int lignes, int colonnes)
             {
                 Erreur("Erreur malloc image3D");
             }
-            /*printf("Image[col] allouée\n.");*/
+            
         }
     }
 
@@ -105,54 +107,25 @@ void lire_image3D(FILE *filename, image3D_ptr im)
     printf("\n");
 }
 
-image2D_ptr RGB_to_GREY(image3D_ptr im, histogramme *hist, int nb_bits)
 
-{
-    int taille = 1 << (nb_bits * 3);
-    printf("taille = %d\n", taille);
-    hist->tab = (int *)calloc(taille, sizeof(int));
-    hist->taille = taille;
-    if (hist->tab == NULL)
-    {
-        Erreur("Malloc histogramme RGB_to_GREY");
-    }
-    int8b r, g, b;
-    int8b somme = 0;
-    image2D_ptr im_retour = creer_image2D(im->lignes, im->colonnes);
-    for (int i = 0; i < im->lignes; i++)
-    {
-        for (int j = 0; j < im->colonnes; j++)
-        {
-            r = im->image[i][j][R];
-            g = im->image[i][j][G];
-            b = im->image[i][j][B];
-            somme = quantification(r, g, b, nb_bits);
-            // im_retour->image[i][j] = r*COEFF_R+g*COEFF_G+b*COEFF_B;
-            im_retour->image[i][j] = somme;
-            hist->tab[somme]++;
-        }
-    }
 
-    return im_retour;
-}
-
-int quantification(int8b r_8b, int8b g_8b, int8b b_8b, int nb_bits)
+int quantification(int8b r_8b, int8b g_8b, int8b b_8b)
 {
     if (nb_bits < 1 || nb_bits > NB_BITS_MAX)
     {
         Erreur("Quantification : NB_BITS INVALIDE");
     }
 
-    unsigned char r = r_8b >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
-    unsigned char g = g_8b >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
-    unsigned char b = b_8b >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
+    int8b r = r_8b >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
+    int8b g = g_8b >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
+    int8b b = b_8b >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
     return r << (2 * nb_bits) | g << (nb_bits) | b;
 }
 
-image2D_ptr pre_traitement(FILE *filename, int nb_bits)
+image2D_ptr pre_traitement(FILE *filename)
 {
     int8b val;
-    unsigned char pix;
+    int8b pix;
     int lignes, colonnes, dimension;
     fscanf(filename, "%d %d %d", &lignes, &colonnes, &dimension);
     image2D_ptr im_retour = creer_image2D(lignes, colonnes);
@@ -211,7 +184,7 @@ const char *nom_couleur(CouleurNom c)
     }
 }
 
-void rgb_to_hsv(char r, char g, char b, float *h, float *s, float *v, int max_val)
+void rgb_to_hsv(int8b r, int8b g, int8b b, float *h, float *s, float *v, int max_val)
 {
     float rf = (float)r / max_val;
     float gf = (float)g / max_val;
@@ -249,11 +222,11 @@ void rgb_to_hsv(char r, char g, char b, float *h, float *s, float *v, int max_va
         *h = 60 * (((rf - gf) / delta) + 4);
     }
 }
-CouleurNom conversion_couleur(int valeur, int nb_bits)
+CouleurNom conversion_couleur(int valeur)
 {                                                              // couleur 24 bits
-    char r = (valeur >> (2 * nb_bits)) & ((1 << nb_bits) - 1); // Valeur rouge : les N premiers bits
-    char g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);       // Valeur verte : les N bits du milieu
-    char b = valeur & ((1 << nb_bits) - 1);                    // Valeur bleu : les N bits de fin
+    int8b r = (valeur >> (2 * nb_bits)) & ((1 << nb_bits) - 1); // Valeur rouge : les N premiers bits
+    int8b g = (valeur >> nb_bits) & ((1 << nb_bits) - 1);       // Valeur verte : les N bits du milieu
+    int8b b = valeur & ((1 << nb_bits) - 1);                    // Valeur bleu : les N bits de fin
 
     int max_val = (1 << (nb_bits - 1)) | ((1 << nb_bits) - 1);
     float h, s, v;
@@ -266,21 +239,21 @@ CouleurNom conversion_couleur(int valeur, int nb_bits)
         return COL_JAUNE;
     }
     if ((h >= 200 && h <= 275) && // Teinte bleue
-        (s >= 0.5) &&            
-        (v >= 0.4))
+        (s >= 0.7) &&            
+        (v >= 0.15))
     {
         return COL_BLEU;
     }
 
     if ((h >= 3 && h <= 28) && // Teinte orange
-        (s >= 0.3) &&          
+        (s >= 0.1) &&          
         (v >= 0.3))
         return COL_ORANGE;
 
     return COL_INCONNU; ///
 }
 
-image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits)
+image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur)
 {
 
     image2D_ptr im_retour = creer_image2D(img->lignes, img->colonnes);
@@ -289,7 +262,7 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur, int nb_bits)
     {
         for (int j = 0; j < img->colonnes; j++)
         {
-            couleur_actuelle = conversion_couleur(img->image[i][j], nb_bits);
+            couleur_actuelle = conversion_couleur(img->image[i][j]);
             if (strcmp(nom_couleur(couleur_actuelle), nom_couleur(couleur)) == 0)
             {
                 im_retour->image[i][j] = 1;
@@ -308,7 +281,8 @@ int compter_voisins(const image2D_ptr image, int x, int y) {
     int colonnes = image->colonnes;
     int voisins = 0;
 
-    // Parcourir les 8 voisins
+
+    // Parcourir les 8 voisins (-1,-1) haut gauche, (-1,0) haut, (-1,1) haut droite ect..
     for (int dx = -1; dx <= 1; dx++) {
         for (int dy = -1; dy <= 1; dy++) {
             if (dx == 0 && dy == 0) continue; // Ignorer le pixel central
@@ -326,8 +300,8 @@ int compter_voisins(const image2D_ptr image, int x, int y) {
 }
 
 
-image2D_ptr encadrer(const image2D_ptr image_binarise) {
-    int delta = 3; // Élargissement du cadre
+image2D_ptr encadrer(image2D_ptr image_binarise,boite_englobante* bteEnglobante) {
+    int delta = 3; 
     int lignes = image_binarise->lignes;
     int colonnes = image_binarise->colonnes;
 
@@ -338,28 +312,30 @@ image2D_ptr encadrer(const image2D_ptr image_binarise) {
 
     // Seuil minimal pour qu'un pixel soit considéré comme faisant partie d'un objet
     int seuil_voisins =6;
+    if(nb_bits ==2){
+        seuil_voisins =8;
+    }
 
-    // Parcourir l'image pour trouver les limites de l'objet
     for (int i = 0; i < lignes; i++) {
         for (int j = 0; j < colonnes; j++) {
             if (image_binarise->image[i][j] == 1) {
-                // Vérifier si le pixel a suffisamment de voisins
                 if (compter_voisins(image_binarise, i, j) >= seuil_voisins) {
                     cpt++; // Compteur de pixels de l'objet
 
-                    // Mise à jour des limites
-                    if (j < col_gauche) col_gauche = j; // Colonne gauche
-                    if (j > col_droite) col_droite = j; // Colonne droite
-                    if (i < lig_haut) lig_haut = i;     // Ligne supérieure
-                    if (i > lig_bas) lig_bas = i;       // Ligne inférieure
+                    
+                    if (j < col_gauche) col_gauche = j; 
+                    if (j > col_droite) col_droite = j; 
+                    if (i < lig_haut) lig_haut = i;     
+                    if (i > lig_bas) lig_bas = i;       
                 }
             }
         }
     }
 
-    // Si aucun pixel significatif n'a été trouvé, retourner l'image inchangée
     if (col_gauche > col_droite || lig_haut > lig_bas || cpt < 20) {
         printf("Aucun objet détecté ou objet trop petit.\n");
+        bteEnglobante->image = NULL;
+        bteEnglobante->aire = 0;
         return image_binarise;
     }
 
@@ -368,6 +344,10 @@ image2D_ptr encadrer(const image2D_ptr image_binarise) {
     lig_bas = min(lig_bas + 1 + delta, lignes - 1);
     col_gauche = max(col_gauche - 1 - delta, 0);
     col_droite = min(col_droite + 1 + delta, colonnes - 1);
+
+    
+
+
 
     // Tracer le cadre sur l'image
     for (int j = col_gauche; j <= col_droite; j++) {
@@ -379,10 +359,23 @@ image2D_ptr encadrer(const image2D_ptr image_binarise) {
         image_binarise->image[i][col_droite] = 1; // Colonne droite
     }
 
+    
+    creer_boiteEnglobante(bteEnglobante,lig_haut,lig_bas,col_gauche,col_droite,image_binarise);
+
     return image_binarise;
 }
 
+void creer_boiteEnglobante(boite_englobante* bteEnglobante,int lig_haut,int lig_bas,int col_gauche,int col_droite, image2D_ptr im){
+    bteEnglobante->coordonnes[0] = lig_haut;
+    bteEnglobante->coordonnes[1] = lig_bas;
+    bteEnglobante->coordonnes[2] = col_gauche;
+    bteEnglobante->coordonnes[3] = col_droite;
 
+    bteEnglobante->aire = (col_droite-col_gauche)*(lig_bas-lig_haut);
+    bteEnglobante->image = im;
+
+
+}
 
 void free_image3D(image3D_ptr im)
 {
