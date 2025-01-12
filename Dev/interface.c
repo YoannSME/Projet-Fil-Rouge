@@ -9,8 +9,8 @@ int readInterface(char nomFichier[100]) {
     // Ouvrir le fichier en mode lecture
     fichier = fopen(nomFichier, "r");
     if (fichier == NULL) {
-        perror("Erreur lors de l'ouverture du fichier");
-        return EXIT_FAILURE;
+        printf("Erreur lors de l'ouverture du fichier");
+        return 1;
     }
 
     // Lire le fichier ligne par ligne et afficher le contenu
@@ -21,5 +21,5 @@ int readInterface(char nomFichier[100]) {
     // Fermer le fichier
     fclose(fichier);
     printf("\n");
-    return EXIT_SUCCESS;
+    return 0;
 }
