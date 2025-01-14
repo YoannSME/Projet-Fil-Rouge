@@ -6,9 +6,14 @@
 
 int main() {
     printf("\n\n\n\n");
-    char nextInterface[50];
+    char nextInterface[10];
     char currentInterface[100];
     int currentInterfaceButitsAInteger = 0;
+
+    if (init()){
+        printf("Erreur lors de l'initialisation !\n");
+        return -1;
+    }
 
     char* Langue = find_in_config("config", "Langue");
     if ( Langue == NULL ) return 1;
@@ -19,11 +24,14 @@ int main() {
 
     while(1)
     {
-        while (getchar() != '\n');
         scanf("%1s", nextInterface);
 
-        if (strstr(nextInterface, "0")){
-            if (strlen(currentInterface) > 4) remove_last_char(currentInterface);
+        if (strstr(nextInterface, "0")){ // Si 0 est selec pour reculer dans l'interface
+            if (strlen(currentInterface) > 4) remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
+            else{
+                printf("\n\n\t\t\tAu revoir\n\n\n\n");
+                return 0;
+            }
         } else {
             strcat(currentInterface, nextInterface);
             if (!file_exists(currentInterface)) remove_last_char(currentInterface);
@@ -41,6 +49,7 @@ int main() {
             break;
         }
 
+        while (getchar() != '\n'); // Vide la pile du scanf si jamais l'utilisateur tape plusieurs char
     }
     
     

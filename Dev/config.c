@@ -1,7 +1,51 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <string.h>
+#include <time.h>
 #include "config.h"
+
+
+int init(){
+    char timestampButItsAChar[20];
+    char logFileName[25] = "log/";
+    time_t timestamp = time(NULL); // Timestamp en secondes
+    snprintf(timestampButItsAChar, sizeof(timestampButItsAChar), "%ld", timestamp);
+    if (!file_exists("config")) return 1;
+    if (change_config("config", "currentLogFile", timestampButItsAChar)) return 1;
+    if (make_file(strcat(logFileName, timestampButItsAChar))) return 1;
+    if (updateLog("Création du fichier log")) return 1;
+
+    return 0;
+}   
+
+int updateLog(const char *message){
+    char timestampButItsAChar[20];
+    char logFile[25] = "log/";
+    strcat(logFile, find_in_config("config", "currentLogFile"));
+
+    FILE *fichier = fopen(logFile, "a");
+    if (fichier == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        return 1;
+    }
+
+    time_t timestamp = time(NULL);
+    snprintf(timestampButItsAChar, sizeof(timestampButItsAChar), "%ld", timestamp);
+
+    fprintf(fichier, "%s\t:\t%s\n", timestampButItsAChar, message);
+    fclose(fichier);
+    return 0;
+}
+
+int file_exists(const char *filename) {
+    FILE *file = fopen(filename, "r");  // Ouvre le fichier en mode lecture
+    if (file) {
+        fclose(file);  // Ferme le fichier si ouvert avec succès
+        return 1;  // Le fichier existe
+    }
+    return 0;  // Le fichier n'existe pas
+}
 
 int read_config(char *nomFichier){
     FILE *fichier;  // Pointeur vers le fichier
@@ -95,37 +139,49 @@ char* find_in_config(char *nomFichier, char *configtofind){
     return NULL;
 }
 
-int change_config(char *nomFichier, char *configtochange){
+int change_config(char *nomFichier, char *configtochange, const char *new_val_optional) {
     FILE *fichier;  // Pointeur vers le fichier
-    char ligne[256];  // Tampon pour lire chaque ligne*
-    char new_val[100];
+    char ligne[256];  // Tampon pour lire chaque ligne
+    char new_val[100]; // Valeur temporaire
     char new_ligne[256];
 
     // Ouvrir le fichier en mode lecture
     fichier = fopen(nomFichier, "r");
     if (fichier == NULL) {
-        printf("Erreur lors de l'ouverture du fichier");
+        perror("Erreur lors de l'ouverture du fichier");
+        return 1;
     }
 
-    if (make_file("tempconfig")) return 1;
+    // Créer un fichier temporaire
+    if (make_file("tempconfig")) {
+        fclose(fichier);
+        return 1;
+    }
+
     while (fgets(ligne, sizeof(ligne), fichier) != NULL) {
-        if (strchr(ligne, '=') && strstr(ligne, configtochange)){
-            printf("Quelle nouvelle valeur voulez vous donner à ce param ?\n");
-            scanf("%20s", new_val);
+        if (strchr(ligne, '=') && strstr(ligne, configtochange)) {
+            if (new_val_optional == NULL) {
+                printf("Quelle nouvelle valeur voulez-vous donner à ce param ?\n");
+                scanf("%99s", new_val);
+            } else { // si jamais la nouvelle valeur est déjà passer un param
+                strncpy(new_val, new_val_optional, sizeof(new_val) - 1);
+                new_val[sizeof(new_val) - 1] = '\0'; // Sécurité pour éviter un débordement
+            }
 
-            strcpy(new_ligne, configtochange);
-
-            strcat(new_ligne, "=");
-            strcat(new_ligne, new_val);
+            // Construire la nouvelle ligne
+            snprintf(new_ligne, sizeof(new_ligne), "%s=%s", configtochange, new_val);
             add_row_to_file("tempconfig", new_ligne);
-
-        }else{
-            remove_last_char(ligne);
+        } else {
+            remove_last_char(ligne); // Supprime le dernier caractère si nécessaire
             add_row_to_file("tempconfig", ligne);
         }
     }
+
     fclose(fichier);
-    if (remove_file("config")) return 1;
-    if (rename_file("tempconfig", "config")) return 1;
+
+    // Remplacer le fichier original
+    if (remove_file(nomFichier)) return 1;
+    if (rename_file("tempconfig", nomFichier)) return 1;
+
     return 0;
 }
