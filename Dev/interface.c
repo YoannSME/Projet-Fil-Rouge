@@ -27,18 +27,56 @@ int readInterface(char nomFichier[100]) {
 int convert_to_int_after_slash(const char *str) {
     char *pos = strchr(str, '/');
     if (pos != NULL) {
-        // Convertir la chaîne après '/' en entier avec strtol
+
+        // Convertir la chaîne après '/' en entier
         char *endptr;
-        long result = strtol(pos + 1, &endptr, 10);  // Base 10 pour décimal
+        long result = strtol(pos + 1, &endptr, 10);
         
         // Vérifier si la conversion a réussi
         if (*endptr == '\0') {  // Aucun caractère non numérique après le nombre
             return (int)result;
         } else {
-            // Si la conversion échoue (par exemple, s'il y a des caractères non numériques après le nombre)
             return 0;
         }
     }
     
-    return 0;  // Si '/' n'est pas trouvé
+    return 0;
+}
+
+int switchInterface(char * currentInterface){
+    char nextInterface[10];
+    scanf("%1s", nextInterface);
+
+        if (strstr(nextInterface, "q")){
+            printf("\n\n\t\t\tAu revoir\n\n\n\n");
+            return 1;
+        }
+
+        if (strstr(nextInterface, "0")){ // Si 0 est selec pour reculer dans l'interface
+            if (strlen(currentInterface) > 4)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
+            readInterface(currentInterface);
+        } else {
+            strcat(currentInterface, nextInterface);
+
+            if (!file_exists(currentInterface)){
+                remove_last_char(currentInterface);
+                readInterface(currentInterface);
+                printf("\t\t\tChoix Incorrect\n");
+            } 
+            else readInterface(currentInterface);
+        }
+
+    while (getchar() != '\n'); // Vide la pile du scanf si jamais l'utilisateur tape plusieurs char
+    return 0;
+}
+
+void actionByInterface(int currentInterfaceButitsAnInteger){
+    switch (currentInterfaceButitsAnInteger)
+    {
+    case 1:
+        break;
+    
+    default:
+        break;
+    }
 }

@@ -12,7 +12,7 @@ int init(){
     time_t timestamp = time(NULL); // Timestamp en secondes
     snprintf(timestampButItsAChar, sizeof(timestampButItsAChar), "%ld", timestamp);
     if (!file_exists("config")) return 1;
-    if (change_config("config", "currentLogFile", timestampButItsAChar)) return 1;
+    if (change_config("currentLogFile", timestampButItsAChar)) return 1;
     if (make_file(strcat(logFileName, timestampButItsAChar))) return 1;
     if (updateLog("Création du fichier log")) return 1;
 
@@ -22,7 +22,8 @@ int init(){
 int updateLog(const char *message){
     char timestampButItsAChar[20];
     char logFile[25] = "log/";
-    strcat(logFile, find_in_config("config", "currentLogFile"));
+    if(find_in_config("currentLogFile", timestampButItsAChar)) return 1;
+    strcat(logFile, timestampButItsAChar);
 
     FILE *fichier = fopen(logFile, "a");
     if (fichier == NULL) {
@@ -112,13 +113,12 @@ int remove_file(const char *nomFichier) {
     return 1;
 }
 
-char* find_in_config(char *nomFichier, char *configtofind){
+int find_in_config(char *configtofind, char *exit){
     FILE *fichier;  // Pointeur vers le fichier
     char ligne[256];  // Tampon pour lire chaque ligne
-    static char result[255]; // static sinon warning
 
     // Ouvrir le fichier en mode lecture
-    fichier = fopen(nomFichier, "r");
+    fichier = fopen("config", "r");
     if (fichier == NULL) {
         printf("Erreur lors de l'ouverture du fichier");
     }
@@ -127,26 +127,25 @@ char* find_in_config(char *nomFichier, char *configtofind){
     while (fgets(ligne, sizeof(ligne), fichier) != NULL) {
         if (strchr(ligne, '=')){ // vérif si il y'a un =
             if (strstr(ligne, configtofind)){ //vérif si cela correspond à la config chercher
-                char *pos = strchr(ligne, '='); //garde que ce qui a après le =
                 fclose(fichier);
-                strcpy(result, pos + 1); // Sorcellerie merci mon pote le dev
-                remove_last_char(result); // pour retirer le retour chariot
-                return result;
+                strcpy(exit, strchr(ligne, '=') + 1); //garde que ce qui a après le = // et le copy dans exit
+                remove_last_char(exit); // pour retirer le retour chariot
+                return 0;
             }
         }      
     }
     printf("%s n'est pas reconnue comme une configuration existante\n", configtofind);
-    return NULL;
+    return 1;
 }
 
-int change_config(char *nomFichier, char *configtochange, const char *new_val_optional) {
+int change_config(char *configtochange, const char *new_val_optional) {
     FILE *fichier;  // Pointeur vers le fichier
     char ligne[256];  // Tampon pour lire chaque ligne
     char new_val[100]; // Valeur temporaire
     char new_ligne[256];
 
     // Ouvrir le fichier en mode lecture
-    fichier = fopen(nomFichier, "r");
+    fichier = fopen("config", "r");
     if (fichier == NULL) {
         perror("Erreur lors de l'ouverture du fichier");
         return 1;
@@ -180,8 +179,8 @@ int change_config(char *nomFichier, char *configtochange, const char *new_val_op
     fclose(fichier);
 
     // Remplacer le fichier original
-    if (remove_file(nomFichier)) return 1;
-    if (rename_file("tempconfig", nomFichier)) return 1;
+    if (remove_file("config")) return 1;
+    if (rename_file("tempconfig", "config")) return 1;
 
     return 0;
 }
