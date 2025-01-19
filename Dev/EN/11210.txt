@@ -1,0 +1,11 @@
++---------------------------------------------------------------+
+|                                                               |
+|                       Command suite 				|
+|                                                               |
+|   1) Enter a sequence of commands to be interpreted 		|
+|      before execution by the robot 				|
+|                                                               |
+|   0) Back 							|
+|   Q) Exit 							|
+|                                                               |
++---------------------------------------------------------------+
