@@ -14,7 +14,7 @@ typedef enum {
     COL_VERT
 } CouleurNom;
 
-typedef char int8b;
+typedef unsigned char int8b;
 
 
 void quantification(int valeur,int8b *,int8b*,int8b*);
