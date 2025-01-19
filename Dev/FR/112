@@ -1,11 +1,19 @@
 +---------------------------------------------------------------+
 |                                                               |
-|                     Interface Principale                      |
+|                     Pilotage manuel                           |
 |                                                               |
-|   1) Piloter                                                  |
-|   2) (tempo traiter une image)                                |
-|   3) Connexion Admin                                          |
-|   4) Changer la langue                                        |
+|   1) Avancer                                                  |
+|   2) Tourner à droite                                         |
+|   3) Tourner à gauche                                         |
+|   4) Reculer                                                  |
+|   5) Stopper                                                  |
+|   6) Trouver objet                                            |
+|   7) Trouver couleur                                          |
+|   8) Trouver objet de couleur                                 |
+|   9) Faire le parcours inverse                                |
+|   10) Suite de commande                                       |
 |                                                               |
+|   0) Retour                                                   |
+|   Q) Quitter                                                  |
 |                                                               |
 +---------------------------------------------------------------+
