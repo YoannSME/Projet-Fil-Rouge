@@ -1,0 +1,14 @@
++---------------------------------------------------------------+
+|                                                               |
+|                        Parcours inverse                       |
+|                                                               |
+|      Le robot va effectuer le parcours inverse depuis son     |
+|                  dernier démarrage. Confirmer ?               |
+|                                                               |
+|   1) OUI                                                      |
+|   2) NON                                                      |
+|                                                               |
+|   0) Retour                                                   |
+|   Q) Quitter                                                  |
+|                                                               |
++---------------------------------------------------------------+
