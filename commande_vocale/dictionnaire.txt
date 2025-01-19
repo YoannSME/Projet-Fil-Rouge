@@ -1,0 +1,50 @@
+# Commandes de base
+avance=forward
+recule=backward
+tourne à gauche=turn_left
+tourne à droite=turn_right
+arrête=stop
+
+# Commandes complexes avec paramètres
+avance de {distance} mètres=forward(dist={distance})
+recule de {distance} mètres=backward(dist={distance})
+avance de 1 m=forward(dist=1)
+avance de 2 m=forward(dist=2)
+avance de 3 m=forward(dist=3)
+avance de 4 m=forward(dist=4)
+avance de 5 m=forward(dist=5)
+avance de 6 m=forward(dist=6)
+avance de 7 m=forward(dist=7)
+avance de 8 m=forward(dist=8)
+avance de 9 m=forward(dist=9)
+avance de 10 m=forward(dist=10)
+avance de 100 m=forward(dist=100)
+avance de 4 M=forward(dist=4)
+avance de 5 m=forward(dist=5)
+avance de 6 mètres=forward(dist=6)
+avance de 7 mètres=forward(dist=7)
+avance de 8 mètres=forward(dist=8)
+avance de 9 mètres=forward(dist=9)
+avance de 10 mètres=forward(dist=10)
+avance de 100 mètres=forward(dist=100)
+avance de 4 mètres=forward(dist=4)
+avance de 5 mètres=forward(dist=5)
+avance de 6 mètres=forward(dist=6)
+avance de 7 mètres=forward(dist=7)
+avance de 8 mètres=forward(dist=8)
+avance de 9 mètres=forward(dist=9)
+avance de 10 mètres=forward(dist=10)
+avance de 100 mètres=forward(dist=100)
+# Commandes prenant en compte l'environnement
+localise la balle rouge=where(object=ball, color=red)
+contourne l’obstacle=avoid_obstacle
+passe entre la balle rouge et le cube bleu=pass_between(object1=ball, color1=red, object2=cube, color2=blue)
+
+# Commandes pour trajectoires
+trace un carré=draw_square
+trace un cercle=draw_circle
+effectue un déplacement en spirale=move_spiral
+trace un cercle autour de la balle rouge=draw_circle_around(object=ball, color=red)
+
+# Enchaînement de commandes
+avance de {distance} mètres et tourne à droite=forward(dist={distance}), turn_right
