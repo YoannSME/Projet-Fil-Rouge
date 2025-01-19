@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char nb_bits;
+unsigned char nb_bits = 3;
 
 void Erreur(char *message)
 {
@@ -11,7 +11,11 @@ void Erreur(char *message)
     exit(EXIT_FAILURE);
 }
 
-void etablir_nbBits(int nb){
+void etablir_nbBits(unsigned char nb){
+    if(nb<3 ||nb>7){
+        fprintf(stderr,"Nombre de bits de quantifications invalide, {3-7});
+        exit(1);
+    }
     nb_bits = nb;
 }
 
