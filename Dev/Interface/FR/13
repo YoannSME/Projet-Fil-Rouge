@@ -1,12 +1,10 @@
 +---------------------------------------------------------------+
 |                                                               |
-|                        Parcours inverse                       |
+|                        Changer langue                         |
 |                                                               |
-|      Le robot va effectuer le parcours inverse depuis son     |
-|                  dernier démarrage. Confirmer ?               |
+|   1) Français (langue actuelle)                               |
+|   3) English                                                  |
 |                                                               |
-|   1) OUI                                                      |
-|   2) NON                                                      |
 |                                                               |
 |   0) Retour                                                   |
 |   Q) Quitter                                                  |

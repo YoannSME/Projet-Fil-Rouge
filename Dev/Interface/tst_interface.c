@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "interface.h"
-#include "config.h"
 
 int main() {
     printf("\n\n\n\n");

@@ -1,14 +1,11 @@
 +---------------------------------------------------------------+
 |                                                               |
-|                        Reverse route 				|
+|                      Turn right 				                |
 |                                                               |
-|      The robot will make the reverse journey from its 	|
-|                  last start. Confirm ?               		|
+|   1) Enter the angle in degrees of the rotation 		        |
 |                                                               |
-|   1) YES 							|
-|   2) NO 							|
 |                                                               |
-|   0) Back 							|
-|   Q) Exit 							|
+|   0) Back 							                        |
+|   Q) Exit 							                        |
 |                                                               |
 +---------------------------------------------------------------+
