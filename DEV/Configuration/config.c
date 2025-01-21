@@ -46,7 +46,7 @@ int file_exists(const char *filename) {
         fclose(file);  // Ferme le fichier si ouvert avec succès
         return 1;  // Le fichier existe
     }
-    fprintf(stderr,"Le fichier %s n'existe pas\n", filename);
+    // fprintf(stderr,"Le fichier %s n'existe pas\n", filename);
     return 0;  // Le fichier n'existe pas
 }
 
@@ -163,7 +163,7 @@ int change_config(char *configtochange, const char *new_val_optional) {
         if (strchr(ligne, '=') && strstr(ligne, configtochange)) {
             if (new_val_optional == NULL) {
                 printf("Quelle nouvelle valeur voulez-vous donner à ce param ?\n");
-                scanf("%99s", new_val);
+                if (!scanf("%99s", new_val)) exit(1);
             } else { // si jamais la nouvelle valeur est déjà passer un param
                 strncpy(new_val, new_val_optional, sizeof(new_val) - 1);
                 new_val[sizeof(new_val) - 1] = '\0'; // Sécurité pour éviter un débordement

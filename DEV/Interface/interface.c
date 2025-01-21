@@ -10,7 +10,7 @@ int readInterface(char nomFichier[100]) {
     // Ouvrir le fichier en mode lecture
     fichier = fopen(nomFichier, "r");
     if (fichier == NULL) {
-        fprintf(stderr,"Erreur lors de l'ouverture du fichier %s dans lire l'interface\n",nomFichier);
+        // fprintf(stderr,"Erreur lors de l'ouverture du fichier %s dans lire l'interface\n",nomFichier);
         exit(1);
     }
 
@@ -46,15 +46,15 @@ int convert_to_int_after_slash(const char *str) {
 
 int switchInterface(char * currentInterface){
     char nextInterface[10];
-    scanf("%1s", nextInterface);
+    if (!scanf("%1s", nextInterface)) return 1;
 
-        if (strstr(nextInterface, "q")){
+        if (strstr(nextInterface, "q") || strstr(nextInterface, "Q")){
             printf("\n\n\t\t\tAu revoir\n\n\n\n");
             return 1;
         }
 
         if (strstr(nextInterface, "0")){ // Si 0 est selec pour reculer dans l'interface
-            if (strlen(currentInterface) > 4)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
+            if (strlen(currentInterface) > 12)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
             readInterface(currentInterface);
         } else {
             strcat(currentInterface, nextInterface);
