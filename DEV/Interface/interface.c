@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "interface.h"
 
-int readInterface(char nomFichier[100]) {
+int readInterface(char* nomFichier) {
     FILE *fichier;  // Pointeur vers le fichier
     char ligne[256];  // Tampon pour lire chaque ligne
 
@@ -25,8 +25,8 @@ int readInterface(char nomFichier[100]) {
     return 0;
 }
 
-int convert_to_int_after_slash(const char *str) {
-    char *pos = strchr(str, '/');
+int convert_interface_to_int(const char *str) {
+    char *pos = strrchr(str, '/');
     if (pos != NULL) {
 
         // Convertir la chaîne après '/' en entier
@@ -49,7 +49,6 @@ int switchInterface(char * currentInterface){
     if (!scanf("%1s", nextInterface)) return 1;
 
         if (strstr(nextInterface, "q") || strstr(nextInterface, "Q")){
-            printf("\n\n\t\t\tAu revoir\n\n\n\n");
             return 1;
         }
 
@@ -71,10 +70,56 @@ int switchInterface(char * currentInterface){
     return 0;
 }
 
-void actionByInterface(int currentInterfaceButitsAnInteger){
-    switch (currentInterfaceButitsAnInteger)
+int switchInterfaceBis(char * currentInterface, char* nextInterface){
+    if (strstr(nextInterface, "q") || strstr(nextInterface, "Q")){
+        return 1;
+    }
+
+    if (strstr(nextInterface, "0")){ // Si 0 est selec pour reculer dans l'interface
+        if (strlen(currentInterface) > 12)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
+        readInterface(currentInterface);
+    } else {
+        strcat(currentInterface, nextInterface);
+
+        if (!file_exists(currentInterface)){
+            remove_last_char(currentInterface);
+            readInterface(currentInterface);
+            printf("\t\t\tChoix Incorrect\n");
+        } 
+        else readInterface(currentInterface);
+    }
+
+    return 0;
+}
+
+void actionByInterface(int * currentInterfaceButitsAnInteger, char* currentInterface){
+    switch (*currentInterfaceButitsAnInteger)
     {
-    case 1:
+    case 13:
+        char choiceLangue[3] = "\0";
+        if (!scanf("%1s", choiceLangue)) exit(1);
+        printf("\n\t%s\n", choiceLangue);
+
+
+        if (strstr(choiceLangue, "1")){
+            change_config("Langue", "FR");
+            strcpy(currentInterface,"Interface/FR/1");
+            *currentInterfaceButitsAnInteger = convert_interface_to_int(currentInterface);
+            readInterface(currentInterface);
+        }
+
+        else if (strstr(choiceLangue, "2")){
+            change_config("Langue", "EN");
+            strcpy(currentInterface,"Interface/EN/1");
+            *currentInterfaceButitsAnInteger = convert_interface_to_int(currentInterface);
+            readInterface(currentInterface);
+        }
+        
+        else{
+            if (switchInterfaceBis(currentInterface, choiceLangue)) exit(1);
+        }
+
+        while (getchar() != '\n');
         break;
     
     default:

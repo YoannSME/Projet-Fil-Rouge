@@ -6,10 +6,11 @@
 #include "../Configuration/config.h"
 #define PATH_INTERFACE "Interface/"
 
-int readInterface(char nomFichier[100]);
+int readInterface(char* nomFichier);
 int file_exists(const char *filename);
-int convert_to_int_after_slash(const char *str);
+int convert_interface_to_int(const char *str);
 int switchInterface(char * currentInterface);
-void actionByInterface(int currentInterfaceButitsAnInteger);
+int switchInterfaceBis(char * currentInterface, char * nextInterface);
+void actionByInterface(int* currentInterfaceButitsAnInteger, char* currentInterface);
 
 #endif
