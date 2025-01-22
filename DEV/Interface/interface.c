@@ -53,7 +53,7 @@ int switchInterface(char * currentInterface){
         }
 
         if (strstr(nextInterface, "0")){ // Si 0 est selec pour reculer dans l'interface
-            if (strlen(currentInterface) > 12)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
+            if (strlen(currentInterface) > 14)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
             readInterface(currentInterface);
         } else {
             strcat(currentInterface, nextInterface);
@@ -70,13 +70,13 @@ int switchInterface(char * currentInterface){
     return 0;
 }
 
-int switchInterfaceBis(char * currentInterface, char* nextInterface){
+int switchInterfaceBis(char * currentInterface, char * nextInterface){
     if (strstr(nextInterface, "q") || strstr(nextInterface, "Q")){
         return 1;
     }
 
     if (strstr(nextInterface, "0")){ // Si 0 est selec pour reculer dans l'interface
-        if (strlen(currentInterface) > 12)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
+        if (strlen(currentInterface) > 14)remove_last_char(currentInterface); // si on en pas à la racine de l'interface on recule
         readInterface(currentInterface);
     } else {
         strcat(currentInterface, nextInterface);
@@ -89,39 +89,45 @@ int switchInterfaceBis(char * currentInterface, char* nextInterface){
         else readInterface(currentInterface);
     }
 
+    while (getchar() != '\n'); // Vide la pile du scanf si jamais l'utilisateur tape plusieurs char
     return 0;
 }
 
 void actionByInterface(int * currentInterfaceButitsAnInteger, char* currentInterface){
+    printf("\n%s\n", currentInterface);
     switch (*currentInterfaceButitsAnInteger)
     {
-    case 13:
-        char choiceLangue[3] = "\0";
-        if (!scanf("%1s", choiceLangue)) exit(1);
-        printf("\n\t%s\n", choiceLangue);
-
-
-        if (strstr(choiceLangue, "1")){
-            change_config("Langue", "FR");
-            strcpy(currentInterface,"Interface/FR/1");
-            *currentInterfaceButitsAnInteger = convert_interface_to_int(currentInterface);
-            readInterface(currentInterface);
-        }
-
-        else if (strstr(choiceLangue, "2")){
-            change_config("Langue", "EN");
-            strcpy(currentInterface,"Interface/EN/1");
-            *currentInterfaceButitsAnInteger = convert_interface_to_int(currentInterface);
-            readInterface(currentInterface);
-        }
-        
-        else{
-            if (switchInterfaceBis(currentInterface, choiceLangue)) exit(1);
-        }
-
-        while (getchar() != '\n');
+    case 131: 
+        change_config("Langue", "FR");
+        strcpy(currentInterface,"Interface/FR/1");
+        *currentInterfaceButitsAnInteger = convert_interface_to_int(currentInterface);
+        readInterface(currentInterface);
         break;
-    
+    case 132:
+        change_config("Langue", "EN");
+        strcpy(currentInterface,"Interface/EN/1");
+        *currentInterfaceButitsAnInteger = convert_interface_to_int(currentInterface);
+        readInterface(currentInterface);
+        break;
+    case 1211:
+        printf("\n\t\t\tConfiguration : \n\n");
+        read_config("Configuration/config");
+        char langue[10];
+        find_in_config("Langue", langue);
+
+        char choice[50];
+        if (strstr(langue, "FR")) printf("Quelle configuration voulez vous changer ?\n");
+        else if (strstr(langue, "EN")) printf("Wich configuration do you want to change ?\n");
+        else break;
+
+        if (!scanf("%s", choice)) exit(1);
+        change_config(choice, NULL);
+        switchInterfaceBis(currentInterface, "0");
+        break;
+    case 1111:
+        printf("\n\t\t\tLa je dois lancer le programme de Jules\n");
+        break;
+
     default:
         break;
     }
