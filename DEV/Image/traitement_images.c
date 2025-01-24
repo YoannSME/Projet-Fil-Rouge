@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define MAX_LABELS 10
 #include "traitement_images.h"
 
 int debug = 0;
@@ -60,7 +60,7 @@ image2D_ptr creer_image2D(int lignes, int colonnes)
 
     for (int i = 0; i < lignes; i++)
     {
-        Im->image[i] = malloc(colonnes * sizeof(int));
+        Im->image[i] = calloc(colonnes, sizeof(int));
         if (Im->image[i] == NULL)
         {
             Erreur("Erreur malloc image2D");
@@ -68,6 +68,48 @@ image2D_ptr creer_image2D(int lignes, int colonnes)
     }
 
     return Im;
+}
+
+image2D_ptr copier_image(image2D_ptr image_origine)
+{
+    image2D_ptr image_copie = creer_image2D(image_origine->lignes, image_origine->colonnes);
+    for (int i = 0; i < image_origine->lignes; i++)
+    {
+        for (int j = 0; j < image_origine->colonnes; j++)
+        {
+            image_copie->image[i][j] = image_origine->image[i][j];
+        }
+    }
+    return image_copie;
+}
+
+image2D_ptr additionner_deux_images(image2D_ptr image1, image2D_ptr image2)
+{
+    if ((image1->lignes != image2->lignes) || (image1->colonnes != image2->colonnes))
+    {
+        fprintf(stderr, "Les images n'ont pas la même dimension\n");
+        return image1;
+    }
+
+    for (int i = 0; i < image1->lignes; i++)
+    {
+        for (int j = 0; j < image1->colonnes; j++)
+        {
+            image1->image[i][j] = image1->image[i][j] | image2->image[i][j];
+        }
+    }
+
+    return image1;
+}
+void initialiser_image(image2D_ptr image, int valeur)
+{
+    for (int i = 0; i < image->lignes; i++)
+    {
+        for (int j = 0; j < image->colonnes; j++)
+        {
+            image->image[i][j] = valeur;
+        }
+    }
 }
 
 void lire_image3D(FILE *filename, image3D_ptr im)
@@ -92,11 +134,37 @@ void lire_image3D(FILE *filename, image3D_ptr im)
             }
         }
     }
-    printf("\n");
+}
+
+image2D_ptr lire_image2D(FILE *filename)
+{
+    int v1;
+    int lignes, colonnes;
+    if (fscanf(filename, "%d %d", &lignes, &colonnes) != 2)
+        Erreur("Erreur lire image2D");
+
+    image2D_ptr im = creer_image2D(lignes, colonnes);
+
+    for (int i = 0; i < lignes; i++)
+    {
+
+        for (int j = 0; j < colonnes; j++)
+        {
+
+            if (fscanf(filename, "%d", &v1) != 1)
+            {
+                Erreur("Echec de la lecture de la valeur dans le fichier");
+            }
+            im->image[i][j] = v1;
+        }
+    }
+    printf("fin lecture\n");
+    return im;
 }
 
 image2D_ptr pre_traitement(FILE *filename)
 {
+
     int8b val;
     int8b pix;
     int lignes, colonnes, dimension;
@@ -137,7 +205,7 @@ image2D_ptr pre_traitement(FILE *filename)
 
 image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur)
 {
-    //image2D_ptr im_retour = creer_image2D(img->lignes, img->colonnes);
+    image2D_ptr im_retour = creer_image2D(img->lignes, img->colonnes);
     CouleurNom couleur_actuelle;
 
     for (int i = 0; i < img->lignes; i++)
@@ -147,15 +215,16 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur)
             couleur_actuelle = conversion_couleur(img->image[i][j]);
             if (couleur_actuelle == couleur)
             {
-                img->image[i][j] = 1;
+                im_retour->image[i][j] = 1;
             }
             else
             {
-                img->image[i][j] = 0;
+                im_retour->image[i][j] = 0;
             }
         }
     }
-    return img;
+
+    return im_retour;
 }
 
 int compter_voisins(const image2D_ptr image, int x, int y)
@@ -184,97 +253,188 @@ int compter_voisins(const image2D_ptr image, int x, int y)
     return voisins;
 }
 
-image2D_ptr detecter_Objet(image2D_ptr image_binarise, boite_englobante *bteEnglobante)
+void DFS_iteratif_8(image2D_ptr binaire,
+                    image2D_ptr labels,
+                    int start_i,
+                    int start_j,
+                    int label)
 {
-    int delta = 3;
-    int lignes = image_binarise->lignes;
-    int colonnes = image_binarise->colonnes;
 
-    // Initialiser les limites ac vals aléatoires
-    int col_gauche = colonnes, col_droite = -1;
-    int lig_haut = lignes, lig_bas = -1;
-    int cpt = 0;
+    PILE pile = init_PILE();
 
-    // Seuil minimal pour qu'un pixel soit considéré comme faisant partie d'un objet
-    int seuil_voisins = 6;
+    Element debut;
+    debut.x = start_i;
+    debut.y = start_j;
+    pile = emPILE(pile, debut);
 
-    for (int i = 0; i < lignes; i++)
+    labels->image[start_i][start_j] = label;
+
+    int di[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+    int dj[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+    int nbVoisins = 8;
+
+    // Parcours en profondeur
+    while (!PILE_estVide(pile))
     {
-        for (int j = 0; j < colonnes; j++)
-        {
-            if (image_binarise->image[i][j] == 1)
-            {
-                if (compter_voisins(image_binarise, i, j) >= seuil_voisins)
-                {
-                    cpt++; // Compteur de pixels de l'objet
 
-                    if (j < col_gauche)
-                        col_gauche = j;
-                    if (j > col_droite)
-                        col_droite = j;
-                    if (i < lig_haut)
-                        lig_haut = i;
-                    if (i > lig_bas)
-                        lig_bas = i;
+        Element courant;
+        pile = dePILE(pile, &courant);
+
+        int i = courant.x;
+        int j = courant.y;
+
+        // 8 voisinage
+        for (int k = 0; k < nbVoisins; k++)
+        {
+            int ni = i + di[k];
+            int nj = j + dj[k];
+
+            if (ni >= 0 && ni < binaire->lignes &&
+                nj >= 0 && nj < binaire->colonnes)
+            {
+                // pixel pas encore  labellisé
+                if (binaire->image[ni][nj] == 1 &&
+                    labels->image[ni][nj] == 0)
+                {
+                    labels->image[ni][nj] = label;
+                    Element voisin;
+                    voisin.x = ni;
+                    voisin.y = nj;
+                    pile = emPILE(pile, voisin);
                 }
             }
         }
     }
-
-    if (col_gauche > col_droite || lig_haut > lig_bas || cpt < 100)
-    {
-        printf("Aucun objet détecté ou objet trop petit.\n");
-        bteEnglobante->image = image_binarise;
-        bteEnglobante->objet = INDEFINI;
-        return image_binarise;
-    }
-
-    // Élargir les limites avec delta
-    lig_haut = max(lig_haut - 1 - delta, 0);
-    lig_bas = min(lig_bas + 1 + delta, lignes - 1);
-    col_gauche = max(col_gauche - 1 - delta, 0);
-    col_droite = min(col_droite + 1 + delta, colonnes - 1);
-
-    for (int j = col_gauche; j <= col_droite; j++)
-    {
-        image_binarise->image[lig_haut][j] = 1; // Ligne du haut
-        image_binarise->image[lig_bas][j] = 1;  // Ligne du bas
-    }
-    for (int i = lig_haut; i <= lig_bas; i++)
-    {
-        image_binarise->image[i][col_gauche] = 1; // Colonne gauche
-        image_binarise->image[i][col_droite] = 1; // Colonne droite
-    }
-    creer_boiteEnglobante(bteEnglobante, lig_haut, lig_bas, col_gauche, col_droite, image_binarise);
-    bteEnglobante->objet = reconnaissance_objet(*bteEnglobante);
-
-    return image_binarise;
+    free(pile);
 }
 
-void creer_boiteEnglobante(boite_englobante *bteEnglobante, int lig_haut, int lig_bas, int col_gauche, int col_droite, image2D_ptr im)
+int labelliserImage_8voisinage(image2D_ptr binaire,
+                               image2D_ptr labels)
 {
-    bteEnglobante->lig_haut = lig_haut;
-    bteEnglobante->lig_bas = lig_bas;
-    bteEnglobante->col_gauche = col_gauche;
-    bteEnglobante->col_droite = col_droite;
+    int currentLabel = 0;
 
-    bteEnglobante->aire = (col_droite - col_gauche + 1) * (lig_bas - lig_haut + 1);
-    bteEnglobante->image = im;
-    bteEnglobante->centre_objet[0] = (col_droite - col_gauche) / 2;
-    bteEnglobante->centre_objet[1] = (lig_bas - lig_haut) / 2;
+    for (int i = 0; i < binaire->lignes; i++)
+    {
+        for (int j = 0; j < binaire->colonnes; j++)
+        {
+            if (binaire->image[i][j] == 1 &&
+                labels->image[i][j] == 0 && compter_voisins(binaire, i, j) >= 8)
+            {
+                currentLabel++;
+                DFS_iteratif_8(binaire, labels, i, j, currentLabel);
+            }
+        }
+    }
+
+    return currentLabel;
+}
+
+void calculer_boites_englobantes(image2D_ptr labels, image2D_ptr im_binaire, boite_englobante *boites, int nbLabels)
+{
+    // Init possibilité de l'enlever plus tard (debug)
+    for (int k = 0; k < nbLabels; k++)
+    {
+        boites[k].lig_haut = labels->lignes;
+        boites[k].lig_bas = 0;
+        boites[k].col_gauche = labels->colonnes;
+        boites[k].col_droite = 0;
+        boites[k].aire = 0;
+        boites[k].image = im_binaire;
+    }
+
+    for (int i = 0; i < labels->lignes; i++)
+    {
+        for (int j = 0; j < labels->colonnes; j++)
+        {
+            int lab = labels->image[i][j]; // 1..nbLabels
+            if (lab > 0 && lab <= nbLabels)
+            {
+                int idx = lab - 1;
+                if (i < boites[idx].lig_haut)
+                    boites[idx].lig_haut = i;
+                if (i > boites[idx].lig_bas)
+                    boites[idx].lig_bas = i;
+                if (j < boites[idx].col_gauche)
+                    boites[idx].col_gauche = j;
+                if (j > boites[idx].col_droite)
+                    boites[idx].col_droite = j;
+                boites[idx].aire++;
+            }
+        }
+    }
+}
+void filtrage_boites(tab_boite_englobante *boites)
+{
+    if (boites == NULL || boites->tabBoites == NULL || boites->taille <= 0)
+    {
+        printf("Aucune boîte à traiter.\n");
+        return;
+    }
+
+    for (int i = boites->taille - 1; i >= 0; i--)
+    {
+        boite_englobante b = boites->tabBoites[i];
+        printf("aire = %d\n", b.aire);
+
+        if (b.aire < 100)
+        {
+            boites->tabBoites[i] = boites->tabBoites[boites->taille - 1];
+            boites->taille--;
+        }
+        else
+        {
+            boites->tabBoites[i] = creer_boiteEnglobante(
+                b.image, b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite);
+        }
+    }
+}
+
+void entourer_objet(boite_englobante b)
+{
+    for (int j = b.col_gauche; j <= b.col_droite; j++)
+    {
+        b.image->image[b.lig_haut][j] = 1;
+        b.image->image[b.lig_bas][j] = 1;
+    }
+
+    for (int i = b.lig_haut; i <= b.lig_bas; i++)
+    {
+        b.image->image[i][b.col_gauche] = 1;
+        b.image->image[i][b.col_droite] = 1;
+    }
+}
+
+boite_englobante creer_boiteEnglobante(image2D_ptr image, int lig_haut, int lig_bas, int col_gauche, int col_droite)
+{
+    boite_englobante bteEnglobante;
+
+    int delta = 3;
+    bteEnglobante.image = image;
+    bteEnglobante.lig_haut = max(lig_haut - 1 - delta, 0);
+    bteEnglobante.lig_bas = min(lig_bas + 1 + delta, image->lignes - 1);
+    bteEnglobante.col_gauche = max(col_gauche - 1 - delta, 0);
+    bteEnglobante.col_droite = min(col_droite + 1 + delta, image->colonnes - 1);
+
+    bteEnglobante.aire = (bteEnglobante.col_droite - bteEnglobante.col_gauche + 1) *
+                         (bteEnglobante.lig_bas - bteEnglobante.lig_haut + 1);
+
+    // Recalcul du centre
+    bteEnglobante.centre_objet[0] = bteEnglobante.col_gauche + (bteEnglobante.col_droite - bteEnglobante.col_gauche) / 2;
+    bteEnglobante.centre_objet[1] = bteEnglobante.lig_haut +
+                                    (bteEnglobante.lig_bas - bteEnglobante.lig_haut) / 2;
+
+    printf("coo = %d %d %d %d\n", bteEnglobante.lig_haut, bteEnglobante.lig_bas, bteEnglobante.col_gauche, bteEnglobante.col_droite);
+    bteEnglobante.objet = reconnaissance_objet(bteEnglobante);
+
+    return bteEnglobante;
 }
 
 Objet reconnaissance_objet(boite_englobante bte)
 {
-    int lig_haut, lig_bas, col_haut, col_bas;
-    lig_haut = bte.lig_haut;
-    lig_bas = bte.lig_bas;
-    col_haut = bte.col_gauche;
-    col_bas = bte.col_droite;
     int nb_pixel = 0;
-    for (int i = lig_haut; i <= lig_bas; i++)
+    for (int i = bte.lig_haut; i <= bte.lig_bas; i++)
     {
-        for (int j = col_haut; j <= col_bas; j++)
+        for (int j = bte.col_gauche; j <= bte.col_droite; j++)
         {
             if (bte.image->image[i][j] == 1)
                 nb_pixel++;
@@ -284,50 +444,106 @@ Objet reconnaissance_objet(boite_englobante bte)
     {
         return CARRE;
     }
-    else if (nb_pixel >= 0.4 * bte.aire)
+    else if (nb_pixel >= 0.5 * bte.aire)
     {
         return BALLE;
     }
     else
     {
-        return INDEFINI;
+        return NONE;
     }
 }
 
-boite_englobante traitement_image(char image_entree[], char image_sortie[], CouleurNom couleur)
+tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom couleur)
 {
-    FILE *filename, *fileout;
-    filename = fopen(image_entree, "r");
-    if (!filename)
-    {
-        fprintf(stderr, "Impossible d’ouvrir le fichier %s\n", image_entree);
-    }
-    fileout = fopen(image_sortie, "w");
-    if (!fileout)
-    {
-        fprintf(stderr, "Impossible de créer le fichier %s\n", image_sortie);
-        fclose(filename);
-    }
-    image2D_ptr image;
-    boite_englobante boite_englobante;
-    image = pre_traitement(filename);
-    image = seuillage(image, couleur);
-    image = detecter_Objet(image, &boite_englobante);
 
-    if (boite_englobante.objet != INDEFINI)
+    image2D_ptr imSeuillee = seuillage(image_pretraitee, couleur);
+
+    image2D_ptr image_etiquettee = creer_image2D(imSeuillee->lignes, imSeuillee->colonnes);
+
+    tab_boite_englobante tabBoiteEnglobante;
+    int nb_objets = labelliserImage_8voisinage(imSeuillee, image_etiquettee);
+    printf("%d objets trouvés\n", nb_objets);
+    if (nb_objets == 0)
     {
-        if (boite_englobante.objet == BALLE)
+        tabBoiteEnglobante.tabBoites = NULL;
+        tabBoiteEnglobante.taille = 0;
+        free_image2D(image_etiquettee);
+        free_image2D(imSeuillee);
+        return tabBoiteEnglobante;
+    }
+    tabBoiteEnglobante.tabBoites = malloc(nb_objets * sizeof(boite_englobante));
+
+    if (tabBoiteEnglobante.tabBoites == NULL)
+    {
+        Erreur("Erreur malloc tabBoiteEnglobante");
+    }
+
+    tabBoiteEnglobante.taille = nb_objets;
+    calculer_boites_englobantes(image_etiquettee, imSeuillee, tabBoiteEnglobante.tabBoites, nb_objets);
+
+    filtrage_boites(&tabBoiteEnglobante);
+    printf("%d objets trouvés\n", tabBoiteEnglobante.taille);
+    for (int i = 0; i < tabBoiteEnglobante.taille; i++)
+    {
+
+        entourer_objet(tabBoiteEnglobante.tabBoites[i]);
+        boite_englobante b = tabBoiteEnglobante.tabBoites[i];
+        printf("Coordoonnées de la boite englobante : %d %d %d %d - aire %d - centre objet : %d %d\n", b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite, b.aire, b.centre_objet[0], b.centre_objet[1]);
+        if (b.objet == BALLE)
+        {
             printf("BALLE\n");
-        else if (boite_englobante.objet == CARRE)
+        }
+        else if (b.objet == CARRE)
+        {
             printf("CARRE\n");
-        fprintf(stderr, "Coordonnées boite englobante : %d %d %d %d - Aire = %d - Centre objet = %d %d\n", boite_englobante.lig_haut, boite_englobante.col_gauche, boite_englobante.lig_bas, boite_englobante.col_droite, boite_englobante.aire, boite_englobante.centre_objet[0], boite_englobante.centre_objet[1]);
+        }
+        else
+        {
+            printf("AUCUN OBJET\n");
+        }
     }
-    afficherImage(image, fileout);
 
-    fclose(fileout);
-    fclose(filename);
-    
-    return boite_englobante;
+    free_image2D(image_etiquettee);
+
+    return tabBoiteEnglobante;
+}
+
+tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Objet objet)
+{
+
+    // Tableau de toutes les boites englobantes de la première image selon col bleu
+    tab_boite_englobante tab_retour;
+    tab_retour.tabBoites = malloc(30 * sizeof(boite_englobante)); //max 10 objets
+    tab_retour.taille = 0;
+    if (tab_retour.tabBoites == NULL)
+    {
+        Erreur("Erreur malloc tab_boite_englobante");
+    }
+    CouleurNom couleur[] = {COL_BLEU, COL_JAUNE, COL_ORANGE};
+    image2D_ptr image_retour = creer_image2D(image_pretraitee->lignes, image_pretraitee->colonnes);
+    printf("MALLOC OK\n");
+    int i = 0;
+    do
+    {
+        tab_boite_englobante tab_couleur_courante = traitement_images(image_pretraitee, couleur[i]);
+        printf("traitement %d ok\n",i);
+        image_retour = additionner_deux_images(image_retour, tab_couleur_courante.tabBoites[0].image);
+        for (int i = 0; i < tab_couleur_courante.taille; i++)
+        {
+            if (tab_couleur_courante.tabBoites[i].objet == objet)
+            {
+                tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[i];
+                tab_retour.taille++;
+            }
+            
+        }
+        free_tab_boites_englobantes(tab_couleur_courante);
+        i++;
+    }while (i < 3);
+    printf("traitement fini\n");
+    tab_retour.tabBoites[0].image = image_retour;
+    return tab_retour;
 }
 
 void free_image3D(image3D_ptr im)
@@ -342,6 +558,7 @@ void free_image3D(image3D_ptr im)
     }
     free(im->image);
     free(im);
+    im = NULL;
 }
 
 void free_image2D(image2D_ptr im)
@@ -357,10 +574,19 @@ void free_histogramme(histogramme hist)
 {
     free(hist.tab);
 }
+void free_tab_boites_englobantes(tab_boite_englobante tab)
+{
+    if (tab.tabBoites != NULL)
+    {
+        free_boite_englobante(tab.tabBoites[0]);
+        free(tab.tabBoites);
+    }
+}
 
-void free_boite_englobante(boite_englobante boite){
-    if(boite.image != NULL)
-    free_image2D(boite.image);
+void free_boite_englobante(boite_englobante boite)
+{
+    if (boite.image != NULL)
+        free_image2D(boite.image);
 }
 
 void afficherImage(image2D_ptr im, FILE *fileout)
@@ -370,7 +596,7 @@ void afficherImage(image2D_ptr im, FILE *fileout)
     {
         for (int j = 0; j < im->colonnes; j++)
         {
-           
+
             fprintf(fileout, "%d ", im->image[i][j]);
         }
         fprintf(fileout, "\n");
