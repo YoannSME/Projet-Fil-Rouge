@@ -24,7 +24,10 @@ for nom_fichier in lst_fichier:
     with open(fichier_complet, "r", encoding="utf-8") as fichier:
         # Lecture des dimensions
         ligne_dim = fichier.readline().strip()
+        if( not ligne_dim ):
+            continue
         hauteur, largeur = map(int, ligne_dim.split())
+        
 
         # Création d'une matrice NumPy
         image_lue = np.zeros((hauteur, largeur), dtype=int)
