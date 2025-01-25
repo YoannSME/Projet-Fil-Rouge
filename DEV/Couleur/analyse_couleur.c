@@ -83,3 +83,19 @@ CouleurNom conversion_couleur(int valeur)
 
     return COL_INCONNU; ///
 }
+
+void association_couleur(CouleurNom couleur){
+    switch (couleur)
+    {
+    case COL_BLEU:
+        printf("BLEU\n");
+        break;
+    case COL_JAUNE:
+        printf("JAUNE\n");
+        break;
+    default:
+        printf("ERREUR\n");
+        break;
+    }
+}
+

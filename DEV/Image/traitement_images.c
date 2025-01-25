@@ -158,7 +158,7 @@ image2D_ptr lire_image2D(FILE *filename)
             im->image[i][j] = v1;
         }
     }
-    printf("fin lecture\n");
+   
     return im;
 }
 
@@ -374,7 +374,7 @@ void filtrage_boites(tab_boite_englobante *boites)
     for (int i = boites->taille - 1; i >= 0; i--)
     {
         boite_englobante b = boites->tabBoites[i];
-        printf("aire = %d\n", b.aire);
+       
 
         if (b.aire < 100)
         {
@@ -423,7 +423,6 @@ boite_englobante creer_boiteEnglobante(image2D_ptr image, int lig_haut, int lig_
     bteEnglobante.centre_objet[1] = bteEnglobante.lig_haut +
                                     (bteEnglobante.lig_bas - bteEnglobante.lig_haut) / 2;
 
-    printf("coo = %d %d %d %d\n", bteEnglobante.lig_haut, bteEnglobante.lig_bas, bteEnglobante.col_gauche, bteEnglobante.col_droite);
     bteEnglobante.objet = reconnaissance_objet(bteEnglobante);
 
     return bteEnglobante;
@@ -454,6 +453,20 @@ Objet reconnaissance_objet(boite_englobante bte)
     }
 }
 
+void association_objet(Objet objet){
+    switch(objet){
+        case CARRE:
+            printf("CARRE\n");
+            break;
+        case BALLE:
+            printf("BALLE\n");
+            break;
+        default:
+            printf("AUCUN OBJET\n");
+            break;
+    }
+}
+
 tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom couleur)
 {
 
@@ -463,7 +476,7 @@ tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom 
 
     tab_boite_englobante tabBoiteEnglobante;
     int nb_objets = labelliserImage_8voisinage(imSeuillee, image_etiquettee);
-    printf("%d objets trouvés\n", nb_objets);
+   
     if (nb_objets == 0)
     {
         tabBoiteEnglobante.tabBoites = NULL;
@@ -483,25 +496,13 @@ tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom 
     calculer_boites_englobantes(image_etiquettee, imSeuillee, tabBoiteEnglobante.tabBoites, nb_objets);
 
     filtrage_boites(&tabBoiteEnglobante);
-    printf("%d objets trouvés\n", tabBoiteEnglobante.taille);
     for (int i = 0; i < tabBoiteEnglobante.taille; i++)
     {
 
         entourer_objet(tabBoiteEnglobante.tabBoites[i]);
         boite_englobante b = tabBoiteEnglobante.tabBoites[i];
-        printf("Coordoonnées de la boite englobante : %d %d %d %d - aire %d - centre objet : %d %d\n", b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite, b.aire, b.centre_objet[0], b.centre_objet[1]);
-        if (b.objet == BALLE)
-        {
-            printf("BALLE\n");
-        }
-        else if (b.objet == CARRE)
-        {
-            printf("CARRE\n");
-        }
-        else
-        {
-            printf("AUCUN OBJET\n");
-        }
+        //printf("Coordoonnées de la boite englobante : %d %d %d %d - aire %d - centre objet : %d %d\n", b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite, b.aire, b.centre_objet[0], b.centre_objet[1]);
+        //association_objet(b.objet);
     }
 
     free_image2D(image_etiquettee);
@@ -522,26 +523,28 @@ tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Obj
     }
     CouleurNom couleur[] = {COL_BLEU, COL_JAUNE, COL_ORANGE};
     image2D_ptr image_retour = creer_image2D(image_pretraitee->lignes, image_pretraitee->colonnes);
-    printf("MALLOC OK\n");
+   
     int i = 0;
     do
     {
         tab_boite_englobante tab_couleur_courante = traitement_images(image_pretraitee, couleur[i]);
-        printf("traitement %d ok\n",i);
+        if(tab_couleur_courante.taille>0){
         image_retour = additionner_deux_images(image_retour, tab_couleur_courante.tabBoites[0].image);
         for (int i = 0; i < tab_couleur_courante.taille; i++)
         {
             if (tab_couleur_courante.tabBoites[i].objet == objet)
             {
+                tab_retour.tabBoites[i].couleurObjet = couleur[i];
                 tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[i];
                 tab_retour.taille++;
             }
             
         }
+        }
         free_tab_boites_englobantes(tab_couleur_courante);
         i++;
     }while (i < 3);
-    printf("traitement fini\n");
+    
     tab_retour.tabBoites[0].image = image_retour;
     return tab_retour;
 }

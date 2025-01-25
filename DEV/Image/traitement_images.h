@@ -61,7 +61,7 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur);
 int labelliserImage_8voisinage(image2D_ptr binaire, image2D_ptr labels);
 Objet reconnaissance_objet(boite_englobante bte);
 
-
+void association_objet(Objet objet);
 void calculer_boites_englobantes(image2D_ptr labels, image2D_ptr, boite_englobante *boites, int nbLabels);
 boite_englobante creer_boiteEnglobante(image2D_ptr image, int lig_haut, int lig_bas, int col_gauche, int col_droite);
 void entourer_objet(boite_englobante b);
