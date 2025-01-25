@@ -36,7 +36,6 @@ void write_logfile(char* message);
 void close_logfile();
 FILE* openFile(char* chemin, char* mode);
 
-double distanceEuclidienne(int x1, int y1, int x2, int y2);
 
 int PILE_estVide(PILE p);
 PILE emPILE(PILE p, Element e);
