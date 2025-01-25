@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../Configuration/config.h"
+#include "../Image/traitement_images.h"
+#include "../Couleur/analyse_couleur.h"
+
+#include "../Utils/utils.h"
 #define PATH_INTERFACE "Interface/"
 
 int readInterface(char* nomFichier);

@@ -30,11 +30,10 @@ extern int8b nb_bits;
 /* mettre votre code ci-après */
 PILE init_PILE();
 void Erreur(char *message);
-void etablir_nbBits(int nb);
+
 void init_logfile();
-void write_logfile(char* message);
+void write_logfile(char* message,...);
 void close_logfile();
-FILE* openFile(char* chemin, char* mode);
 
 
 int PILE_estVide(PILE p);

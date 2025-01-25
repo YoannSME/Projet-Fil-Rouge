@@ -48,7 +48,7 @@ typedef struct s_tab_boite_englobante
     int taille;
     boite_englobante *tabBoites;
 } tab_boite_englobante;
-
+void etablir_nbBits(int8b nb);
 void lire_image3D(FILE *, image3D_ptr);
 image3D_ptr creer_image3D(int, int);
 image2D_ptr creer_image2D(int, int);
@@ -61,7 +61,7 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur);
 int labelliserImage_8voisinage(image2D_ptr binaire, image2D_ptr labels);
 Objet reconnaissance_objet(boite_englobante bte);
 
-void association_objet(Objet objet);
+char* association_objet(Objet objet);
 void calculer_boites_englobantes(image2D_ptr labels, image2D_ptr, boite_englobante *boites, int nbLabels);
 boite_englobante creer_boiteEnglobante(image2D_ptr image, int lig_haut, int lig_bas, int col_gauche, int col_droite);
 void entourer_objet(boite_englobante b);
@@ -77,4 +77,5 @@ void afficherImage(image2D_ptr im, FILE *fileout);
 void free_boite_englobante(boite_englobante boite);
 tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom couleur);
 tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Objet objet);
+void initialisationLogfileTraitementImage();
 #endif

@@ -1,0 +1,28 @@
+Fichier initialisé
+
+=====Image pré-traitée=====
+
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Image seuillée=====
+
+=====Image étiquetée, 3 objets trouvés=====
+
+=====Boites englobantes filtrées, 3 objets restants après filtrage=====
+
+=====Boites englobantes calculées=====
+
+=====Coordonnées de la boite englobante : CG = 1 - CD = 303 - BG = 143 - BD = 445 - aire = 20449
+
+=====Objet reconnu : BALLE
+
+=====Coordonnées de la boite englobante : CG = 185 - CD = 303 - BG = 327 - BD = 445 - aire = 20449
+
+=====Objet reconnu : BALLE
+
+=====Coordonnées de la boite englobante : CG = 365 - CD = 303 - BG = 507 - BD = 445 - aire = 20449
+
+=====Objet reconnu : BALLE
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+

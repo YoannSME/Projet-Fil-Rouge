@@ -20,7 +20,7 @@ void afficher_hist(histogramme h)
 }
 
 
-#define tl 3
+#define tl 1
 int main(int argc, char **argv)
 {
 
@@ -40,6 +40,8 @@ int main(int argc, char **argv)
         }
     }
 
+    initialisationLogfileTraitementImage();
+
     etablir_nbBits(nb_bits);
 
     /*char chemin[21][512] = {
@@ -49,7 +51,7 @@ int main(int argc, char **argv)
         "IMG_5401", "IMG_5402", "IMG_5403", "IMG_5404",
         "IMG_5405", "IMG_5406", "IMG_5407", "IMG_5408","img_1"};*/
 
-    char chemin[tl][512] = { "IMG_5402","IMG_5395","IMG_5405"};
+    char chemin[tl][512] = {"img_down"};
     
     /*char chemin[tl][512] = {"IMG_5389", "IMG_5390", "IMG_5391", "IMG_5392", "IMG_5393", "IMG_5394","IMG_5395","IMG_5396","IMG_5397","IMG_5398",
      "IMG_5399", "IMG_5400","IMG_5401", "IMG_5402", "IMG_5403","IMG_5404",
@@ -72,8 +74,11 @@ int main(int argc, char **argv)
         FILE *fichier_sortie = fopen(sortie, "w");
 
         image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
-        tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
-        afficherImage(tab.tabBoites[0].image,fichier_sortie);
+        //tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
+         tab_boite_englobante tab = traitement_images(image_pretraitee, COL_BLEU);
+         
+          
+       if(tab.taille>0 ) afficherImage(tab.tabBoites[0].image,fichier_sortie);
         free_tab_boites_englobantes(tab);
         
         free_image2D(image_pretraitee); 
@@ -85,7 +90,7 @@ int main(int argc, char **argv)
     temps_final = clock();
     temps_cpu = (temps_final - temps_initial) * 1e-5;
     printf("TEMPS CPU : %f\n", temps_cpu);
-
+    close_logfile();
     return 0;
 }
 
@@ -131,7 +136,6 @@ int main(int argc, char **argv)
         tab_boite_englobante tab = traitement_images(image_pretraitee, COL_ORANGE);
         if(tab.tabBoites != NULL){
             afficherImage(tab.tabBoites[0].image,fichier_sortie);
-
         }
         free_tab_boites_englobantes(tab);
         

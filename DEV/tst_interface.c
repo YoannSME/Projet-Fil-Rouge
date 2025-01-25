@@ -19,7 +19,7 @@ int main() {
     remove_last_char(Langue);
     snprintf(currentInterface, sizeof(currentInterface), "Interface/%.*s%s", (int)(strlen(Langue)), Langue, "/1"); // J'avoue c'est ChatGPT qui m'a fait cette ligne, j'y arriver pas (Du à \0 qui se trouvait à la fait de la chaine langue)
    
-
+    
     printf("\n%s\n",currentInterface);
     readInterface(currentInterface);
 

@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
+#include <stdarg.h>
 #define VOISINAGE_8
-char nb_bits;
+
 static FILE* logfile = NULL;
 void Erreur(char *message)
 {
@@ -13,22 +13,21 @@ void Erreur(char *message)
     exit(EXIT_FAILURE);
 }
 
-void etablir_nbBits(int nb){
-    nb_bits = nb;
-}
 
-void write_logfile(char* message)
+
+void write_logfile(char* message,...)
 {
     if (logfile == NULL) {
         Erreur("Le fichier de log n'a pas été initialisé");
     }
-    fprintf(logfile, "%s\n", message);
+    va_list args;
+    va_start(args, message);
+    vfprintf(logfile, message, args);
+    va_end(args);
+    fprintf(logfile, "\n");
 }
 
-void init_logfile()
-{
-    logfile = openFile("/log/Logs_traitement_images", "w");
-}
+
 
 void close_logfile()
 {
@@ -38,12 +37,13 @@ void close_logfile()
     }
 }
 
-FILE* openFile(char* chemin, char* mode){
-    FILE* file = fopen(chemin, mode);
+void init_logfile(){
+    FILE* file = fopen("log/Logs_traitement_images.txt", "w");
     if(file == NULL){
         Erreur("Impossible d'ouvrir le fichier");
     }
-    return file;
+    logfile = file;
+    
 }
 
 

@@ -4,9 +4,15 @@
 #define MAX_LABELS 10
 #include "traitement_images.h"
 
+int8b nb_bits;
 int debug = 0;
+
+void etablir_nbBits(int8b nb){
+    nb_bits = nb;
+}
 image3D_ptr creer_image3D(int lignes, int colonnes)
 {
+   
     image3D_ptr Im = malloc(sizeof(struct s_image3D));
     if (Im == NULL)
     {
@@ -38,12 +44,13 @@ image3D_ptr creer_image3D(int lignes, int colonnes)
             }
         }
     }
-
+    
     return Im;
 }
 
 image2D_ptr creer_image2D(int lignes, int colonnes)
 {
+   
     image2D_ptr Im = malloc(sizeof(struct s_image2D));
     if (Im == NULL)
     {
@@ -66,12 +73,13 @@ image2D_ptr creer_image2D(int lignes, int colonnes)
             Erreur("Erreur malloc image2D");
         }
     }
-
+    
     return Im;
 }
 
 image2D_ptr copier_image(image2D_ptr image_origine)
 {
+
     image2D_ptr image_copie = creer_image2D(image_origine->lignes, image_origine->colonnes);
     for (int i = 0; i < image_origine->lignes; i++)
     {
@@ -177,8 +185,10 @@ image2D_ptr pre_traitement(FILE *filename)
         {
             for (int j = 0; j < colonnes; j++)
             {
-                if (fscanf(filename, "%hhd", &val) != 1)
+                if (fscanf(filename, "%hhd", &val) != 1){
+                    printf("Valeur %d\n",val);
                     Erreur("Erreur lecture de la valeur");
+                }
                 pix = val >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
                 switch (k)
                 {
@@ -199,7 +209,7 @@ image2D_ptr pre_traitement(FILE *filename)
             }
         }
     }
-
+      write_logfile("=====Image pré-traitée=====\n");
     return im_retour;
 }
 
@@ -223,7 +233,7 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur)
             }
         }
     }
-
+  write_logfile("=====Image seuillée=====\n");
     return im_retour;
 }
 
@@ -325,7 +335,7 @@ int labelliserImage_8voisinage(image2D_ptr binaire,
             }
         }
     }
-
+      write_logfile("=====Image étiquetée, %d objets trouvés=====\n",currentLabel);
     return currentLabel;
 }
 
@@ -387,6 +397,7 @@ void filtrage_boites(tab_boite_englobante *boites)
                 b.image, b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite);
         }
     }
+      write_logfile("=====Boites englobantes filtrées, %d objets restants après filtrage=====\n",boites->taille);
 }
 
 void entourer_objet(boite_englobante b)
@@ -443,7 +454,7 @@ Objet reconnaissance_objet(boite_englobante bte)
     {
         return CARRE;
     }
-    else if (nb_pixel >= 0.5 * bte.aire)
+    else if (nb_pixel >= 0.3 * bte.aire)
     {
         return BALLE;
     }
@@ -453,23 +464,24 @@ Objet reconnaissance_objet(boite_englobante bte)
     }
 }
 
-void association_objet(Objet objet){
+char* association_objet(Objet objet){
     switch(objet){
         case CARRE:
-            printf("CARRE\n");
-            break;
+            return "CARRE";
+            
         case BALLE:
-            printf("BALLE\n");
-            break;
+            return "BALLE";
+            
         default:
-            printf("AUCUN OBJET\n");
-            break;
+            return "INCONNU";
+            
     }
 }
 
 tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom couleur)
 {
 
+      write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====\n");
     image2D_ptr imSeuillee = seuillage(image_pretraitee, couleur);
 
     image2D_ptr image_etiquettee = creer_image2D(imSeuillee->lignes, imSeuillee->colonnes);
@@ -496,23 +508,25 @@ tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom 
     calculer_boites_englobantes(image_etiquettee, imSeuillee, tabBoiteEnglobante.tabBoites, nb_objets);
 
     filtrage_boites(&tabBoiteEnglobante);
+    write_logfile("=====Boites englobantes calculées=====\n");
     for (int i = 0; i < tabBoiteEnglobante.taille; i++)
     {
 
         entourer_objet(tabBoiteEnglobante.tabBoites[i]);
         boite_englobante b = tabBoiteEnglobante.tabBoites[i];
-        //printf("Coordoonnées de la boite englobante : %d %d %d %d - aire %d - centre objet : %d %d\n", b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite, b.aire, b.centre_objet[0], b.centre_objet[1]);
-        //association_objet(b.objet);
+        write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n",b.lig_haut,b.col_gauche,b.lig_bas,b.col_droite,b.aire);
+        write_logfile("=====Objet reconnu : %s\n",association_objet(b.objet));
+        
     }
 
     free_image2D(image_etiquettee);
-
+    write_logfile("=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====\n");
     return tabBoiteEnglobante;
 }
 
 tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Objet objet)
 {
-
+    write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
     // Tableau de toutes les boites englobantes de la première image selon col bleu
     tab_boite_englobante tab_retour;
     tab_retour.tabBoites = malloc(30 * sizeof(boite_englobante)); //max 10 objets
@@ -537,6 +551,9 @@ tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Obj
                 tab_retour.tabBoites[i].couleurObjet = couleur[i];
                 tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[i];
                 tab_retour.taille++;
+                boite_englobante b = tab_retour.tabBoites[i];
+                write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n",b.lig_haut,b.col_gauche,b.lig_bas,b.col_droite,b.aire);
+                write_logfile("=====Objet reconnu : %s\n",association_objet(b.objet));
             }
             
         }
@@ -546,8 +563,11 @@ tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Obj
     }while (i < 3);
     
     tab_retour.tabBoites[0].image = image_retour;
+    write_logfile("=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
     return tab_retour;
 }
+
+
 
 void free_image3D(image3D_ptr im)
 {
@@ -594,6 +614,8 @@ void free_boite_englobante(boite_englobante boite)
 
 void afficherImage(image2D_ptr im, FILE *fileout)
 {
+    if(im == NULL)
+        return;
     fprintf(fileout, "%d %d\n", im->lignes, im->colonnes);
     for (int i = 0; i < im->lignes; i++)
     {
@@ -604,4 +626,10 @@ void afficherImage(image2D_ptr im, FILE *fileout)
         }
         fprintf(fileout, "\n");
     }
+}
+
+void initialisationLogfileTraitementImage(){
+     init_logfile();
+     write_logfile("Fichier initialisé\n");
+     
 }

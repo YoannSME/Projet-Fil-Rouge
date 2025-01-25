@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "interface.h"
 
+
+
 int readInterface(char* nomFichier) {
     FILE *fichier;  // Pointeur vers le fichier
     char ligne[256];  // Tampon pour lire chaque ligne
@@ -126,6 +128,32 @@ void actionByInterface(int * currentInterfaceButitsAnInteger, char* currentInter
         break;
     case 1111:
         printf("\n\t\t\tLa je dois lancer le programme de Jules\n");
+        break;
+    
+    case 14:
+    initialisationLogfileTraitementImage();
+        etablir_nbBits(3);
+        char chemin[512] = { "img_down"};
+        char entree[1024];
+        char sortie[1024];
+
+        snprintf(entree, sizeof(entree), "Data/%.500s.txt", chemin);
+        snprintf(sortie, sizeof(sortie), "sortie/%.500s_v2.txt", chemin);
+        FILE *fichier_entree = fopen(entree, "r");
+        FILE *fichier_sortie = fopen(sortie, "w");//Seulement utile pour visualiser l'image avec : python3 conversion.py
+        image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
+        tab_boite_englobante tab = traitement_images(image_pretraitee, COL_JAUNE);
+        if(tab.taille>0 ) afficherImage(tab.tabBoites[0].image,fichier_sortie);
+        /*tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
+        afficherImage(tab.tabBoites[0].image,fichier_sortie);*/
+        
+
+        free_tab_boites_englobantes(tab);
+        free_image2D(image_pretraitee);
+        fclose(fichier_entree);
+        fclose(fichier_sortie);
+        close_logfile();
+        
         break;
 
     default:

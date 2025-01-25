@@ -20,6 +20,8 @@ int init(){
     return 0;
 }   
 
+
+
 int updateLog(const char *message){
     char timestampButItsAChar[20];
     char logFile[25] = "log/";
