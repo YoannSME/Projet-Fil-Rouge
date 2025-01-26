@@ -51,7 +51,7 @@ int main(int argc, char **argv)
         "IMG_5401", "IMG_5402", "IMG_5403", "IMG_5404",
         "IMG_5405", "IMG_5406", "IMG_5407", "IMG_5408","img_1"};*/
 
-    char chemin[tl][512] = {"img_down"};
+     char chemin[tl][512] = { "img_down"};
     
     /*char chemin[tl][512] = {"IMG_5389", "IMG_5390", "IMG_5391", "IMG_5392", "IMG_5393", "IMG_5394","IMG_5395","IMG_5396","IMG_5397","IMG_5398",
      "IMG_5399", "IMG_5400","IMG_5401", "IMG_5402", "IMG_5403","IMG_5404",

@@ -3,16 +3,18 @@
 #include <string.h>
 #define MAX_LABELS 10
 #include "traitement_images.h"
+#include <math.h>
 
 int8b nb_bits;
 int debug = 0;
 
-void etablir_nbBits(int8b nb){
+void etablir_nbBits(int8b nb)
+{
     nb_bits = nb;
 }
 image3D_ptr creer_image3D(int lignes, int colonnes)
 {
-   
+
     image3D_ptr Im = malloc(sizeof(struct s_image3D));
     if (Im == NULL)
     {
@@ -44,13 +46,13 @@ image3D_ptr creer_image3D(int lignes, int colonnes)
             }
         }
     }
-    
+
     return Im;
 }
 
 image2D_ptr creer_image2D(int lignes, int colonnes)
 {
-   
+
     image2D_ptr Im = malloc(sizeof(struct s_image2D));
     if (Im == NULL)
     {
@@ -73,7 +75,7 @@ image2D_ptr creer_image2D(int lignes, int colonnes)
             Erreur("Erreur malloc image2D");
         }
     }
-    
+
     return Im;
 }
 
@@ -166,7 +168,7 @@ image2D_ptr lire_image2D(FILE *filename)
             im->image[i][j] = v1;
         }
     }
-   
+
     return im;
 }
 
@@ -185,8 +187,9 @@ image2D_ptr pre_traitement(FILE *filename)
         {
             for (int j = 0; j < colonnes; j++)
             {
-                if (fscanf(filename, "%hhd", &val) != 1){
-                    printf("Valeur %d\n",val);
+                if (fscanf(filename, "%hhd", &val) != 1)
+                {
+                    printf("Valeur %d\n", val);
                     Erreur("Erreur lecture de la valeur");
                 }
                 pix = val >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
@@ -209,7 +212,7 @@ image2D_ptr pre_traitement(FILE *filename)
             }
         }
     }
-      write_logfile("=====Image pré-traitée=====\n");
+    write_logfile("=====Image pré-traitée=====\n");
     return im_retour;
 }
 
@@ -233,7 +236,7 @@ image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur)
             }
         }
     }
-  write_logfile("=====Image seuillée=====\n");
+    write_logfile("=====Image seuillée=====\n");
     return im_retour;
 }
 
@@ -335,7 +338,7 @@ int labelliserImage_8voisinage(image2D_ptr binaire,
             }
         }
     }
-      write_logfile("=====Image étiquetée, %d objets trouvés=====\n",currentLabel);
+    write_logfile("=====Image étiquetée, %d objets trouvés=====\n", currentLabel);
     return currentLabel;
 }
 
@@ -384,7 +387,6 @@ void filtrage_boites(tab_boite_englobante *boites)
     for (int i = boites->taille - 1; i >= 0; i--)
     {
         boite_englobante b = boites->tabBoites[i];
-       
 
         if (b.aire < 100)
         {
@@ -397,7 +399,7 @@ void filtrage_boites(tab_boite_englobante *boites)
                 b.image, b.lig_haut, b.lig_bas, b.col_gauche, b.col_droite);
         }
     }
-      write_logfile("=====Boites englobantes filtrées, %d objets restants après filtrage=====\n",boites->taille);
+    write_logfile("=====Boites englobantes filtrées, %d objets restants après filtrage=====\n", boites->taille);
 }
 
 void entourer_objet(boite_englobante b)
@@ -438,57 +440,108 @@ boite_englobante creer_boiteEnglobante(image2D_ptr image, int lig_haut, int lig_
 
     return bteEnglobante;
 }
+int calculer_pixels_noirs(boite_englobante bte) {
+    int hauteur = bte.lig_bas - bte.lig_haut + 1;
+    int largeur = bte.col_droite - bte.col_gauche + 1;
+    int taille = (hauteur < largeur) ? hauteur : largeur;
+    int diag1,diag2,diag3,diag4;
+   
+    diag1 = diag2 = diag3 = diag4 = 0;
 
-Objet reconnaissance_objet(boite_englobante bte)
-{
-    int nb_pixel = 0;
-    for (int i = bte.lig_haut; i <= bte.lig_bas; i++)
-    {
-        for (int j = bte.col_gauche; j <= bte.col_droite; j++)
-        {
-            if (bte.image->image[i][j] == 1)
-                nb_pixel++;
+  
+    int stop_diag1 = 0;
+    int stop_diag2 = 0;
+    int stop_diag3 = 0;
+    int stop_diag4 = 0;
+
+    for (int i = 0; i < taille; i++) {
+        //Haut-gauche à bas-droit
+        if (!stop_diag1) {
+            int ligne1 = bte.lig_haut + i;
+            int colonne1 = bte.col_gauche + i;
+            if (bte.image->image[ligne1][colonne1] == 0) {
+                (diag1)++;
+            } else {
+                stop_diag1 = 1; 
+            }
+        }
+
+        //Haut-droit à bas-gauche
+        if (!stop_diag2) {
+            int ligne2 = bte.lig_haut + i;
+            int colonne2 = bte.col_droite - i;
+            if (bte.image->image[ligne2][colonne2] == 0) {
+                (diag2)++;
+            } else {
+                stop_diag2 = 1;
+            }
+        }
+
+        //Bas-gauche à haut-droit
+        if (!stop_diag3) {
+            int ligne3 = bte.lig_bas - i;
+            int colonne3 = bte.col_gauche + i;
+            if (bte.image->image[ligne3][colonne3] == 0) {
+                (diag3)++;
+            } else {
+                stop_diag3 = 1;
+            }
+        }
+
+       //Bas-droit à haut-gauche
+        if (!stop_diag4) {
+            int ligne4 = bte.lig_bas - i;
+            int colonne4 = bte.col_droite - i;
+            if (bte.image->image[ligne4][colonne4] == 0) {
+                (diag4)++;
+            } else {
+                stop_diag4 = 1; 
+            }
         }
     }
-    if (nb_pixel >= 0.9 * bte.aire)
+    return diag1 + diag2 + diag3 + diag4;
+}
+Objet reconnaissance_objet(boite_englobante bte)
+{
+    int diag = calculer_pixels_noirs(bte);
+    int delta = 12;
+    if (diag <= delta+6)
     {
         return CARRE;
     }
-    else if (nb_pixel >= 0.3 * bte.aire)
+    else
     {
         return BALLE;
     }
-    else
-    {
-        return NONE;
-    }
+    
 }
 
-char* association_objet(Objet objet){
-    switch(objet){
-        case CARRE:
-            return "CARRE";
-            
-        case BALLE:
-            return "BALLE";
-            
-        default:
-            return "INCONNU";
-            
+char *association_objet(Objet objet)
+{
+    switch (objet)
+    {
+    case CARRE:
+        return "CARRE";
+
+    case BALLE:
+        return "BALLE";
+
+    default:
+        return "INCONNU";
     }
 }
 
 tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom couleur)
 {
 
-      write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====\n");
+    write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====\n");
     image2D_ptr imSeuillee = seuillage(image_pretraitee, couleur);
 
     image2D_ptr image_etiquettee = creer_image2D(imSeuillee->lignes, imSeuillee->colonnes);
 
     tab_boite_englobante tabBoiteEnglobante;
     int nb_objets = labelliserImage_8voisinage(imSeuillee, image_etiquettee);
-   
+
     if (nb_objets == 0)
     {
         tabBoiteEnglobante.tabBoites = NULL;
@@ -514,9 +567,8 @@ tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom 
 
         entourer_objet(tabBoiteEnglobante.tabBoites[i]);
         boite_englobante b = tabBoiteEnglobante.tabBoites[i];
-        write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n",b.lig_haut,b.col_gauche,b.lig_bas,b.col_droite,b.aire);
-        write_logfile("=====Objet reconnu : %s\n",association_objet(b.objet));
-        
+        write_logfile("=====Coordonnées de la boite englobante : CG = %d %d - CD = %d %d - BG = %d %d  - BD = %d %d  - aire = %d\n", b.lig_haut, b.col_gauche, b.lig_haut, b.col_droite, b.lig_bas, b.col_gauche, b.lig_bas, b.col_droite, b.aire);
+        write_logfile("=====Objet reconnu : %s\n", association_objet(b.objet));
     }
 
     free_image2D(image_etiquettee);
@@ -529,7 +581,7 @@ tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Obj
     write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
     // Tableau de toutes les boites englobantes de la première image selon col bleu
     tab_boite_englobante tab_retour;
-    tab_retour.tabBoites = malloc(30 * sizeof(boite_englobante)); //max 10 objets
+    tab_retour.tabBoites = malloc(30 * sizeof(boite_englobante)); // max 10 objets
     tab_retour.taille = 0;
     if (tab_retour.tabBoites == NULL)
     {
@@ -537,37 +589,35 @@ tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Obj
     }
     CouleurNom couleur[] = {COL_BLEU, COL_JAUNE, COL_ORANGE};
     image2D_ptr image_retour = creer_image2D(image_pretraitee->lignes, image_pretraitee->colonnes);
-   
+
     int i = 0;
     do
     {
         tab_boite_englobante tab_couleur_courante = traitement_images(image_pretraitee, couleur[i]);
-        if(tab_couleur_courante.taille>0){
-        image_retour = additionner_deux_images(image_retour, tab_couleur_courante.tabBoites[0].image);
-        for (int i = 0; i < tab_couleur_courante.taille; i++)
+        if (tab_couleur_courante.taille > 0)
         {
-            if (tab_couleur_courante.tabBoites[i].objet == objet)
+            image_retour = additionner_deux_images(image_retour, tab_couleur_courante.tabBoites[0].image);
+            for (int i = 0; i < tab_couleur_courante.taille; i++)
             {
-                tab_retour.tabBoites[i].couleurObjet = couleur[i];
-                tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[i];
-                tab_retour.taille++;
-                boite_englobante b = tab_retour.tabBoites[i];
-                write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n",b.lig_haut,b.col_gauche,b.lig_bas,b.col_droite,b.aire);
-                write_logfile("=====Objet reconnu : %s\n",association_objet(b.objet));
+                if (tab_couleur_courante.tabBoites[i].objet == objet)
+                {
+                    tab_retour.tabBoites[i].couleurObjet = couleur[i];
+                    tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[i];
+                    tab_retour.taille++;
+                    boite_englobante b = tab_retour.tabBoites[i];
+                    write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n", b.lig_haut, b.col_gauche, b.lig_bas, b.col_droite, b.aire);
+                    write_logfile("=====Objet reconnu : %s\n", association_objet(b.objet));
+                }
             }
-            
-        }
         }
         free_tab_boites_englobantes(tab_couleur_courante);
         i++;
-    }while (i < 3);
-    
+    } while (i < 3);
+
     tab_retour.tabBoites[0].image = image_retour;
     write_logfile("=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
     return tab_retour;
 }
-
-
 
 void free_image3D(image3D_ptr im)
 {
@@ -614,7 +664,7 @@ void free_boite_englobante(boite_englobante boite)
 
 void afficherImage(image2D_ptr im, FILE *fileout)
 {
-    if(im == NULL)
+    if (im == NULL)
         return;
     fprintf(fileout, "%d %d\n", im->lignes, im->colonnes);
     for (int i = 0; i < im->lignes; i++)
@@ -628,8 +678,29 @@ void afficherImage(image2D_ptr im, FILE *fileout)
     }
 }
 
-void initialisationLogfileTraitementImage(){
-     init_logfile();
-     write_logfile("Fichier initialisé\n");
-     
+void appel_traitement_image(char entree[],char sortie[])
+{
+    initialisationLogfileTraitementImage();
+    FILE *fichier_entree = fopen(entree, "r");
+    FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
+    image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
+    tab_boite_englobante tab = traitement_images(image_pretraitee, COL_BLEU);
+    if (tab.taille > 0)
+        afficherImage(tab.tabBoites[0].image, fichier_sortie);
+    // On peut aussi traiter selon la forme :
+    //tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
+    //afficherImage(tab.tabBoites[0].image,fichier_sortie);
+    
+
+    free_tab_boites_englobantes(tab);
+    free_image2D(image_pretraitee);
+    fclose(fichier_entree);
+    fclose(fichier_sortie);
+    close_logfile();
+}
+
+void initialisationLogfileTraitementImage()
+{
+    init_logfile();
+    write_logfile("Fichier initialisé\n");
 }

@@ -166,6 +166,12 @@ int change_config(char *configtochange, const char *new_val_optional) {
             if (new_val_optional == NULL) {
                 printf("Quelle nouvelle valeur voulez-vous donner à ce param ?\n");
                 if (!scanf("%99s", new_val)) exit(1);
+                if(strcmp(configtochange,"Quantification") == 0){
+                    if(atoi(new_val) < 3 || atoi(new_val) > 7){
+                        printf("La quantification doit être comprise entre 3 et 7\n");
+                        return 1;
+                    }
+                }
             } else { // si jamais la nouvelle valeur est déjà passer un param
                 strncpy(new_val, new_val_optional, sizeof(new_val) - 1);
                 new_val[sizeof(new_val) - 1] = '\0'; // Sécurité pour éviter un débordement

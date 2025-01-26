@@ -73,9 +73,11 @@ void free_histogramme(histogramme hist);
 void free_tab_boites_englobantes(tab_boite_englobante tab);
 
 
+
 void afficherImage(image2D_ptr im, FILE *fileout);
 void free_boite_englobante(boite_englobante boite);
 tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom couleur);
 tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Objet objet);
 void initialisationLogfileTraitementImage();
+void appel_traitement_image(char entree[],char sortie[]);
 #endif
