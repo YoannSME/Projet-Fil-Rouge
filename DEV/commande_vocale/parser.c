@@ -166,7 +166,9 @@ void process_transcription(const char *filename, const char *language) {
 
         char command[256];
         if (convert_request_to_command(transcription, lexicon, language,command)) {
-            printf("Commande générée : %s(%d) \n ", command,val1[0]);
+            make_file("commande/transcription.txt");
+            add_row_to_file("commande/transcription.txt", command);
+            // printf("Commande générée : %s(%d) \n ", command,val1[0]);
             
         } else {
             printf("Erreur : Aucune commande reconnue.\n");

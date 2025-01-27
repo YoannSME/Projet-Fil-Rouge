@@ -122,7 +122,10 @@ int switchInterfaceBis(char *currentInterface, char *nextInterface)
 
 void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterface)
 {
-    //printf("\n%s\n", currentInterface);
+
+    char langue[10];
+    find_in_config("Langue", langue);
+    // printf("\n%s\n", currentInterface);
     switch (*currentInterfaceButitsAnInteger)
     {
     case 131:
@@ -140,8 +143,6 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
     case 1211:
         printf("\n\t\t\tConfiguration : \n\n");
         read_config("Configuration/config");
-        char langue[10];
-        find_in_config("Langue", langue);
 
         char choice[50];
         if (strstr(langue, "FR"))
@@ -157,9 +158,15 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         switchInterfaceBis(currentInterface, "0");
         break;
     case 1111:
-        printf("\n\t\t\tLa je dois lancer le programme de Jules\n");
-        break;
 
+        execute_python_script();
+        // printf("[INFO] Langue sélectionnée : %s\n", langue);
+
+        // Étape 3 : Traiter la transcription
+        // printf("[INFO] Traitement de la transcription...\n");
+        process_transcription("transcription.txt", langue);
+        // printf("[INFO] Programme terminé.\n");
+        break;
 
     case 1121:
         make_file("commande/transcription.txt");

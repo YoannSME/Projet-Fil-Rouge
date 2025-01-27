@@ -10,12 +10,13 @@ int main() {
 
     // Étape 2 : Choisir la langue
     char langue[10];
+    find_in_config("Langue", langue);
     const char *language = "FR";  // Par défaut, on utilise le français
-    printf("[INFO] Langue sélectionnée : %s\n", language);
+    printf("[INFO] Langue sélectionnée : %s\n", langue);
 
     // Étape 3 : Traiter la transcription
     printf("[INFO] Traitement de la transcription...\n");
-    process_transcription("transcription.txt", language);
+    process_transcription("transcription.txt", langue);
 
     printf("[INFO] Programme terminé.\n");
     return 0;

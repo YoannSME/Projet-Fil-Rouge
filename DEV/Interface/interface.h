@@ -6,6 +6,7 @@
 #include "../Configuration/config.h"
 #include "../Image/traitement_images.h"
 #include "../Couleur/analyse_couleur.h"
+#include "../commande_vocale/parser.h"
 
 #include "../Utils/utils.h"
 #define PATH_INTERFACE "Interface/"
