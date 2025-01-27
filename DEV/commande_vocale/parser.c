@@ -189,7 +189,7 @@ void process_transcription(const char *filename, const char *language) {
 
 // Fonction pour exécuter le script Python (simulateur de reconnaissance vocale)
 void execute_python_script() {
-    system("python3 reconnaissance_vocale.py");
+    system("python3 commande_vocale/reconnaissance_vocale.py");
 
     FILE *file = fopen("transcription.txt", "r");
     if (file == NULL) {
