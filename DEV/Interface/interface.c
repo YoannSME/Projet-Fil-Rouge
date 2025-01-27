@@ -160,6 +160,32 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         printf("\n\t\t\tLa je dois lancer le programme de Jules\n");
         break;
 
+
+    case 1121:
+        make_file("commande/transcription.txt");
+        add_row_to_file("commande/transcription.txt", "forward(5)");
+        switchInterfaceBis(currentInterface, "0");
+        readInterface(currentInterface);
+        break;
+    case 1122:
+        make_file("commande/transcription.txt");
+        add_row_to_file("commande/transcription.txt", "turn(90)");
+        switchInterfaceBis(currentInterface, "0");
+        readInterface(currentInterface);
+        break;
+    case 1123:
+        make_file("commande/transcription.txt");
+        add_row_to_file("commande/transcription.txt", "turn(-90)");
+        switchInterfaceBis(currentInterface, "0");
+        readInterface(currentInterface);
+        break;
+    case 1124:
+        make_file("commande/transcription.txt");
+        add_row_to_file("commande/transcription.txt", "backward(5)");
+        switchInterfaceBis(currentInterface, "0");
+        readInterface(currentInterface);
+        break;
+
     case 14:
 
         char retour[1];

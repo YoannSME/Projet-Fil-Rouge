@@ -14,7 +14,7 @@ def process_file(filename):
         if match := re.match(r"forward\((\d+)\)", line):
             value = int(match.group(1))
             turtle.forward(value)
-        elif match := re.match(r"gobackward\((\d+)\)", line):
+        elif match := re.match(r"backward\((\d+)\)", line):
             value = int(match.group(1))
             turtle.backward(value)
         elif match := re.match(r"turn\((\d+)\)", line):
@@ -27,7 +27,7 @@ def process_file(filename):
 def main():
     """Boucle principale qui surveille les fichiers dans le répertoire courant."""
     turtle.speed(1)  # Réglage de la vitesse de la tortue
-    file = "transcription.txt"
+    file = "commande/transcription.txt"
     while True:
         try:
             process_file(file)
