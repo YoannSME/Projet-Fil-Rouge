@@ -3,6 +3,7 @@
 #include <string.h>
 #include "cJSON.h" // Inclure la bibliothèque cJSON (assurez-vous de l'avoir installée)
 #include <ctype.h>
+#include "../Configuration/config.h"
 // Définition de la structure Lexicon
 typedef struct {
     char **keywords;  // Tableau contenant les mots-clés
