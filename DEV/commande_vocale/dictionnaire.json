@@ -1,11 +1,11 @@
 {
-    "fr": {
+    "FR": {
         "avance": "forward",
         "recule": "backward",
         "vas tout droit": "forward",
         "vas en arrière": "backward"
     },
-    "en": {
+    "EN": {
         "forward": "forward",
         "backward": "backward",
         "go forward": "forward",

@@ -70,7 +70,10 @@ Lexicon load_lexicon(const char *filename, const char *language) {
     long length = ftell(file);
     fseek(file, 0, SEEK_SET);
     char *data = malloc(length);
-    fread(data, 1, length, file);
+    if(fread(data, 1, length, file)<1){
+        perror("fread");
+        exit(1);
+    }
     fclose(file);
 
     // Parser le JSON
@@ -146,9 +149,11 @@ int convert_request_to_command(const char *request, Lexicon lexicon, const char 
 void process_transcription(const char *filename, const char *language) {
     // Charger le dictionnaire JSON dans le lexique
     int nbElems;
-    int* val1 = extract_numbers(filename,&nbElems);
+    int *val1= NULL;
+    val1 = extract_numbers(filename,&nbElems);
+
     
-    Lexicon lexicon = load_lexicon("dictionnaire.json", language);
+    Lexicon lexicon = load_lexicon("commande_vocale/dictionnaire.json", language);
     if (!lexicon.loaded) {
         fprintf(stderr, "Erreur : Le dictionnaire n'a pas pu être chargé.\n");
         return;
@@ -165,11 +170,14 @@ void process_transcription(const char *filename, const char *language) {
     if (fgets(transcription, sizeof(transcription), file) != NULL) {
         printf("Transcription récupérée : %s\n", transcription);
 
-        char command[256];
+        char command[64];
+        char result[128];
         if (convert_request_to_command(transcription, lexicon, language,command)) {
             make_file("commande/transcription.txt");
-            add_row_to_file("commande/transcription.txt", command);
-            // printf("Commande générée : %s(%d) \n ", command,val1[0]);
+            snprintf(result, sizeof(result),"%s(%d)", command, val1[0]);
+            printf("commande = %s\n",result);
+            add_row_to_file("commande/transcription.txt", result);
+            //printf("Commande générée : %s(%d) \n ", command,val1[0]);
             
         } else {
             printf("Erreur : Aucune commande reconnue.\n");
@@ -189,7 +197,10 @@ void process_transcription(const char *filename, const char *language) {
 
 // Fonction pour exécuter le script Python (simulateur de reconnaissance vocale)
 void execute_python_script() {
-    system("python3 commande_vocale/reconnaissance_vocale.py");
+    if(system("python3 commande_vocale/reconnaissance_vocale.py")==-1){
+        perror("system");
+        exit(1);
+    }
 
     FILE *file = fopen("transcription.txt", "r");
     if (file == NULL) {
