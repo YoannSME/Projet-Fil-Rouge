@@ -122,7 +122,7 @@ int switchInterfaceBis(char *currentInterface, char *nextInterface)
 
 void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterface)
 {
-    printf("\n%s\n", currentInterface);
+    //printf("\n%s\n", currentInterface);
     switch (*currentInterfaceButitsAnInteger)
     {
     case 131:

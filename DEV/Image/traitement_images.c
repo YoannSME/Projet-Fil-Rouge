@@ -691,7 +691,7 @@ void appel_traitement_image(char entree[],char sortie[])
     //tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
     //afficherImage(tab.tabBoites[0].image,fichier_sortie);
     
-
+    
     free_tab_boites_englobantes(tab);
     free_image2D(image_pretraitee);
     fclose(fichier_entree);
