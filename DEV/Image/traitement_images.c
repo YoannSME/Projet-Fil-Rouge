@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX_LABELS 10
+#define MAX_LABELS 30
 #include "traitement_images.h"
 #include <math.h>
 
@@ -12,6 +12,7 @@ void etablir_nbBits(int8b nb)
 {
     nb_bits = nb;
 }
+
 image3D_ptr creer_image3D(int lignes, int colonnes)
 {
 
@@ -192,18 +193,18 @@ image2D_ptr pre_traitement(FILE *filename)
                     printf("Valeur %d\n", val);
                     Erreur("Erreur lecture de la valeur");
                 }
-                pix = val >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1);
+                pix = val >> (NB_BITS_MAX - nb_bits) & ((1 << nb_bits) - 1); // On récupère les nb_bits de poids fort du pixel courant
                 switch (k)
                 {
                 case 0:
-                    im_retour->image[i][j] = pix << (2 * nb_bits);
+                    im_retour->image[i][j] = pix << (2 * nb_bits); // BITS de poids fort pour la couleur rouge tout à gauche
                     break;
                 case 1:
-                    im_retour->image[i][j] |= pix << nb_bits;
+                    im_retour->image[i][j] |= pix << nb_bits; // BITS de poids fort pour la couleur verte toute au milieu
                     break;
 
                 case 2:
-                    im_retour->image[i][j] |= pix;
+                    im_retour->image[i][j] |= pix; // BITS de poids fort pour la couleur bleu tout à droite
                     break;
 
                 default:
@@ -218,6 +219,7 @@ image2D_ptr pre_traitement(FILE *filename)
 
 image2D_ptr seuillage(const image2D_ptr img, CouleurNom couleur)
 {
+    // Possibilité d'enlever cette ligne et de modifier directement l'image pour diviser par 2 l'utilisation de mémoire au PFR2
     image2D_ptr im_retour = creer_image2D(img->lignes, img->colonnes);
     CouleurNom couleur_actuelle;
 
@@ -266,6 +268,8 @@ int compter_voisins(const image2D_ptr image, int x, int y)
     return voisins;
 }
 
+// Algorithme de parcourir en profondeur selon le 8 voisinage
+// Récupère
 void DFS_iteratif_8(image2D_ptr binaire,
                     image2D_ptr labels,
                     int start_i,
@@ -362,6 +366,7 @@ void calculer_boites_englobantes(image2D_ptr labels, image2D_ptr im_binaire, boi
             int lab = labels->image[i][j]; // 1..nbLabels
             if (lab > 0 && lab <= nbLabels)
             {
+                // Récupère les limites de l'objet courante
                 int idx = lab - 1;
                 if (i < boites[idx].lig_haut)
                     boites[idx].lig_haut = i;
@@ -387,7 +392,7 @@ void filtrage_boites(tab_boite_englobante *boites)
     for (int i = boites->taille - 1; i >= 0; i--)
     {
         boite_englobante b = boites->tabBoites[i];
-
+        // Si l'aire de la boite englobante est inférieure à 100, ce n'est pas un objet
         if (b.aire < 100)
         {
             boites->tabBoites[i] = boites->tabBoites[boites->taille - 1];
@@ -440,62 +445,84 @@ boite_englobante creer_boiteEnglobante(image2D_ptr image, int lig_haut, int lig_
 
     return bteEnglobante;
 }
-int calculer_pixels_noirs(boite_englobante bte) {
+
+/*Cette fonction vient calculer la distance entre les coins de l'image et le premier pixel blanc sur ce coin
+//Si l'objet est un carré, la distance sera très proche de 4*delta, delta étant une "marge" pour la boite englobante
+*/
+int calculer_pixels_noirs(boite_englobante bte)
+{
+
     int hauteur = bte.lig_bas - bte.lig_haut + 1;
     int largeur = bte.col_droite - bte.col_gauche + 1;
     int taille = (hauteur < largeur) ? hauteur : largeur;
-    int diag1,diag2,diag3,diag4;
-   
+    int diag1, diag2, diag3, diag4;
+
     diag1 = diag2 = diag3 = diag4 = 0;
 
-  
     int stop_diag1 = 0;
     int stop_diag2 = 0;
     int stop_diag3 = 0;
     int stop_diag4 = 0;
 
-    for (int i = 0; i < taille; i++) {
-        //Haut-gauche à bas-droit
-        if (!stop_diag1) {
+    for (int i = 0; i < taille; i++)
+    {
+        // Haut-gauche à bas-droit
+        if (!stop_diag1)
+        {
             int ligne1 = bte.lig_haut + i;
             int colonne1 = bte.col_gauche + i;
-            if (bte.image->image[ligne1][colonne1] == 0) {
+            if (bte.image->image[ligne1][colonne1] == 0)
+            {
                 (diag1)++;
-            } else {
-                stop_diag1 = 1; 
+            }
+            else
+            {
+                stop_diag1 = 1;
             }
         }
 
-        //Haut-droit à bas-gauche
-        if (!stop_diag2) {
+        // Haut-droit à bas-gauche
+        if (!stop_diag2)
+        {
             int ligne2 = bte.lig_haut + i;
             int colonne2 = bte.col_droite - i;
-            if (bte.image->image[ligne2][colonne2] == 0) {
+            if (bte.image->image[ligne2][colonne2] == 0)
+            {
                 (diag2)++;
-            } else {
+            }
+            else
+            {
                 stop_diag2 = 1;
             }
         }
 
-        //Bas-gauche à haut-droit
-        if (!stop_diag3) {
+        // Bas-gauche à haut-droit
+        if (!stop_diag3)
+        {
             int ligne3 = bte.lig_bas - i;
             int colonne3 = bte.col_gauche + i;
-            if (bte.image->image[ligne3][colonne3] == 0) {
+            if (bte.image->image[ligne3][colonne3] == 0)
+            {
                 (diag3)++;
-            } else {
+            }
+            else
+            {
                 stop_diag3 = 1;
             }
         }
 
-       //Bas-droit à haut-gauche
-        if (!stop_diag4) {
+        // Bas-droit à haut-gauche
+        if (!stop_diag4)
+        {
             int ligne4 = bte.lig_bas - i;
             int colonne4 = bte.col_droite - i;
-            if (bte.image->image[ligne4][colonne4] == 0) {
+            if (bte.image->image[ligne4][colonne4] == 0)
+            {
                 (diag4)++;
-            } else {
-                stop_diag4 = 1; 
+            }
+            else
+            {
+                stop_diag4 = 1;
             }
         }
     }
@@ -505,15 +532,14 @@ Objet reconnaissance_objet(boite_englobante bte)
 {
     int diag = calculer_pixels_noirs(bte);
     int delta = 12;
-    if (diag <= delta+6)
+    if (diag <= delta + 6)
     {
         return CARRE;
     }
-    else
+    else //Possibilité d'améliorer ça pour une évolutivité mais dans ce PFR1 seulement des balles rondes et carrés seront utilisées
     {
         return BALLE;
     }
-    
 }
 
 char *association_objet(Objet objet)
@@ -579,9 +605,8 @@ tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom 
 tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Objet objet)
 {
     write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
-    // Tableau de toutes les boites englobantes de la première image selon col bleu
     tab_boite_englobante tab_retour;
-    tab_retour.tabBoites = malloc(30 * sizeof(boite_englobante)); // max 10 objets
+    tab_retour.tabBoites = malloc(MAX_LABELS * sizeof(boite_englobante)); // max 30 objets
     tab_retour.taille = 0;
     if (tab_retour.tabBoites == NULL)
     {
@@ -678,20 +703,33 @@ void afficherImage(image2D_ptr im, FILE *fileout)
     }
 }
 
-void appel_traitement_image(char entree[],char sortie[])
+
+void appel_traitement_image_selon_couleur(char entree[], char sortie[],CouleurNom couleur)
 {
     initialisationLogfileTraitementImage();
     FILE *fichier_entree = fopen(entree, "r");
     FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
     image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
-    //tab_boite_englobante tab = traitement_images(image_pretraitee, COL_BLEU);
-    /*if (tab.taille > 0)
-        afficherImage(tab.tabBoites[0].image, fichier_sortie);*/
-    // On peut aussi traiter selon la forme :
-    tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
-    afficherImage(tab.tabBoites[0].image,fichier_sortie);
-    
-    
+    tab_boite_englobante tab = traitement_images(image_pretraitee,couleur);
+    if (tab.taille > 0)
+        afficherImage(tab.tabBoites[0].image, fichier_sortie);
+
+    free_tab_boites_englobantes(tab);
+    free_image2D(image_pretraitee);
+    fclose(fichier_entree);
+    fclose(fichier_sortie);
+    close_logfile();
+}
+
+void appel_traitement_image_selon_forme(char entree[], char sortie[],Objet objet)
+{
+    initialisationLogfileTraitementImage();
+    FILE *fichier_entree = fopen(entree, "r");
+    FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
+    image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
+    tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee, objet);
+    afficherImage(tab.tabBoites[0].image, fichier_sortie);
+
     free_tab_boites_englobantes(tab);
     free_image2D(image_pretraitee);
     fclose(fichier_entree);

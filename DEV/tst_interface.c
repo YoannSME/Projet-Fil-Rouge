@@ -8,7 +8,7 @@ int main() {
     
     char Langue[10];
     int currentInterfaceButitsAnInteger = 1;
-    char currentInterface[256];
+   // char currentInterface[256];
     
 
     if (init()){
@@ -18,8 +18,8 @@ int main() {
 
     if (find_in_config("Langue", Langue)) return 1;
     
-    snprintf(currentInterface, sizeof(currentInterface), "Interface/%.*s%s", (int)(strlen(Langue)), Langue, "/1"); // J'avoue c'est ChatGPT qui m'a fait cette ligne, j'y arriver pas (Du à \0 qui se trouvait à la fait de la chaine langue)
-
+    //snprintf(currentInterface, sizeof(currentInterface), "Interface/%.*s%s", (int)(strlen(Langue)), Langue, "/1"); // J'avoue c'est ChatGPT qui m'a fait cette ligne, j'y arriver pas (Du à \0 qui se trouvait à la fait de la chaine langue)
+     char currentInterface[256] = "Interface/FR/1";
     readInterface(currentInterface);
 
     for(;;)

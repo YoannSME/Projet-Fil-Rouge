@@ -219,7 +219,38 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
             temps_cpu;
         /* Temps total en secondes */
         temps_initial = clock();
-        appel_traitement_image(entree, sortie);
+        printf("Vous voulez traiter une image selon :\n1 - sa couleur\n2 - sa forme\n choix = " );
+        int choix;
+        do{
+            if(scanf("%d", &choix)!=1)Erreur("ERREUR");
+        }while(choix != 1 && choix != 2);
+        if(choix == 1){
+            printf("Quelle couleur ? \n1 - Bleu \n2 - Orange \n3 - Jaune\n choix = ");
+            if(scanf("%d", &choix)!=1)Erreur("ERREUR, choix invalide {BLEU-1,ORANGE-2,JAUNE-3}");
+            CouleurNom couleur;
+            if(choix ==1){
+                couleur = COL_BLEU;
+            }
+            if(choix ==2){
+                couleur = COL_ORANGE;
+            }
+            else{
+                couleur = COL_JAUNE;
+            }
+            appel_traitement_image_selon_couleur(entree, sortie, couleur);
+        }
+        else{
+            printf("Quelle forme ? :\n1 - BALLE\n2 - CARRE\n choix = ");
+            if(scanf("%d", &choix)!=1)Erreur("ERREUR, choix objet invalide {Balle-1 ,CARRE-2}");
+            Objet objet;
+            if(choix == 2){
+                objet = CARRE;
+            }
+            else{
+                objet = BALLE;
+            }
+            appel_traitement_image_selon_forme(entree,sortie,objet);
+        }
         temps_final = clock();
         temps_cpu = (temps_final - temps_initial) * 1e-5;
         printf("TEMPS CPU : %f\n", temps_cpu);
