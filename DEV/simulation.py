@@ -20,14 +20,16 @@ def process_file(filename):
         elif match := re.match(r"turn\((\d+)\)", line):
             value = int(match.group(1))
             turtle.right(value)
-
+            
+    file.close()
     # Supprime le fichier après traitement
     os.remove(filename)
-
 def main():
     """Boucle principale qui surveille les fichiers dans le répertoire courant."""
     turtle.speed(1)  # Réglage de la vitesse de la tortue
-    file = "commande/transcription.txt"
+    os.getcwd()
+    file = os.getcwd() 
+    file += "/commande/transcription.txt"
     while True:
         try:
             process_file(file)
