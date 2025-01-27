@@ -1,0 +1,14 @@
+{
+    "fr": {
+        "avance": "forward",
+        "recule": "backward",
+        "vas tout droit": "forward",
+        "vas en arrière": "backward"
+    },
+    "en": {
+        "forward": "forward",
+        "backward": "backward",
+        "go forward": "forward",
+        "go backward": "backward"
+    }
+}

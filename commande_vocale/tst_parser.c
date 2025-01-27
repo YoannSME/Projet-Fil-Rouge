@@ -1,38 +1,21 @@
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "parser.h"
 
 int main() {
-     execute_python_script();
-    // Charger les ressources lexicales depuis un fichier texte
-    Lexicon lexicon = load_lexicon("dictionnaire.txt");
-    if (!lexicon.loaded) {
-        fprintf(stderr, "Erreur : Le lexique n'a pas été chargé correctement.\n");
-        return 1;
-    }
+    printf("=== Programme de traitement de transcription ===\n");
 
-    // Lire une requête texte
-    char transcription[1256];
-    FILE *file = fopen("transcription.txt", "r");
-    if (file == NULL) {
-        printf("Erreur : Impossible d'ouvrir transcription.txt\n");
-        return 1;
-    }
-    if (fgets(transcription, sizeof(transcription), file) != NULL) {
-        printf("Transcription récupérée : %s\n", transcription);
+    // Étape 1 : Exécuter le script Python
+    printf("[INFO] Exécution du script Python pour récupérer la transcription...\n");
+    execute_python_script();
 
-        // Convertir la requête texte en commande
-        char command[256];
-        if (convert_request_to_command(transcription, lexicon, command)) {
-        printf("Commande générée : %s\n", command);
-        } else {
-          printf("Erreur : Requête non reconnue.\n");
-         }
-    }
-    // Libérer la mémoire utilisée par le lexique
-    free_lexicon(lexicon);
+    // Étape 2 : Choisir la langue
+    const char *language = "fr";  // Par défaut, on utilise le français
+    printf("[INFO] Langue sélectionnée : %s\n", language);
 
+    // Étape 3 : Traiter la transcription
+    printf("[INFO] Traitement de la transcription...\n");
+    process_transcription("transcription.txt", language);
+
+    printf("[INFO] Programme terminé.\n");
     return 0;
 }

@@ -4,7 +4,7 @@ def normaliser_transcription(transcription):
     # transformation de la chaine en tokens
     chaine_tokenisee = transcription.split()
     ...
-    print(chaine_tokenisee)
+    #print(chaine_tokenisee)
     ...
     return chaine_tokenisee
 def text_to_speech(text):
@@ -32,11 +32,13 @@ transcription = r.recognize_google(audio_data, language="fr-FR")
 #result = r.recognize_google(audio_data, language="en-EN")
 print ("Vous avez dit : ", transcription)
 #...
-message_reponse = "je vous ai compris !!"
-text_to_speech(message_reponse)
+#message_reponse = "je vous ai compris !!"
+#text_to_speech(message_reponse)
 
-normaliser_transcription(transcription)
+#tokens=normaliser_transcription(transcription)
 
 # Sauvegarder la transcription dans un fichier
 with open("transcription.txt", "w") as file:
     file.write(transcription)
+
+
