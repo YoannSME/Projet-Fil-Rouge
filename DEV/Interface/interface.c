@@ -166,6 +166,9 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         // printf("[INFO] Traitement de la transcription...\n");
         process_transcription("transcription.txt", langue);
         // printf("[INFO] Programme terminé.\n");
+
+        switchInterfaceBis(currentInterface, "0");
+        readInterface(currentInterface);
         break;
 
     case 1121:

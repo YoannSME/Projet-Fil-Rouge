@@ -2,27 +2,67 @@ Fichier initialisé
 
 =====Image pré-traitée=====
 
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====
+
 =====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
 
 =====Image seuillée=====
 
-=====Image étiquetée, 3 objets trouvés=====
+=====Image étiquetée, 1 objets trouvés=====
 
-=====Boites englobantes filtrées, 3 objets restants après filtrage=====
+=====Boites englobantes filtrées, 1 objets restants après filtrage=====
 
 =====Boites englobantes calculées=====
 
-=====Coordonnées de la boite englobante : CG = 0 0 - CD = 0 144 - BG = 145 0  - BD = 145 144  - aire = 21170
-
-=====Objet reconnu : BALLE
-
-=====Coordonnées de la boite englobante : CG = 183 0 - CD = 183 144 - BG = 330 0  - BD = 330 144  - aire = 21460
-
-=====Objet reconnu : BALLE
-
-=====Coordonnées de la boite englobante : CG = 363 0 - CD = 363 144 - BG = 508 0  - BD = 508 144  - aire = 21170
+=====Coordonnées de la boite englobante : CG = 107 261 - CD = 107 295 - BG = 140 261  - BD = 140 295  - aire = 1190
 
 =====Objet reconnu : BALLE
 
 =====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Coordonnées de la boite englobante : CG = 107 - CD = 261 - BG = 140 - BD = 295 - aire = 1190
+
+=====Objet reconnu : BALLE
+
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Image seuillée=====
+
+=====Image étiquetée, 1 objets trouvés=====
+
+=====Boites englobantes filtrées, 1 objets restants après filtrage=====
+
+=====Boites englobantes calculées=====
+
+=====Coordonnées de la boite englobante : CG = 96 8 - CD = 96 43 - BG = 127 8  - BD = 127 43  - aire = 1152
+
+=====Objet reconnu : BALLE
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Coordonnées de la boite englobante : CG = 107 - CD = 261 - BG = 140 - BD = 295 - aire = 1190
+
+=====Objet reconnu : BALLE
+
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Image seuillée=====
+
+=====Image étiquetée, 1 objets trouvés=====
+
+=====Boites englobantes filtrées, 1 objets restants après filtrage=====
+
+=====Boites englobantes calculées=====
+
+=====Coordonnées de la boite englobante : CG = 165 115 - CD = 165 201 - BG = 240 115  - BD = 240 201  - aire = 6612
+
+=====Objet reconnu : BALLE
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Coordonnées de la boite englobante : CG = 107 - CD = 261 - BG = 140 - BD = 295 - aire = 1190
+
+=====Objet reconnu : BALLE
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====
 

@@ -684,12 +684,12 @@ void appel_traitement_image(char entree[],char sortie[])
     FILE *fichier_entree = fopen(entree, "r");
     FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
     image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
-    tab_boite_englobante tab = traitement_images(image_pretraitee, COL_BLEU);
-    if (tab.taille > 0)
-        afficherImage(tab.tabBoites[0].image, fichier_sortie);
+    //tab_boite_englobante tab = traitement_images(image_pretraitee, COL_BLEU);
+    /*if (tab.taille > 0)
+        afficherImage(tab.tabBoites[0].image, fichier_sortie);*/
     // On peut aussi traiter selon la forme :
-    //tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
-    //afficherImage(tab.tabBoites[0].image,fichier_sortie);
+    tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee,BALLE);
+    afficherImage(tab.tabBoites[0].image,fichier_sortie);
     
     
     free_tab_boites_englobantes(tab);
