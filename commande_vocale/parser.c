@@ -52,25 +52,6 @@ int* extract_numbers(const char* chemin, int* size) {
     return numbers;
 }
 
-int getNb(const char * str) {
-    char somme[256]; // Utilisation d'une chaîne statique pour la persistance
-    int i = 0, j = 0;
-
-    // Initialisation de la chaîne somme
-    somme[0] = '\0';
-
-    // Parcours de la chaîne jusqu'au caractère nul
-    while (str[i] != '\0') {
-        // Vérifie si le caractère est un chiffre
-        if (isdigit(str[i])) {
-            somme[j++] = str[i]; // Ajout du chiffre à la chaîne
-        }
-        i++; // Incrémente l'indice
-    }
-    somme[j] = '\0'; // Ajout du caractère de fin de chaîne
-
-    return atoi(somme);
-}
 
 
 Lexicon load_lexicon(const char *filename, const char *language) {
