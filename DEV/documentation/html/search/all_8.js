@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['none_50',['NONE',['../group__Traitement.html#gga8bf47dcf19559906c0c1efcb14b8fa27ac157bdf0b85a40d2619cbc8bc1ae5fe2',1,'traitement_images.h']]]
+  ['make_5ffile_0',['make_file',['../group__Gestions.html#ga65989d391e62e97e89345df5be2929de',1,'make_file(const char *nomFichier):&#160;config.c'],['../group__Gestions.html#ga65989d391e62e97e89345df5be2929de',1,'make_file(const char *nomFichier):&#160;config.c']]]
 ];

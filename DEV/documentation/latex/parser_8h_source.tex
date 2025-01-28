@@ -1,0 +1,39 @@
+\doxysection{parser.\+h}
+\hypertarget{parser_8h_source}{}\label{parser_8h_source}\index{commande\_vocale/parser.h@{commande\_vocale/parser.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PARSER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PARSER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <ctype.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../Configuration/config.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}cJSON.h"{}}\ \textcolor{comment}{//\ Inclure\ la\ bibliothèque\ cJSON}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ Définition\ de\ la\ structure\ Lexicon}}
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{char}\ **keywords;\ \ \textcolor{comment}{//\ Tableau\ des\ mots-\/clés\ (en\ français\ ou\ en\ anglais)}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{char}\ **commands;\ \ \textcolor{comment}{//\ Tableau\ des\ commandes\ associées}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ count;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Nombre\ d'entrées\ dans\ le\ lexique}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{int}\ loaded;\ \ \ \ \ \ \ \textcolor{comment}{//\ Indique\ si\ le\ lexique\ est\ chargé\ (1\ pour\ oui,\ 0\ pour\ non)}}
+\DoxyCodeLine{00017\ \}\ \mbox{\hyperlink{structLexicon}{Lexicon}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \mbox{\hyperlink{structcJSON}{cJSON}}*\ load\_lexicon\_json(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \mbox{\hyperlink{structLexicon}{Lexicon}}\ load\_lexicon(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *language);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ convert\_request\_to\_command(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *request,\ \mbox{\hyperlink{structLexicon}{Lexicon}}\ lexicon,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *language,\ \textcolor{keywordtype}{char}\ *command);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{void}\ execute\_python\_script();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{void}\ process\_transcription(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *language);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PARSER\_H}}
+
+\end{DoxyCode}

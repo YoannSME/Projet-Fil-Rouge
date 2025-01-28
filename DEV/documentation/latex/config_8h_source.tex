@@ -1,0 +1,40 @@
+\doxysection{config.\+h}
+\hypertarget{config_8h_source}{}\label{config_8h_source}\index{Configuration/config.h@{Configuration/config.h}}
+\mbox{\hyperlink{config_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CONFIG\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CONFIG\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ PATH\_CONFIG\ "{}Configuration/config"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga05848de25ac2dbec233935058a1d24b4}{init}}();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga17b1f61313e3467c93ed23bcf29ae2b0}{updateLog}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *message);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga465f5441ca7fc78824e4e834b46a747f}{file\_exists}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_gac9ce29787c465ac4a4c4ce21399e57c8}{read\_config}}(\textcolor{keywordtype}{char}\ *nomFichier);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00056\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga6032d1c456fac17e5c27620cb5661225}{find\_in\_config}}(\textcolor{keywordtype}{char}\ *configtofind,\ \textcolor{keywordtype}{char}\ *exit);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__Gestions_ga0eb728aebe9d93030f005f8f54089f49}{remove\_last\_char}}(\textcolor{keywordtype}{char}\ *chaine);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00071\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga614c711ff336d3994a5ae7879723353d}{change\_config}}(\textcolor{keywordtype}{char}\ *configtochange,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *new\_val\_optional);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00078\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga65989d391e62e97e89345df5be2929de}{make\_file}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nomFichier);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00086\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga100e7cbd82e4ad49122104c627178099}{add\_row\_to\_file}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nomFichier,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ligne);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00094\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_gaf7bc9e7d290009d55dd08265d6ebdac5}{rename\_file}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ancienNom,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nouveauNom);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__Gestions_ga14bab8586740c62d87b37bbbd415ac8b}{remove\_file}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nomFichier);}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00103\ }
+ \textcolor{comment}{// Fin du groupe ModuleNom
+\end{DoxyCode}

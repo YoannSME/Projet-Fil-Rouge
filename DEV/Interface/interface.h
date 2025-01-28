@@ -1,6 +1,13 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+
+/** @defgroup Gestions des interfaces
+ *  @brief Les principales fonctionnalités incluent :
+ * - L'afichage et le changement d'interfaces
+ * - L'appel des diverses fonctionalité du PFR1
+ *  @{
+ */
 /**
  * @file interface.h
  * @brief Définitions et prototypes pour la gestion et le traitement des interfaces.
@@ -54,3 +61,5 @@ int switchInterfaceBis(char * currentInterface, char * nextInterface);
 void actionByInterface(int* currentInterfaceButitsAnInteger, char* currentInterface);
 
 #endif
+
+/** @} */ // Fin du groupe ModuleNom

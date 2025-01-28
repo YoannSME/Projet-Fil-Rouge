@@ -1,5 +1,5 @@
-\hypertarget{interface_8h}{}\doxysection{Interface/interface.h File Reference}
-\label{interface_8h}\index{Interface/interface.h@{Interface/interface.h}}
+\doxysection{Interface/interface.h File Reference}
+\hypertarget{interface_8h}{}\label{interface_8h}\index{Interface/interface.h@{Interface/interface.h}}
 
 
 Définitions et prototypes pour la gestion et le traitement des interfaces.  
@@ -7,130 +7,33 @@ Définitions et prototypes pour la gestion et le traitement des interfaces.
 
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}../\+Configuration/config.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}../\+Image/traitement\+\_\+images.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}../\+Couleur/analyse\+\_\+couleur.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}../commande\+\_\+vocale/parser.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}../\+Utils/utils.\+h\char`\"{}}\newline
-Include dependency graph for interface.\+h\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{interface_8h__incl}
-\end{center}
-\end{figure}
-\doxysubsection*{Macros}
+{\ttfamily \#include "{}../\+Configuration/config.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Image/traitement\+\_\+images.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Couleur/analyse\+\_\+couleur.\+h"{}}\newline
+{\ttfamily \#include "{}../commande\+\_\+vocale/parser.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Utils/utils.\+h"{}}\newline
+Include dependency graph for interface.\+h\+:
+% FIG 0
+\doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{interface_8h_ae598164bbaf989f046507b5f0b678ff3}\label{interface_8h_ae598164bbaf989f046507b5f0b678ff3}} 
-\#define {\bfseries PATH\+\_\+\+INTERFACE}~\char`\"{}Interface/\char`\"{}
+\#define {\bfseries PATH\+\_\+\+INTERFACE}~"{}Interface/"{}
 \end{DoxyCompactItemize}
-\doxysubsection*{Functions}
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \mbox{\hyperlink{interface_8h_a1f65a49d25f0528085509f055032483f}{read\+Interface}} (char $\ast$nom\+Fichier)
+int \mbox{\hyperlink{group__Gestions_ga1f65a49d25f0528085509f055032483f}{read\+Interface}} (char \texorpdfstring{$\ast$}{*}nom\+Fichier)
 \begin{DoxyCompactList}\small\item\em Affiche l\textquotesingle{}interface désiré. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{interface_8h_a383e9788c6db38dc8d047717bad8f08a}{convert\+\_\+interface\+\_\+to\+\_\+int}} (const char $\ast$str)
+int \mbox{\hyperlink{group__Gestions_ga383e9788c6db38dc8d047717bad8f08a}{convert\+\_\+interface\+\_\+to\+\_\+int}} (const char \texorpdfstring{$\ast$}{*}str)
 \begin{DoxyCompactList}\small\item\em récuprère le code de l\textquotesingle{}interface. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{interface_8h_a1d877d80934203b8c8305a1e8989e9f5}{switch\+Interface}} (char $\ast$current\+Interface)
+int \mbox{\hyperlink{group__Gestions_ga1d877d80934203b8c8305a1e8989e9f5}{switch\+Interface}} (char \texorpdfstring{$\ast$}{*}current\+Interface)
 \begin{DoxyCompactList}\small\item\em récuprère l\textquotesingle{}interface en cours afin de demander à l\textquotesingle{}utilisateur ce qu\textquotesingle{}il veut faire et change l\textquotesingle{}interface courrante en fonction du choix de l\textquotesingle{}utilisateur. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{interface_8h_a6f2fd531518404fc048079468c4881ad}{switch\+Interface\+Bis}} (char $\ast$current\+Interface, char $\ast$next\+Interface)
+int \mbox{\hyperlink{group__Gestions_ga6f2fd531518404fc048079468c4881ad}{switch\+Interface\+Bis}} (char \texorpdfstring{$\ast$}{*}current\+Interface, char \texorpdfstring{$\ast$}{*}next\+Interface)
 \begin{DoxyCompactList}\small\item\em récuprère l\textquotesingle{}interface en cours et change l\textquotesingle{}interface courrante en fonction du deuxième param. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{interface_8h_abfbab803105041d133a2dd77cdba5b20}{action\+By\+Interface}} (int $\ast$current\+Interface\+Butits\+An\+Integer, char $\ast$current\+Interface)
+void \mbox{\hyperlink{group__Gestions_gabfbab803105041d133a2dd77cdba5b20}{action\+By\+Interface}} (int \texorpdfstring{$\ast$}{*}current\+Interface\+Butits\+An\+Integer, char \texorpdfstring{$\ast$}{*}current\+Interface)
 \begin{DoxyCompactList}\small\item\em récuprère l\textquotesingle{}interface en cours et execute divers code nécéssaire dans cette interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Définitions et prototypes pour la gestion et le traitement des interfaces. 
 
-
-
-\doxysubsection{Function Documentation}
-\mbox{\Hypertarget{interface_8h_abfbab803105041d133a2dd77cdba5b20}\label{interface_8h_abfbab803105041d133a2dd77cdba5b20}} 
-\index{interface.h@{interface.h}!actionByInterface@{actionByInterface}}
-\index{actionByInterface@{actionByInterface}!interface.h@{interface.h}}
-\doxysubsubsection{\texorpdfstring{actionByInterface()}{actionByInterface()}}
-{\footnotesize\ttfamily void action\+By\+Interface (\begin{DoxyParamCaption}\item[{int $\ast$}]{current\+Interface\+Butits\+An\+Integer,  }\item[{char $\ast$}]{current\+Interface }\end{DoxyParamCaption})}
-
-
-
-récuprère l\textquotesingle{}interface en cours et execute divers code nécéssaire dans cette interface. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em current\+Interface\+Butits\+An\+Integer} & le code de l\textquotesingle{}interface en cours sous forme d\textquotesingle{}entier. \\
-\hline
-{\em current\+Interface} & l\textquotesingle{}interface en cours sous forme de tableau de char. \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{interface_8h_a383e9788c6db38dc8d047717bad8f08a}\label{interface_8h_a383e9788c6db38dc8d047717bad8f08a}} 
-\index{interface.h@{interface.h}!convert\_interface\_to\_int@{convert\_interface\_to\_int}}
-\index{convert\_interface\_to\_int@{convert\_interface\_to\_int}!interface.h@{interface.h}}
-\doxysubsubsection{\texorpdfstring{convert\_interface\_to\_int()}{convert\_interface\_to\_int()}}
-{\footnotesize\ttfamily int convert\+\_\+interface\+\_\+to\+\_\+int (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
-
-
-
-récuprère le code de l\textquotesingle{}interface. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em str} & l\textquotesingle{}interface sous forme de tableau de char. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-un entier \+: . 
-\end{DoxyReturn}
-\mbox{\Hypertarget{interface_8h_a1f65a49d25f0528085509f055032483f}\label{interface_8h_a1f65a49d25f0528085509f055032483f}} 
-\index{interface.h@{interface.h}!readInterface@{readInterface}}
-\index{readInterface@{readInterface}!interface.h@{interface.h}}
-\doxysubsubsection{\texorpdfstring{readInterface()}{readInterface()}}
-{\footnotesize\ttfamily int read\+Interface (\begin{DoxyParamCaption}\item[{char $\ast$}]{nom\+Fichier }\end{DoxyParamCaption})}
-
-
-
-Affiche l\textquotesingle{}interface désiré. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em nom\+Fichier} & chemin vers l\textquotesingle{}interface à afficher. \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{interface_8h_a1d877d80934203b8c8305a1e8989e9f5}\label{interface_8h_a1d877d80934203b8c8305a1e8989e9f5}} 
-\index{interface.h@{interface.h}!switchInterface@{switchInterface}}
-\index{switchInterface@{switchInterface}!interface.h@{interface.h}}
-\doxysubsubsection{\texorpdfstring{switchInterface()}{switchInterface()}}
-{\footnotesize\ttfamily int switch\+Interface (\begin{DoxyParamCaption}\item[{char $\ast$}]{current\+Interface }\end{DoxyParamCaption})}
-
-
-
-récuprère l\textquotesingle{}interface en cours afin de demander à l\textquotesingle{}utilisateur ce qu\textquotesingle{}il veut faire et change l\textquotesingle{}interface courrante en fonction du choix de l\textquotesingle{}utilisateur. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em current\+Interface} & l\textquotesingle{}interface en cours sous forme de tableau de char. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-un entier \+: (code d\textquotesingle{}erreur) 
-\end{DoxyReturn}
-\mbox{\Hypertarget{interface_8h_a6f2fd531518404fc048079468c4881ad}\label{interface_8h_a6f2fd531518404fc048079468c4881ad}} 
-\index{interface.h@{interface.h}!switchInterfaceBis@{switchInterfaceBis}}
-\index{switchInterfaceBis@{switchInterfaceBis}!interface.h@{interface.h}}
-\doxysubsubsection{\texorpdfstring{switchInterfaceBis()}{switchInterfaceBis()}}
-{\footnotesize\ttfamily int switch\+Interface\+Bis (\begin{DoxyParamCaption}\item[{char $\ast$}]{current\+Interface,  }\item[{char $\ast$}]{next\+Interface }\end{DoxyParamCaption})}
-
-
-
-récuprère l\textquotesingle{}interface en cours et change l\textquotesingle{}interface courrante en fonction du deuxième param. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em current\+Interface} & l\textquotesingle{}interface en cours sous forme de tableau de char. \\
-\hline
-{\em next\+Interface} & simule un choix utilisateur. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-un entier \+: (code d\textquotesingle{}erreur) 
-\end{DoxyReturn}

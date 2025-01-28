@@ -1,9 +1,16 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
+/** @defgroup Gestions de la configuration et des logs
+ *  @brief Les principales fonctionnalités incluent :
+ * - La gestions des logs
+ * - La gestions des différentes configuration
+ *  @{
+ */
 /**
- * @file interface.h
- * @brief Définitions et prototypes pour la gestion et le traitement des interfaces.
+ * @file config.h
+ * @brief Définitions et prototypes pour la gestion et le traitement des configurations.
  */
 
 #include <stdlib.h>
@@ -93,3 +100,5 @@ int rename_file(const char *ancienNom, const char *nouveauNom);
  */
 int remove_file(const char *nomFichier);
 #endif
+
+/** @} */ // Fin du groupe ModuleNom

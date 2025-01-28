@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quantification_110',['quantification',['../analyse__couleur_8h.html#aad63cc89f398ec91832d0a137474c9d4',1,'analyse_couleur.c']]]
+  ['pre_5ftraitement_0',['pre_traitement',['../group__Traitement.html#gadeb6fbba2b2ce57849af98c20aa1c53b',1,'pre_traitement(FILE *filename):&#160;traitement_images.c'],['../group__Traitement.html#gadeb6fbba2b2ce57849af98c20aa1c53b',1,'pre_traitement(FILE *filename):&#160;traitement_images.c']]]
 ];
