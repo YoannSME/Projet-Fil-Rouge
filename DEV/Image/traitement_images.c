@@ -668,10 +668,7 @@ void free_image2D(image2D_ptr im)
     free(im->image);
     free(im);
 }
-void free_histogramme(histogramme hist)
-{
-    free(hist.tab);
-}
+
 void free_tab_boites_englobantes(tab_boite_englobante tab)
 {
     if (tab.tabBoites != NULL)

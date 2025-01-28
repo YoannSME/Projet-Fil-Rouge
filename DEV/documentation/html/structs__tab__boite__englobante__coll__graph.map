@@ -1,5 +1,0 @@
-<map id="s_tab_boite_englobante" name="s_tab_boite_englobante">
-<area shape="rect" id="node1" title="Structure représentant un tableau de boîtes englobantes." alt="" coords="5,184,183,211"/>
-<area shape="rect" id="node2" href="$structboite__englobante.html" title="Structure représentant une boîte englobante pour un objet détecté." alt="" coords="27,95,161,121"/>
-<area shape="rect" id="node3" href="$structs__image2D.html" title="Structure représentant une image 2D." alt="" coords="47,5,141,32"/>
-</map>
