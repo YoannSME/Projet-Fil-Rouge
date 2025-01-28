@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "interface.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "analyse_couleur.h": "c"
     }
 }
