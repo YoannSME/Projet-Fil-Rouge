@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['parse_5fbuffer_52',['parse_buffer',['../structparse__buffer.html',1,'']]],
-  ['pre_5ftraitement_53',['pre_traitement',['../group__ModuleNom.html#gadeb6fbba2b2ce57849af98c20aa1c53b',1,'pre_traitement(FILE *filename):&#160;traitement_images.c'],['../group__ModuleNom.html#gadeb6fbba2b2ce57849af98c20aa1c53b',1,'pre_traitement(FILE *filename):&#160;traitement_images.c']]],
-  ['printbuffer_54',['printbuffer',['../structprintbuffer.html',1,'']]]
+  ['objet_51',['objet',['../structboite__englobante.html#a05654161d74256eab6bb3428c4ebb30b',1,'boite_englobante']]],
+  ['objet_52',['Objet',['../group__Traitement.html#ga8bf47dcf19559906c0c1efcb14b8fa27',1,'traitement_images.h']]]
 ];

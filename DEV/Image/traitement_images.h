@@ -1,18 +1,16 @@
 #ifndef TRAITEMENT_IMAGES_H
 #define TRAITEMENT_IMAGES_H
 
-/** @defgroup ModuleNom Titre du Module
- *  @brief Description générale du module.
+/** @defgroup Traitement des images
+ *  @brief Les principales fonctionnalités incluent :
+ * - La quantification et le seuillage d'images
+ * - La détection et l'étiquetage d'objets dans des images binaires.
+ *  - La création et manipulation de boîtes englobantes pour les objets détectés.
  *  @{
  */
 /**
  * @file traitement_images.h
  * @brief Définitions et prototypes pour la gestion et le traitement des images RGB.
- *
- * Les principales fonctionnalités incluent :
- * - La quantification et le seuillage d'images.
- * - La détection et l'étiquetage d'objets dans des images binaires.
- * - La création et manipulation de boîtes englobantes pour les objets détectés.
  */
 
 

@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['labelliserimage_5f8voisinage_42',['labelliserImage_8voisinage',['../group__ModuleNom.html#ga0dd97c7f3b346e62b0c6d4a7310bc007',1,'labelliserImage_8voisinage(image2D_ptr binaire, image2D_ptr labels):&#160;traitement_images.c'],['../group__ModuleNom.html#ga0dd97c7f3b346e62b0c6d4a7310bc007',1,'labelliserImage_8voisinage(image2D_ptr binaire, image2D_ptr labels):&#160;traitement_images.c']]],
-  ['lexicon_43',['Lexicon',['../structLexicon.html',1,'']]],
-  ['lig_5fbas_44',['lig_bas',['../structboite__englobante.html#a52e76c674d0b57029a2a0917d7260397',1,'boite_englobante']]],
-  ['lig_5fhaut_45',['lig_haut',['../structboite__englobante.html#a1357c607f34f62e1353b39803669bc06',1,'boite_englobante']]],
-  ['lignes_46',['lignes',['../structs__image3D.html#a3d120545605ba3d1a7ebb8b40a860a52',1,'s_image3D::lignes()'],['../structs__image2D.html#a639464b8e030a9c2540df69a2ea4e3ef',1,'s_image2D::lignes()']]],
-  ['lire_5fimage2d_47',['lire_image2D',['../group__ModuleNom.html#gae213d15737839fce3fa1edc162f150fd',1,'lire_image2D(FILE *filename):&#160;traitement_images.c'],['../group__ModuleNom.html#gae213d15737839fce3fa1edc162f150fd',1,'lire_image2D(FILE *filename):&#160;traitement_images.c']]],
-  ['lire_5fimage3d_48',['lire_image3D',['../group__ModuleNom.html#ga39b54c37179677339a6af15f2e9ed73e',1,'lire_image3D(FILE *filename, image3D_ptr im):&#160;traitement_images.c'],['../group__ModuleNom.html#ga39b54c37179677339a6af15f2e9ed73e',1,'lire_image3D(FILE *file, image3D_ptr image):&#160;traitement_images.c']]]
+  ['image_38',['image',['../structs__image3D.html#a08badab40bc632b3653ec2335169dc25',1,'s_image3D::image()'],['../structs__image2D.html#a1322ba024afe387b66f45483c659843e',1,'s_image2D::image()'],['../structboite__englobante.html#a2271af4f6c064614d1977c221a783e7c',1,'boite_englobante::image()']]],
+  ['initialisationlogfiletraitementimage_39',['initialisationLogfileTraitementImage',['../group__Traitement.html#gace06c3b472229d1797300511e22e94c7',1,'initialisationLogfileTraitementImage():&#160;traitement_images.c'],['../group__Traitement.html#gace06c3b472229d1797300511e22e94c7',1,'initialisationLogfileTraitementImage():&#160;traitement_images.c']]],
+  ['initialiser_5fimage_40',['initialiser_image',['../group__Traitement.html#ga3ad9ca056f9c8d07320433f0e3d41f3f',1,'initialiser_image(image2D_ptr image, int valeur):&#160;traitement_images.c'],['../group__Traitement.html#ga3ad9ca056f9c8d07320433f0e3d41f3f',1,'initialiser_image(image2D_ptr image, int valeur):&#160;traitement_images.c']]],
+  ['interface_2eh_41',['interface.h',['../interface_8h.html',1,'']]],
+  ['internal_5fhooks_42',['internal_hooks',['../structinternal__hooks.html',1,'']]]
 ];

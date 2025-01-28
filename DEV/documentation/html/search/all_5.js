@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['image_37',['image',['../structs__image3D.html#a08badab40bc632b3653ec2335169dc25',1,'s_image3D::image()'],['../structs__image2D.html#a1322ba024afe387b66f45483c659843e',1,'s_image2D::image()'],['../structboite__englobante.html#a2271af4f6c064614d1977c221a783e7c',1,'boite_englobante::image()']]],
-  ['initialisationlogfiletraitementimage_38',['initialisationLogfileTraitementImage',['../group__ModuleNom.html#gace06c3b472229d1797300511e22e94c7',1,'initialisationLogfileTraitementImage():&#160;traitement_images.c'],['../group__ModuleNom.html#gace06c3b472229d1797300511e22e94c7',1,'initialisationLogfileTraitementImage():&#160;traitement_images.c']]],
-  ['initialiser_5fimage_39',['initialiser_image',['../group__ModuleNom.html#ga3ad9ca056f9c8d07320433f0e3d41f3f',1,'initialiser_image(image2D_ptr image, int valeur):&#160;traitement_images.c'],['../group__ModuleNom.html#ga3ad9ca056f9c8d07320433f0e3d41f3f',1,'initialiser_image(image2D_ptr image, int valeur):&#160;traitement_images.c']]],
-  ['interface_2eh_40',['interface.h',['../interface_8h.html',1,'']]],
-  ['internal_5fhooks_41',['internal_hooks',['../structinternal__hooks.html',1,'']]]
+  ['free_5fboite_5fenglobante_34',['free_boite_englobante',['../group__Traitement.html#ga3081c5e417cb0b74745cfc73f204acb1',1,'free_boite_englobante(boite_englobante boite):&#160;traitement_images.c'],['../group__Traitement.html#ga3081c5e417cb0b74745cfc73f204acb1',1,'free_boite_englobante(boite_englobante boite):&#160;traitement_images.c']]],
+  ['free_5fimage2d_35',['free_image2D',['../group__Traitement.html#gab374ac15d0fc268db95e213d3146e69d',1,'free_image2D(image2D_ptr im):&#160;traitement_images.c'],['../group__Traitement.html#gab374ac15d0fc268db95e213d3146e69d',1,'free_image2D(image2D_ptr im):&#160;traitement_images.c']]],
+  ['free_5fimage3d_36',['free_image3D',['../group__Traitement.html#ga43aa35298694ea5aed38f2844036f5ab',1,'free_image3D(image3D_ptr im):&#160;traitement_images.c'],['../group__Traitement.html#ga43aa35298694ea5aed38f2844036f5ab',1,'free_image3D(image3D_ptr im):&#160;traitement_images.c']]],
+  ['free_5ftab_5fboites_5fenglobantes_37',['free_tab_boites_englobantes',['../group__Traitement.html#gac1efab1684ad402ae1c7f629cbb0b3e1',1,'free_tab_boites_englobantes(tab_boite_englobante tab):&#160;traitement_images.c'],['../group__Traitement.html#gac1efab1684ad402ae1c7f629cbb0b3e1',1,'free_tab_boites_englobantes(tab_boite_englobante tab):&#160;traitement_images.c']]]
 ];
