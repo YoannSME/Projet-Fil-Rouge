@@ -1,20 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -O2
 
-all: exec/main.out exec/tst_interface.out
-
-test: test.out
-
-test.out: fichier_test.c 
-	$(CC) $(CFLAGS) fichier_test.c -o test.out 
-
-exec/main.out: bin/traitement_images.o bin/main.o bin/analyse_couleur.o bin/utils.o
-	@mkdir -p exec
-	$(CC) $(CFLAGS) -o exec/main.out bin/traitement_images.o bin/utils.o bin/main.o bin/analyse_couleur.o -lm
-
-bin/main.o: main.c Image/traitement_images.h Couleur/analyse_couleur.h  Utils/utils.h
-	@mkdir -p bin
-	$(CC) $(CFLAGS) -c main.c -o bin/main.o
+all: exec/tst_interface.out
 	
 exec/tst_interface.out: bin/tst_interface.o bin/interface.o bin/config.o bin/traitement_images.o bin/analyse_couleur.o bin/utils.o bin/parser.o bin/cJSON.o
 	@mkdir -p exec
