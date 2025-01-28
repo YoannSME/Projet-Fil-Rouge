@@ -1,10 +1,20 @@
 #ifndef TRAITEMENT_IMAGES_H
 #define TRAITEMENT_IMAGES_H
 
+/** @defgroup ModuleNom Titre du Module
+ *  @brief Description générale du module.
+ *  @{
+ */
 /**
  * @file traitement_images.h
- * @brief Définitions et prototypes pour la gestion et le traitement des images et des.
+ * @brief Définitions et prototypes pour la gestion et le traitement des images RGB.
+ *
+ * Les principales fonctionnalités incluent :
+ * - La quantification et le seuillage d'images.
+ * - La détection et l'étiquetage d'objets dans des images binaires.
+ * - La création et manipulation de boîtes englobantes pour les objets détectés.
  */
+
 
 #define NB_BITS_MAX 8
 
@@ -45,15 +55,6 @@ typedef struct s_image2D
     int colonnes; /**< Nombre de colonnes dans l'image. */
 } image2D, *image2D_ptr;
 
-/**
- * @struct histogramme
- * @brief Structure représentant un histogramme.
- */
-typedef struct
-{
-    int taille; /**< Taille de l'histogramme. */
-    int *tab;   /**< Tableau contenant les données de l'histogramme. */
-} histogramme;
 
 /**
  * @struct boite_englobante
@@ -89,9 +90,16 @@ typedef struct s_tab_boite_englobante
 void etablir_nbBits(int8b nb);
 
 /**
- * @brief Lit une image 3D depuis un fichier.
- * @param file Pointeur vers le fichier d'entrée.
- * @param image Pointeur vers l'image 3D à remplir.
+ * @brief Lit une image 3D depuis un fichier binaire.
+ * 
+ * Cette fonction lit les données d'une image 3D depuis un fichier binaire
+ * et les stocke dans une structure d'image 3D. Le fichier doit être
+ * préformaté avec des dimensions connues et des données en format brut.
+ *
+ * @param file Pointeur vers le fichier d'entrée ouvert en mode binaire.
+ * @param image Pointeur vers l'image 3D préalablement allouée avec creer_image3D().
+
+
  */
 void lire_image3D(FILE *file, image3D_ptr image);
 
@@ -216,11 +224,6 @@ void free_image3D(image3D_ptr im);
  */
 void free_image2D(image2D_ptr im);
 
-/**
- * @brief Libère la mémoire allouée pour un histogramme.
- * @param hist Histogramme à libérer.
- */
-void free_histogramme(histogramme hist);
 
 /**
  * @brief Libère la mémoire allouée pour un tableau de boîtes englobantes.
@@ -273,3 +276,5 @@ void appel_traitement_image_selon_couleur(char entree[], char sortie[],CouleurNo
 void appel_traitement_image_selon_forme(char entree[], char sortie[],Objet objet);
 
 #endif
+
+/** @} */ // Fin du groupe ModuleNom

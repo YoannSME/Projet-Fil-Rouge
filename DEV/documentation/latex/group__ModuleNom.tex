@@ -1,0 +1,582 @@
+\hypertarget{group__ModuleNom}{}\doxysection{Titre du Module}
+\label{group__ModuleNom}\index{Titre du Module@{Titre du Module}}
+
+
+Description générale du module.  
+
+
+\doxysubsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \mbox{\hyperlink{traitement__images_8h}{traitement\+\_\+images.\+h}}
+\begin{DoxyCompactList}\small\item\em Définitions et prototypes pour la gestion et le traitement des images RGB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__image3D}{s\+\_\+image3D}}
+\begin{DoxyCompactList}\small\item\em Structure représentant une image 3D. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structs__image2D}{s\+\_\+image2D}}
+\begin{DoxyCompactList}\small\item\em Structure représentant une image 2D. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}}
+\begin{DoxyCompactList}\small\item\em Structure représentant une boîte englobante pour un objet détecté. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structs__tab__boite__englobante}{s\+\_\+tab\+\_\+boite\+\_\+englobante}}
+\begin{DoxyCompactList}\small\item\em Structure représentant un tableau de boîtes englobantes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__ModuleNom_gaec2bebaf5f9a433b4cfa9e8b3cad8c48}\label{group__ModuleNom_gaec2bebaf5f9a433b4cfa9e8b3cad8c48}} 
+\#define {\bfseries NB\+\_\+\+BITS\+\_\+\+MAX}~8
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__ModuleNom_gaf965161ec1e68545f5b89b193d4d8208}\label{group__ModuleNom_gaf965161ec1e68545f5b89b193d4d8208}} 
+typedef struct \mbox{\hyperlink{structs__image3D}{s\+\_\+image3D}} {\bfseries image3D}
+\item 
+\mbox{\Hypertarget{group__ModuleNom_ga6755cbd911dc095c20df19bb794f3d47}\label{group__ModuleNom_ga6755cbd911dc095c20df19bb794f3d47}} 
+typedef struct \mbox{\hyperlink{structs__image3D}{s\+\_\+image3D}} $\ast$ {\bfseries image3\+D\+\_\+ptr}
+\item 
+\mbox{\Hypertarget{group__ModuleNom_ga640fcf73810eacfde1688ad4deac48f4}\label{group__ModuleNom_ga640fcf73810eacfde1688ad4deac48f4}} 
+typedef struct \mbox{\hyperlink{structs__image2D}{s\+\_\+image2D}} {\bfseries image2D}
+\item 
+\mbox{\Hypertarget{group__ModuleNom_gaa886e1e62dce010bb81acb36cad156ae}\label{group__ModuleNom_gaa886e1e62dce010bb81acb36cad156ae}} 
+typedef struct \mbox{\hyperlink{structs__image2D}{s\+\_\+image2D}} $\ast$ {\bfseries image2\+D\+\_\+ptr}
+\item 
+\mbox{\Hypertarget{group__ModuleNom_gaac3b3eb4f38c500ab2512fc443054ef2}\label{group__ModuleNom_gaac3b3eb4f38c500ab2512fc443054ef2}} 
+typedef struct \mbox{\hyperlink{structs__tab__boite__englobante}{s\+\_\+tab\+\_\+boite\+\_\+englobante}} {\bfseries tab\+\_\+boite\+\_\+englobante}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}} \{ \mbox{\hyperlink{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27ac69f333da03fc7dbc59f3a7e72aac0d6}{CARRE}}
+, \mbox{\hyperlink{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27acfb9ec65a1284f7d57b2200a591e7cab}{BALLE}}
+, \mbox{\hyperlink{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27ac157bdf0b85a40d2619cbc8bc1ae5fe2}{NONE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Types d\textquotesingle{}objets détectables dans une image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group__ModuleNom_ga1cae2c3712335ba905e5044f702d6dff}{etablir\+\_\+nb\+Bits}} (int8b nb)
+\begin{DoxyCompactList}\small\item\em Définit le nombre de bits pour la quantification. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga39b54c37179677339a6af15f2e9ed73e}{lire\+\_\+image3D}} (FILE $\ast$file, \mbox{\hyperlink{structs__image3D}{image3\+D\+\_\+ptr}} image)
+\begin{DoxyCompactList}\small\item\em Lit une image 3D depuis un fichier binaire. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image3D}{image3\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_ga2d86fe23cd0862f5783df3c3ee19b90a}{creer\+\_\+image3D}} (int lignes, int colonnes)
+\begin{DoxyCompactList}\small\item\em Alloue de la mémoire pour une image 3D. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_gaad858a0322f5f32da12eead2cca9d65e}{creer\+\_\+image2D}} (int lignes, int colonnes)
+\begin{DoxyCompactList}\small\item\em Alloure de la mémoire pour une image 2D. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_gaee5df176169692e671d8550aa73796cf}{copier\+\_\+image}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image\+\_\+origine)
+\begin{DoxyCompactList}\small\item\em Copie une image 2D. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga3ad9ca056f9c8d07320433f0e3d41f3f}{initialiser\+\_\+image}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image, int valeur)
+\begin{DoxyCompactList}\small\item\em Initialise une image avec une valeur donnée. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_gae213d15737839fce3fa1edc162f150fd}{lire\+\_\+image2D}} (FILE $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Lit une image 2D depuis un fichier. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_ga26f0910402fd7267d8468da1580af9ea}{additionner\+\_\+deux\+\_\+images}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image1, \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image2)
+\begin{DoxyCompactList}\small\item\em Additionne deux images 2D pixel par pixel. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_gadeb6fbba2b2ce57849af98c20aa1c53b}{pre\+\_\+traitement}} (FILE $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Effectue une quantification sur nb\+\_\+bits sur une image RGB. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} \mbox{\hyperlink{group__ModuleNom_ga7fb2bf67300eef30a511f604bf20281b}{seuillage}} (const \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} img, \mbox{\hyperlink{analyse__couleur_8h_ac411d4a5ef6b9d2056a8cc2f6668851f}{Couleur\+Nom}} couleur)
+\begin{DoxyCompactList}\small\item\em Applique un seuillage à une image en fonction d\textquotesingle{}une couleur. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{group__ModuleNom_ga0dd97c7f3b346e62b0c6d4a7310bc007}{labelliser\+Image\+\_\+8voisinage}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} binaire, \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} labels)
+\begin{DoxyCompactList}\small\item\em Etiquette les pixels d\textquotesingle{}une image binaire en utilisant le 8-\/voisinage. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}} \mbox{\hyperlink{group__ModuleNom_gae3e4446811e03fe077e1f3502834b008}{reconnaissance\+\_\+objet}} (\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} bte)
+\begin{DoxyCompactList}\small\item\em Reconnaît l\textquotesingle{}objet représenté par une boîte englobante. \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{group__ModuleNom_ga7ef5bdbe16191c8c3f65f7b592daa4e2}{association\+\_\+objet}} (\mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}} objet)
+\begin{DoxyCompactList}\small\item\em Associe un type d\textquotesingle{}objet à une chaîne de caractères descriptive. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga45a97967dedf7e7fe0ecc3fbdc5ff3e5}{calculer\+\_\+boites\+\_\+englobantes}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} labels, \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image, \mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} $\ast$boites, int nb\+Labels)
+\begin{DoxyCompactList}\small\item\em Calcule les boîtes englobantes des différents objets présents dans l\textquotesingle{}image à partir d\textquotesingle{}une image étiquetée (labellisée). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} \mbox{\hyperlink{group__ModuleNom_ga999b07aea59de9e4e5c791ebb6b1298d}{creer\+\_\+boite\+Englobante}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image, int lig\+\_\+haut, int lig\+\_\+bas, int col\+\_\+gauche, int col\+\_\+droite)
+\begin{DoxyCompactList}\small\item\em Crée une boîte englobante pour un objet, cette fonction vient aussi calculer l\textquotesingle{}aire de la boite englobante et le centre de l\textquotesingle{}objet. l\textquotesingle{}aire pourra être utilisée plus tard pour estimer une distance entre le robot et l\textquotesingle{}objet. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga0b244f9427e1cd467bee8a070c31521e}{entourer\+\_\+objet}} (\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} b)
+\begin{DoxyCompactList}\small\item\em Entoure un objet détecté par une boîte englobante dans une image, le pointeur vers l\textquotesingle{}image est stockée dans un paramètre de la boite englobante. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga43aa35298694ea5aed38f2844036f5ab}{free\+\_\+image3D}} (\mbox{\hyperlink{structs__image3D}{image3\+D\+\_\+ptr}} im)
+\begin{DoxyCompactList}\small\item\em Libère la mémoire allouée pour une image 3D. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_gab374ac15d0fc268db95e213d3146e69d}{free\+\_\+image2D}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} im)
+\begin{DoxyCompactList}\small\item\em Libère la mémoire allouée pour une image 2D. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_gac1efab1684ad402ae1c7f629cbb0b3e1}{free\+\_\+tab\+\_\+boites\+\_\+englobantes}} (\mbox{\hyperlink{structs__tab__boite__englobante}{tab\+\_\+boite\+\_\+englobante}} tab)
+\begin{DoxyCompactList}\small\item\em Libère la mémoire allouée pour un tableau de boîtes englobantes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga118bba343c83a45ff3d042addf80e97d}{afficher\+Image}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} im, FILE $\ast$fileout)
+\begin{DoxyCompactList}\small\item\em Affiche une image 2D dans un fichier de sortie. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga3081c5e417cb0b74745cfc73f204acb1}{free\+\_\+boite\+\_\+englobante}} (\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} boite)
+\begin{DoxyCompactList}\small\item\em Libère la mémoire allouée pour une boîte englobante. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__tab__boite__englobante}{tab\+\_\+boite\+\_\+englobante}} \mbox{\hyperlink{group__ModuleNom_ga5f6fe88f9bfa72355aadbcfb6d629764}{traitement\+\_\+images}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image\+\_\+pretraitee, \mbox{\hyperlink{analyse__couleur_8h_ac411d4a5ef6b9d2056a8cc2f6668851f}{Couleur\+Nom}} couleur)
+\begin{DoxyCompactList}\small\item\em Effectue le traitement complet d\textquotesingle{}une image prétraitée. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structs__tab__boite__englobante}{tab\+\_\+boite\+\_\+englobante}} \mbox{\hyperlink{group__ModuleNom_ga3efdcf5a255f122b7bc31165dd72ab36}{traiter\+\_\+image\+\_\+selon\+\_\+forme}} (\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} image\+\_\+pretraitee, \mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}} objet)
+\begin{DoxyCompactList}\small\item\em Traite une image pour détecter des objets d\textquotesingle{}une certaine forme. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__ModuleNom_gace06c3b472229d1797300511e22e94c7}\label{group__ModuleNom_gace06c3b472229d1797300511e22e94c7}} 
+void \mbox{\hyperlink{group__ModuleNom_gace06c3b472229d1797300511e22e94c7}{initialisation\+Logfile\+Traitement\+Image}} ()
+\begin{DoxyCompactList}\small\item\em Initialise le fichier log pour le traitement d\textquotesingle{}images. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__ModuleNom_ga357624c74fe605e1067180d59683836c}{appel\+\_\+traitement\+\_\+image\+\_\+selon\+\_\+couleur}} (char entree\mbox{[}$\,$\mbox{]}, char sortie\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{analyse__couleur_8h_ac411d4a5ef6b9d2056a8cc2f6668851f}{Couleur\+Nom}} couleur)
+\begin{DoxyCompactList}\small\item\em Lance le traitement d\textquotesingle{}une image selon sa couleur à partir d\textquotesingle{}un fichier d\textquotesingle{}entrée et écrit le résultat dans un fichier de sortie. Surtout utilisé pour la démonstration du PFR1. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__ModuleNom_ga60cdacc5171c841afe0a1e6c8e2f1a4d}\label{group__ModuleNom_ga60cdacc5171c841afe0a1e6c8e2f1a4d}} 
+void {\bfseries appel\+\_\+traitement\+\_\+image\+\_\+selon\+\_\+forme} (char entree\mbox{[}$\,$\mbox{]}, char sortie\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}} objet)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Description générale du module. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}\label{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}} 
+\index{Titre du Module@{Titre du Module}!Objet@{Objet}}
+\index{Objet@{Objet}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{Objet}{Objet}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}}}
+
+
+
+Types d\textquotesingle{}objets détectables dans une image. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CARRE@{CARRE}!Titre du Module@{Titre du Module}}\index{Titre du Module@{Titre du Module}!CARRE@{CARRE}}}\mbox{\Hypertarget{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27ac69f333da03fc7dbc59f3a7e72aac0d6}\label{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27ac69f333da03fc7dbc59f3a7e72aac0d6}} 
+CARRE&Représente un carré détecté. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BALLE@{BALLE}!Titre du Module@{Titre du Module}}\index{Titre du Module@{Titre du Module}!BALLE@{BALLE}}}\mbox{\Hypertarget{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27acfb9ec65a1284f7d57b2200a591e7cab}\label{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27acfb9ec65a1284f7d57b2200a591e7cab}} 
+BALLE&Représente une balle détectée. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NONE@{NONE}!Titre du Module@{Titre du Module}}\index{Titre du Module@{Titre du Module}!NONE@{NONE}}}\mbox{\Hypertarget{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27ac157bdf0b85a40d2619cbc8bc1ae5fe2}\label{group__ModuleNom_gga8bf47dcf19559906c0c1efcb14b8fa27ac157bdf0b85a40d2619cbc8bc1ae5fe2}} 
+NONE&Aucun objet détecté. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__ModuleNom_ga26f0910402fd7267d8468da1580af9ea}\label{group__ModuleNom_ga26f0910402fd7267d8468da1580af9ea}} 
+\index{Titre du Module@{Titre du Module}!additionner\_deux\_images@{additionner\_deux\_images}}
+\index{additionner\_deux\_images@{additionner\_deux\_images}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{additionner\_deux\_images()}{additionner\_deux\_images()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} additionner\+\_\+deux\+\_\+images (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image1,  }\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image2 }\end{DoxyParamCaption})}
+
+
+
+Additionne deux images 2D pixel par pixel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image1} & Première image. \\
+\hline
+{\em image2} & Deuxième image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers l\textquotesingle{}image résultante. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga118bba343c83a45ff3d042addf80e97d}\label{group__ModuleNom_ga118bba343c83a45ff3d042addf80e97d}} 
+\index{Titre du Module@{Titre du Module}!afficherImage@{afficherImage}}
+\index{afficherImage@{afficherImage}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{afficherImage()}{afficherImage()}}
+{\footnotesize\ttfamily void afficher\+Image (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{im,  }\item[{FILE $\ast$}]{fileout }\end{DoxyParamCaption})}
+
+
+
+Affiche une image 2D dans un fichier de sortie. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em im} & Pointeur vers l\textquotesingle{}image à afficher. \\
+\hline
+{\em fileout} & Fichier de sortie. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga357624c74fe605e1067180d59683836c}\label{group__ModuleNom_ga357624c74fe605e1067180d59683836c}} 
+\index{Titre du Module@{Titre du Module}!appel\_traitement\_image\_selon\_couleur@{appel\_traitement\_image\_selon\_couleur}}
+\index{appel\_traitement\_image\_selon\_couleur@{appel\_traitement\_image\_selon\_couleur}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{appel\_traitement\_image\_selon\_couleur()}{appel\_traitement\_image\_selon\_couleur()}}
+{\footnotesize\ttfamily void appel\+\_\+traitement\+\_\+image\+\_\+selon\+\_\+couleur (\begin{DoxyParamCaption}\item[{char}]{entree\mbox{[}$\,$\mbox{]},  }\item[{char}]{sortie\mbox{[}$\,$\mbox{]},  }\item[{\mbox{\hyperlink{analyse__couleur_8h_ac411d4a5ef6b9d2056a8cc2f6668851f}{Couleur\+Nom}}}]{couleur }\end{DoxyParamCaption})}
+
+
+
+Lance le traitement d\textquotesingle{}une image selon sa couleur à partir d\textquotesingle{}un fichier d\textquotesingle{}entrée et écrit le résultat dans un fichier de sortie. Surtout utilisé pour la démonstration du PFR1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entree} & Nom du fichier d\textquotesingle{}entrée. \\
+\hline
+{\em sortie} & Nom du fichier de sortie. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga7ef5bdbe16191c8c3f65f7b592daa4e2}\label{group__ModuleNom_ga7ef5bdbe16191c8c3f65f7b592daa4e2}} 
+\index{Titre du Module@{Titre du Module}!association\_objet@{association\_objet}}
+\index{association\_objet@{association\_objet}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{association\_objet()}{association\_objet()}}
+{\footnotesize\ttfamily char$\ast$ association\+\_\+objet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}}}]{objet }\end{DoxyParamCaption})}
+
+
+
+Associe un type d\textquotesingle{}objet à une chaîne de caractères descriptive. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objet} & Type de l\textquotesingle{}objet. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Chaîne de caractères décrivant l\textquotesingle{}objet. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga45a97967dedf7e7fe0ecc3fbdc5ff3e5}\label{group__ModuleNom_ga45a97967dedf7e7fe0ecc3fbdc5ff3e5}} 
+\index{Titre du Module@{Titre du Module}!calculer\_boites\_englobantes@{calculer\_boites\_englobantes}}
+\index{calculer\_boites\_englobantes@{calculer\_boites\_englobantes}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{calculer\_boites\_englobantes()}{calculer\_boites\_englobantes()}}
+{\footnotesize\ttfamily void calculer\+\_\+boites\+\_\+englobantes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{labels,  }\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image,  }\item[{\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} $\ast$}]{boites,  }\item[{int}]{nb\+Labels }\end{DoxyParamCaption})}
+
+
+
+Calcule les boîtes englobantes des différents objets présents dans l\textquotesingle{}image à partir d\textquotesingle{}une image étiquetée (labellisée). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em labels} & Pointeur vers l\textquotesingle{}image des labels. \\
+\hline
+{\em boites} & Tableau des boîtes englobantes à remplir. \\
+\hline
+{\em nb\+Labels} & Nombre de labels dans l\textquotesingle{}image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_gaee5df176169692e671d8550aa73796cf}\label{group__ModuleNom_gaee5df176169692e671d8550aa73796cf}} 
+\index{Titre du Module@{Titre du Module}!copier\_image@{copier\_image}}
+\index{copier\_image@{copier\_image}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{copier\_image()}{copier\_image()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} copier\+\_\+image (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image\+\_\+origine }\end{DoxyParamCaption})}
+
+
+
+Copie une image 2D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image\+\_\+origine} & Pointeur vers l\textquotesingle{}image à copier. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers la copie de l\textquotesingle{}image. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga999b07aea59de9e4e5c791ebb6b1298d}\label{group__ModuleNom_ga999b07aea59de9e4e5c791ebb6b1298d}} 
+\index{Titre du Module@{Titre du Module}!creer\_boiteEnglobante@{creer\_boiteEnglobante}}
+\index{creer\_boiteEnglobante@{creer\_boiteEnglobante}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{creer\_boiteEnglobante()}{creer\_boiteEnglobante()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}} creer\+\_\+boite\+Englobante (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image,  }\item[{int}]{lig\+\_\+haut,  }\item[{int}]{lig\+\_\+bas,  }\item[{int}]{col\+\_\+gauche,  }\item[{int}]{col\+\_\+droite }\end{DoxyParamCaption})}
+
+
+
+Crée une boîte englobante pour un objet, cette fonction vient aussi calculer l\textquotesingle{}aire de la boite englobante et le centre de l\textquotesingle{}objet. l\textquotesingle{}aire pourra être utilisée plus tard pour estimer une distance entre le robot et l\textquotesingle{}objet. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & Image contenant l\textquotesingle{}objet. \\
+\hline
+{\em lig\+\_\+haut} & Ligne supérieure de la boîte. \\
+\hline
+{\em lig\+\_\+bas} & Ligne inférieure de la boîte. \\
+\hline
+{\em col\+\_\+gauche} & Colonne gauche de la boîte. \\
+\hline
+{\em col\+\_\+droite} & Colonne droite de la boîte. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+La boîte englobante créée. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_gaad858a0322f5f32da12eead2cca9d65e}\label{group__ModuleNom_gaad858a0322f5f32da12eead2cca9d65e}} 
+\index{Titre du Module@{Titre du Module}!creer\_image2D@{creer\_image2D}}
+\index{creer\_image2D@{creer\_image2D}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{creer\_image2D()}{creer\_image2D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} creer\+\_\+image2D (\begin{DoxyParamCaption}\item[{int}]{lignes,  }\item[{int}]{colonnes }\end{DoxyParamCaption})}
+
+
+
+Alloure de la mémoire pour une image 2D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lignes} & Nombre de lignes dans l\textquotesingle{}image. \\
+\hline
+{\em colonnes} & Nombre de colonnes dans l\textquotesingle{}image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers la nouvelle image 2D. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga2d86fe23cd0862f5783df3c3ee19b90a}\label{group__ModuleNom_ga2d86fe23cd0862f5783df3c3ee19b90a}} 
+\index{Titre du Module@{Titre du Module}!creer\_image3D@{creer\_image3D}}
+\index{creer\_image3D@{creer\_image3D}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{creer\_image3D()}{creer\_image3D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image3D}{image3\+D\+\_\+ptr}} creer\+\_\+image3D (\begin{DoxyParamCaption}\item[{int}]{lignes,  }\item[{int}]{colonnes }\end{DoxyParamCaption})}
+
+
+
+Alloue de la mémoire pour une image 3D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lignes} & Nombre de lignes dans l\textquotesingle{}image. \\
+\hline
+{\em colonnes} & Nombre de colonnes dans l\textquotesingle{}image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers la nouvelle image 3D. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga0b244f9427e1cd467bee8a070c31521e}\label{group__ModuleNom_ga0b244f9427e1cd467bee8a070c31521e}} 
+\index{Titre du Module@{Titre du Module}!entourer\_objet@{entourer\_objet}}
+\index{entourer\_objet@{entourer\_objet}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{entourer\_objet()}{entourer\_objet()}}
+{\footnotesize\ttfamily void entourer\+\_\+objet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}}}]{b }\end{DoxyParamCaption})}
+
+
+
+Entoure un objet détecté par une boîte englobante dans une image, le pointeur vers l\textquotesingle{}image est stockée dans un paramètre de la boite englobante. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & La boîte englobante de l\textquotesingle{}objet. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga1cae2c3712335ba905e5044f702d6dff}\label{group__ModuleNom_ga1cae2c3712335ba905e5044f702d6dff}} 
+\index{Titre du Module@{Titre du Module}!etablir\_nbBits@{etablir\_nbBits}}
+\index{etablir\_nbBits@{etablir\_nbBits}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{etablir\_nbBits()}{etablir\_nbBits()}}
+{\footnotesize\ttfamily void etablir\+\_\+nb\+Bits (\begin{DoxyParamCaption}\item[{int8b}]{nb }\end{DoxyParamCaption})}
+
+
+
+Définit le nombre de bits pour la quantification. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nb} & Nombre de bits à définir. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga3081c5e417cb0b74745cfc73f204acb1}\label{group__ModuleNom_ga3081c5e417cb0b74745cfc73f204acb1}} 
+\index{Titre du Module@{Titre du Module}!free\_boite\_englobante@{free\_boite\_englobante}}
+\index{free\_boite\_englobante@{free\_boite\_englobante}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{free\_boite\_englobante()}{free\_boite\_englobante()}}
+{\footnotesize\ttfamily void free\+\_\+boite\+\_\+englobante (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}}}]{boite }\end{DoxyParamCaption})}
+
+
+
+Libère la mémoire allouée pour une boîte englobante. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em boite} & Boîte englobante à libérer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_gab374ac15d0fc268db95e213d3146e69d}\label{group__ModuleNom_gab374ac15d0fc268db95e213d3146e69d}} 
+\index{Titre du Module@{Titre du Module}!free\_image2D@{free\_image2D}}
+\index{free\_image2D@{free\_image2D}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{free\_image2D()}{free\_image2D()}}
+{\footnotesize\ttfamily void free\+\_\+image2D (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{im }\end{DoxyParamCaption})}
+
+
+
+Libère la mémoire allouée pour une image 2D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em im} & Pointeur vers l\textquotesingle{}image à libérer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga43aa35298694ea5aed38f2844036f5ab}\label{group__ModuleNom_ga43aa35298694ea5aed38f2844036f5ab}} 
+\index{Titre du Module@{Titre du Module}!free\_image3D@{free\_image3D}}
+\index{free\_image3D@{free\_image3D}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{free\_image3D()}{free\_image3D()}}
+{\footnotesize\ttfamily void free\+\_\+image3D (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image3D}{image3\+D\+\_\+ptr}}}]{im }\end{DoxyParamCaption})}
+
+
+
+Libère la mémoire allouée pour une image 3D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em im} & Pointeur vers l\textquotesingle{}image à libérer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_gac1efab1684ad402ae1c7f629cbb0b3e1}\label{group__ModuleNom_gac1efab1684ad402ae1c7f629cbb0b3e1}} 
+\index{Titre du Module@{Titre du Module}!free\_tab\_boites\_englobantes@{free\_tab\_boites\_englobantes}}
+\index{free\_tab\_boites\_englobantes@{free\_tab\_boites\_englobantes}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{free\_tab\_boites\_englobantes()}{free\_tab\_boites\_englobantes()}}
+{\footnotesize\ttfamily void free\+\_\+tab\+\_\+boites\+\_\+englobantes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__tab__boite__englobante}{tab\+\_\+boite\+\_\+englobante}}}]{tab }\end{DoxyParamCaption})}
+
+
+
+Libère la mémoire allouée pour un tableau de boîtes englobantes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tab} & Tableau de boîtes à libérer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga3ad9ca056f9c8d07320433f0e3d41f3f}\label{group__ModuleNom_ga3ad9ca056f9c8d07320433f0e3d41f3f}} 
+\index{Titre du Module@{Titre du Module}!initialiser\_image@{initialiser\_image}}
+\index{initialiser\_image@{initialiser\_image}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{initialiser\_image()}{initialiser\_image()}}
+{\footnotesize\ttfamily void initialiser\+\_\+image (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image,  }\item[{int}]{valeur }\end{DoxyParamCaption})}
+
+
+
+Initialise une image avec une valeur donnée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & Pointeur vers l\textquotesingle{}image à initialiser. \\
+\hline
+{\em valeur} & Valeur d\textquotesingle{}initialisation. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_ga0dd97c7f3b346e62b0c6d4a7310bc007}\label{group__ModuleNom_ga0dd97c7f3b346e62b0c6d4a7310bc007}} 
+\index{Titre du Module@{Titre du Module}!labelliserImage\_8voisinage@{labelliserImage\_8voisinage}}
+\index{labelliserImage\_8voisinage@{labelliserImage\_8voisinage}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{labelliserImage\_8voisinage()}{labelliserImage\_8voisinage()}}
+{\footnotesize\ttfamily int labelliser\+Image\+\_\+8voisinage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{binaire,  }\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{labels }\end{DoxyParamCaption})}
+
+
+
+Etiquette les pixels d\textquotesingle{}une image binaire en utilisant le 8-\/voisinage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em binaire} & Pointeur vers l\textquotesingle{}image binaire à labelliser. \\
+\hline
+{\em labels} & Pointeur vers l\textquotesingle{}image des labels. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nombre de labels trouvés. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_gae213d15737839fce3fa1edc162f150fd}\label{group__ModuleNom_gae213d15737839fce3fa1edc162f150fd}} 
+\index{Titre du Module@{Titre du Module}!lire\_image2D@{lire\_image2D}}
+\index{lire\_image2D@{lire\_image2D}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{lire\_image2D()}{lire\_image2D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} lire\+\_\+image2D (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Lit une image 2D depuis un fichier. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Nom du fichier contenant l\textquotesingle{}image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers l\textquotesingle{}image lue. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga39b54c37179677339a6af15f2e9ed73e}\label{group__ModuleNom_ga39b54c37179677339a6af15f2e9ed73e}} 
+\index{Titre du Module@{Titre du Module}!lire\_image3D@{lire\_image3D}}
+\index{lire\_image3D@{lire\_image3D}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{lire\_image3D()}{lire\_image3D()}}
+{\footnotesize\ttfamily void lire\+\_\+image3D (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file,  }\item[{\mbox{\hyperlink{structs__image3D}{image3\+D\+\_\+ptr}}}]{image }\end{DoxyParamCaption})}
+
+
+
+Lit une image 3D depuis un fichier binaire. 
+
+Cette fonction lit les données d\textquotesingle{}une image 3D depuis un fichier binaire et les stocke dans une structure d\textquotesingle{}image 3D. Le fichier doit être préformaté avec des dimensions connues et des données en format brut.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & Pointeur vers le fichier d\textquotesingle{}entrée ouvert en mode binaire. \\
+\hline
+{\em image} & Pointeur vers l\textquotesingle{}image 3D préalablement allouée avec \mbox{\hyperlink{group__ModuleNom_ga2d86fe23cd0862f5783df3c3ee19b90a}{creer\+\_\+image3\+D()}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__ModuleNom_gadeb6fbba2b2ce57849af98c20aa1c53b}\label{group__ModuleNom_gadeb6fbba2b2ce57849af98c20aa1c53b}} 
+\index{Titre du Module@{Titre du Module}!pre\_traitement@{pre\_traitement}}
+\index{pre\_traitement@{pre\_traitement}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{pre\_traitement()}{pre\_traitement()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} pre\+\_\+traitement (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Effectue une quantification sur nb\+\_\+bits sur une image RGB. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Nom du fichier contenant l\textquotesingle{}image à traiter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers l\textquotesingle{}image prétraitée. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_gae3e4446811e03fe077e1f3502834b008}\label{group__ModuleNom_gae3e4446811e03fe077e1f3502834b008}} 
+\index{Titre du Module@{Titre du Module}!reconnaissance\_objet@{reconnaissance\_objet}}
+\index{reconnaissance\_objet@{reconnaissance\_objet}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{reconnaissance\_objet()}{reconnaissance\_objet()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}} reconnaissance\+\_\+objet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structboite__englobante}{boite\+\_\+englobante}}}]{bte }\end{DoxyParamCaption})}
+
+
+
+Reconnaît l\textquotesingle{}objet représenté par une boîte englobante. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bte} & La boîte englobante à analyser. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Type de l\textquotesingle{}objet détecté. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga7fb2bf67300eef30a511f604bf20281b}\label{group__ModuleNom_ga7fb2bf67300eef30a511f604bf20281b}} 
+\index{Titre du Module@{Titre du Module}!seuillage@{seuillage}}
+\index{seuillage@{seuillage}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{seuillage()}{seuillage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}} seuillage (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{img,  }\item[{\mbox{\hyperlink{analyse__couleur_8h_ac411d4a5ef6b9d2056a8cc2f6668851f}{Couleur\+Nom}}}]{couleur }\end{DoxyParamCaption})}
+
+
+
+Applique un seuillage à une image en fonction d\textquotesingle{}une couleur. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & Pointeur vers l\textquotesingle{}image d\textquotesingle{}entrée. \\
+\hline
+{\em couleur} & Couleur utilisée pour le seuillage. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointeur vers l\textquotesingle{}image seuillée. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga5f6fe88f9bfa72355aadbcfb6d629764}\label{group__ModuleNom_ga5f6fe88f9bfa72355aadbcfb6d629764}} 
+\index{Titre du Module@{Titre du Module}!traitement\_images@{traitement\_images}}
+\index{traitement\_images@{traitement\_images}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{traitement\_images()}{traitement\_images()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__tab__boite__englobante}{tab\+\_\+boite\+\_\+englobante}} traitement\+\_\+images (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image\+\_\+pretraitee,  }\item[{\mbox{\hyperlink{analyse__couleur_8h_ac411d4a5ef6b9d2056a8cc2f6668851f}{Couleur\+Nom}}}]{couleur }\end{DoxyParamCaption})}
+
+
+
+Effectue le traitement complet d\textquotesingle{}une image prétraitée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image\+\_\+pretraitee} & Image 2D prétraitée. \\
+\hline
+{\em couleur} & Couleur utilisée pour le traitement. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Tableau des boîtes englobantes détectées. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__ModuleNom_ga3efdcf5a255f122b7bc31165dd72ab36}\label{group__ModuleNom_ga3efdcf5a255f122b7bc31165dd72ab36}} 
+\index{Titre du Module@{Titre du Module}!traiter\_image\_selon\_forme@{traiter\_image\_selon\_forme}}
+\index{traiter\_image\_selon\_forme@{traiter\_image\_selon\_forme}!Titre du Module@{Titre du Module}}
+\doxysubsubsection{\texorpdfstring{traiter\_image\_selon\_forme()}{traiter\_image\_selon\_forme()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs__tab__boite__englobante}{tab\+\_\+boite\+\_\+englobante}} traiter\+\_\+image\+\_\+selon\+\_\+forme (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structs__image2D}{image2\+D\+\_\+ptr}}}]{image\+\_\+pretraitee,  }\item[{\mbox{\hyperlink{group__ModuleNom_ga8bf47dcf19559906c0c1efcb14b8fa27}{Objet}}}]{objet }\end{DoxyParamCaption})}
+
+
+
+Traite une image pour détecter des objets d\textquotesingle{}une certaine forme. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image\+\_\+pretraitee} & Image 2D prétraitée. \\
+\hline
+{\em objet} & Forme de l\textquotesingle{}objet à détecter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Tableau des boîtes englobantes détectées. 
+\end{DoxyReturn}
