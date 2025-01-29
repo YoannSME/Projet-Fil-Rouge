@@ -206,6 +206,7 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         if (!file_exists(entree))
         {
             printf("Le fichier %s n'existe pas\n", entree);
+            readInterface(currentInterface);
             break;
         }
         snprintf(sortie, sizeof(sortie), "sortie/%.500s_v2.txt", chemin);
@@ -242,6 +243,7 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
             Objet objet;
             if(choix == 2){
                 objet = CARRE;
+                printf("objet carre\n");
             }
             else{
                 objet = BALLE;
@@ -255,6 +257,7 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         if(system("python3 conversion.py")==-1){
             Erreur("system conversion.py");
         }
+        printf("L'image traitée peut être visualisée dans le dossier sortie.\n");
 
         readInterface(currentInterface);
         break;

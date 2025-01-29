@@ -536,7 +536,7 @@ Objet reconnaissance_objet(boite_englobante bte)
     {
         return CARRE;
     }
-    else //Possibilité d'améliorer ça pour une évolutivité mais dans ce PFR1 seulement des balles rondes et carrés seront utilisées
+    else // Possibilité d'améliorer ça pour une évolutivité mais dans ce PFR1 seulement des balles rondes et carrés seront utilisées
     {
         return BALLE;
     }
@@ -605,41 +605,50 @@ tab_boite_englobante traitement_images(image2D_ptr image_pretraitee, CouleurNom 
 tab_boite_englobante traiter_image_selon_forme(image2D_ptr image_pretraitee, Objet objet)
 {
     write_logfile("=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
+
     tab_boite_englobante tab_retour;
-    tab_retour.tabBoites = malloc(MAX_LABELS * sizeof(boite_englobante)); // max 30 objets
+    tab_retour.tabBoites = malloc(MAX_LABELS * sizeof(boite_englobante));
     tab_retour.taille = 0;
     if (tab_retour.tabBoites == NULL)
     {
         Erreur("Erreur malloc tab_boite_englobante");
+        return tab_retour; // Retourne une structure vide en cas d'erreur
     }
+
     CouleurNom couleur[] = {COL_BLEU, COL_JAUNE, COL_ORANGE};
     image2D_ptr image_retour = creer_image2D(image_pretraitee->lignes, image_pretraitee->colonnes);
+    initialiser_image(image_retour, 0);
 
-    int i = 0;
-    do
+    for (int i = 0; i < 3; i++)
     {
         tab_boite_englobante tab_couleur_courante = traitement_images(image_pretraitee, couleur[i]);
         if (tab_couleur_courante.taille > 0)
         {
-            image_retour = additionner_deux_images(image_retour, tab_couleur_courante.tabBoites[0].image);
-            for (int i = 0; i < tab_couleur_courante.taille; i++)
+            for (int j = 0; j < tab_couleur_courante.taille; j++)
             {
-                if (tab_couleur_courante.tabBoites[i].objet == objet)
+                if (tab_couleur_courante.tabBoites[j].objet == objet)
                 {
-                    tab_retour.tabBoites[i].couleurObjet = couleur[i];
-                    tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[i];
+
+                    // Copie des données dans tab_retour
+                    tab_retour.tabBoites[tab_retour.taille] = tab_couleur_courante.tabBoites[j];
+                    tab_retour.tabBoites[tab_retour.taille].couleurObjet = couleur[i];
                     tab_retour.taille++;
-                    boite_englobante b = tab_retour.tabBoites[i];
-                    write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n", b.lig_haut, b.col_gauche, b.lig_bas, b.col_droite, b.aire);
+
+                    // Ajout des images des boîtes englobantes
+                    image_retour = additionner_deux_images(image_retour, tab_couleur_courante.tabBoites[j].image);
+                    tab_retour.tabBoites[0].image = image_retour;
+
+                    boite_englobante b = tab_couleur_courante.tabBoites[j];
+                    write_logfile("=====Coordonnées de la boite englobante : CG = %d - CD = %d - BG = %d - BD = %d - aire = %d\n",
+                                  b.lig_haut, b.col_gauche, b.lig_bas, b.col_droite, b.aire);
                     write_logfile("=====Objet reconnu : %s\n", association_objet(b.objet));
                 }
             }
         }
         free_tab_boites_englobantes(tab_couleur_courante);
-        i++;
-    } while (i < 3);
-
-    tab_retour.tabBoites[0].image = image_retour;
+    }
+    if (tab_retour.taille < 1)
+        free_image2D(image_retour);
     write_logfile("=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====\n");
     return tab_retour;
 }
@@ -700,14 +709,13 @@ void afficherImage(image2D_ptr im, FILE *fileout)
     }
 }
 
-
-void appel_traitement_image_selon_couleur(char entree[], char sortie[],CouleurNom couleur)
+void appel_traitement_image_selon_couleur(char entree[], char sortie[], CouleurNom couleur)
 {
     initialisationLogfileTraitementImage();
     FILE *fichier_entree = fopen(entree, "r");
     FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
     image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
-    tab_boite_englobante tab = traitement_images(image_pretraitee,couleur);
+    tab_boite_englobante tab = traitement_images(image_pretraitee, couleur);
     if (tab.taille > 0)
         afficherImage(tab.tabBoites[0].image, fichier_sortie);
 
@@ -718,16 +726,21 @@ void appel_traitement_image_selon_couleur(char entree[], char sortie[],CouleurNo
     close_logfile();
 }
 
-void appel_traitement_image_selon_forme(char entree[], char sortie[],Objet objet)
+void appel_traitement_image_selon_forme(char entree[], char sortie[], Objet objet)
 {
     initialisationLogfileTraitementImage();
     FILE *fichier_entree = fopen(entree, "r");
     FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
     image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
     tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee, objet);
-    afficherImage(tab.tabBoites[0].image, fichier_sortie);
-
-    free_tab_boites_englobantes(tab);
+    if (tab.taille > 0){
+        afficherImage(tab.tabBoites[0].image, fichier_sortie);
+         free_tab_boites_englobantes(tab);
+        
+    }
+    else{
+        free(tab.tabBoites);
+    }
     free_image2D(image_pretraitee);
     fclose(fichier_entree);
     fclose(fichier_sortie);

@@ -1,0 +1,12 @@
+<map id="Interface/interface.h" name="Interface/interface.h">
+<area shape="rect" id="node1" title="Définitions et prototypes pour la gestion et le traitement des interfaces." alt="" coords="309,5,463,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,177,76,203"/>
+<area shape="rect" id="node3" title=" " alt="" coords="101,177,167,203"/>
+<area shape="rect" id="node4" href="$config_8h.html" title="Définitions et prototypes pour la gestion et le traitement des configurations." alt="" coords="171,87,347,114"/>
+<area shape="rect" id="node7" href="$traitement__images_8h.html" title="Définitions et prototypes pour la gestion et le traitement des images RGB." alt="" coords="424,80,572,121"/>
+<area shape="rect" id="node8" title=" " alt="" coords="415,259,523,285"/>
+<area shape="rect" id="node9" href="$analyse__couleur_8h.html" title="Définitions et prototypes pour l&#39;analyse et la manipulation des couleurs." alt="" coords="506,169,645,211"/>
+<area shape="rect" id="node10" href="$traitement__vocal_8h_source.html" title=" " alt="" coords="648,80,807,121"/>
+<area shape="rect" id="node5" title=" " alt="" coords="280,177,351,203"/>
+<area shape="rect" id="node6" title=" " alt="" coords="191,177,255,203"/>
+</map>
