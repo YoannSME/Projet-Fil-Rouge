@@ -1,12 +1,9 @@
-def normaliser_transcription(transcription):
-    
-    ...
-    # transformation de la chaine en tokens
-    chaine_tokenisee = transcription.split()
-    ...
-    #print(chaine_tokenisee)
-    ...
-    return chaine_tokenisee
+
+import os
+import speech_recognition as sr
+import pyaudio
+from gtts import gTTS
+
 def text_to_speech(text):
     
     # Initialize gTTS with the text to convert
@@ -17,10 +14,6 @@ def text_to_speech(text):
     # Play the audio file
     os.system('afplay ' + speech_file)
 ## CELLULE ASSISTANT VOCAL
-import os
-import speech_recognition as sr
-import pyaudio
-from gtts import gTTS
 r = sr.Recognizer()
 micro = sr.Microphone()
 with micro as source:

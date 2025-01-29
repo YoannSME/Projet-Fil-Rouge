@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['objet_0',['objet',['../structboite__englobante.html#a05654161d74256eab6bb3428c4ebb30b',1,'boite_englobante::objet'],['../group__Traitement.html#ga8bf47dcf19559906c0c1efcb14b8fa27',1,'Objet:&#160;traitement_images.h']]]
-];
