@@ -18,8 +18,7 @@
 #include "../Configuration/config.h"
 #include "../Image/traitement_images.h"
 #include "../Couleur/analyse_couleur.h"
-#include "../commande_vocale/parser.h"
-
+#include "../Commande_vocale/traitement_vocal.h"
 #include "../Utils/utils.h"
 #define PATH_INTERFACE "Interface/"
 

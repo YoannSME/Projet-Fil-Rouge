@@ -158,17 +158,9 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         switchInterfaceBis(currentInterface, "0");
         break;
     case 1111:
-
-        execute_python_script();
-        // printf("[INFO] Langue sélectionnée : %s\n", langue);
-
-        // Étape 3 : Traiter la transcription
-        // printf("[INFO] Traitement de la transcription...\n");
-        process_transcription("transcription.txt", langue);
-        // printf("[INFO] Programme terminé.\n");
-
+        appeler_pilotage_vocal();
         switchInterfaceBis(currentInterface, "0");
-        readInterface(currentInterface);
+        //readInterface(currentInterface);
         break;
 
     case 1121:

@@ -14,10 +14,10 @@ char instructions_a_executer[MAX_BUFFER_SIZE];
 int nb_dict = 4;
 
 void init_dictionnaires(){
-    dict_avancer = recuperer_dictionnaire("dictAvancer.txt");
-    dict_reculer = recuperer_dictionnaire("dictReculer.txt");
-    dict_droite = recuperer_dictionnaire("dictDroite.txt");
-    dict_gauche = recuperer_dictionnaire("dictGauche.txt");
+    dict_avancer = recuperer_dictionnaire("Commande_vocale/dictAvancer.txt");
+    dict_reculer = recuperer_dictionnaire("Commande_vocale/dictReculer.txt");
+    dict_droite = recuperer_dictionnaire("Commande_vocale/dictDroite.txt");
+    dict_gauche = recuperer_dictionnaire("Commande_vocale/dictGauche.txt");
 }
 token creer_token()
 {
@@ -38,7 +38,7 @@ FILE *ouvrir_fichier(char filename[], char *mode)
 }
 
 char* recuperer_commande_vocale(){
-    FILE* fichier = ouvrir_fichier("transcription.txt","r");
+    FILE* fichier = ouvrir_fichier("Commande_vocale/transcription.txt","r");
     
     
     if (fgets(instructions_a_executer, MAX_BUFFER_SIZE, fichier) == NULL) {
@@ -125,7 +125,7 @@ int est_dans_dictionnaire(char *mot, token motsDictionnaire)
 token filtrer_mots(token requeteTexte)
 {
     token texte_filtre = creer_token();
-    char nb_char[10];
+    char nb_char[12];
     int taille_requete = requeteTexte.nbMots;
     for (int i = 0; i < taille_requete; i++)
     {
@@ -225,7 +225,7 @@ token transformation_requete_commande(token requeteTexte)
 
 
 void envoyer_au_robot(token requete_commande){
-    FILE* fichier = ouvrir_fichier("requete_commande.txt","w");
+    FILE* fichier = ouvrir_fichier("Commande_vocale/requete_commande.txt","w");
     for(int i = 0;i<requete_commande.nbMots;i++){
         fprintf(fichier,"%s ",requete_commande.mots[i]);
     }
@@ -236,7 +236,11 @@ void appeler_pilotage_manuel(){
     //init_dictionnaires();
     printf("Instructions à donner au robot : ");
     char instructions_a_effectuer[MAX_BUFFER_SIZE];
-    scanf("%[^\n]", instructions_a_effectuer);
+    fflush(stdin);
+    if(fgets(instructions_a_effectuer,MAX_BUFFER_SIZE,stdin)==NULL){
+        fprintf(stderr,"Commande %s invalide",instructions_a_effectuer);
+        exit(1);
+    }
     printf("instruction = %s",instructions_a_effectuer);
     token phrase = tokeniser_phrase_courante(instructions_a_effectuer);
     token mots_filtrees = filtrer_mots(phrase);
@@ -246,19 +250,13 @@ void appeler_pilotage_manuel(){
 }
 
 void appeler_pilotage_vocal(){
-    system("python3 speech_to_text.py");
+    if(system("python3 Commande_vocale/speech_to_text.py")==-1){
+        perror("system STT");
+        exit(1);
+    }
     token phrase = tokeniser_phrase_courante(recuperer_commande_vocale());
     token mots_filtrees = filtrer_mots(phrase);
     token requete = transformation_requete_commande(mots_filtrees);
     envoyer_au_robot(requete);
 
-}
-
-int main(void)
-{
-    
-    
-    appeler_pilotage_vocal();
-
-    return 0;
 }
