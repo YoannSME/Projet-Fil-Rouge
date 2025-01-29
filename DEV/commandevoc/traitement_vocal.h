@@ -18,7 +18,12 @@ token filtrer_mots(token requeteTexte);
 token transformation_requete_commande(token requeteTexte);
 token creer_token();
 void init_dictionnaires();
-token tokeniser_phrase_courante();
+token tokeniser_phrase_courante(char buffer[MAX_BUFFER_SIZE]);
+char* recuperer_commande_vocale();
+void appeler_pilotage_vocal();
+void appeler_pilotage_manuel();
+
+
 
 
 #endif

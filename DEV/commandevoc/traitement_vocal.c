@@ -9,6 +9,8 @@ token dict_reculer;
 token dict_droite;
 token dict_gauche;
 
+char instructions_a_executer[MAX_BUFFER_SIZE];
+
 int nb_dict = 4;
 
 void init_dictionnaires(){
@@ -34,14 +36,23 @@ FILE *ouvrir_fichier(char filename[], char *mode)
     }
     return file;
 }
-token tokeniser_phrase_courante()
+
+char* recuperer_commande_vocale(){
+    FILE* fichier = ouvrir_fichier("transcription.txt","r");
+    
+    
+    if (fgets(instructions_a_executer, MAX_BUFFER_SIZE, fichier) == NULL) {
+        fclose(fichier);
+        return NULL;
+    }
+
+    instructions_a_executer[strcspn(instructions_a_executer, "\n")] = '\0';
+    fclose(fichier);
+    return instructions_a_executer;
+}
+token tokeniser_phrase_courante(char buffer[MAX_BUFFER_SIZE])
 {   
-    FILE* fichier = ouvrir_fichier("phrase.txt","r");
-    char buffer[MAX_BUFFER_SIZE];
-    fgets(buffer, MAX_BUFFER_SIZE, fichier);
-
-    buffer[strcspn(buffer, "\n")] = '\0';
-
+    init_dictionnaires();
     token phraseTokenise = creer_token();
     phraseTokenise.nbMots = 0;
     int i = 0;
@@ -62,7 +73,6 @@ token tokeniser_phrase_courante()
             phraseTokenise.nbMots += 1;
         }
     }
-    fclose(fichier);
     return phraseTokenise;
 }
 
@@ -222,24 +232,33 @@ void envoyer_au_robot(token requete_commande){
     fclose(fichier);
 }
 
-int main(void)
-{
-    init_dictionnaires();
-    token phrase = tokeniser_phrase_courante();
-    for (int i = 0; i < phrase.nbMots; i++)
-    {
-        printf("Mot = %s\n", phrase.mots[i]);
-    }
-
-
+void appeler_pilotage_manuel(){
+    //init_dictionnaires();
+    printf("Instructions à donner au robot : ");
+    char instructions_a_effectuer[MAX_BUFFER_SIZE];
+    scanf("%[^\n]", instructions_a_effectuer);
+    printf("instruction = %s",instructions_a_effectuer);
+    token phrase = tokeniser_phrase_courante(instructions_a_effectuer);
     token mots_filtrees = filtrer_mots(phrase);
-    for (int i = 0; i < mots_filtrees.nbMots; i++)
-    {
-        printf("mot filtree = %s\n", mots_filtrees.mots[i]);
-    }
     token requete = transformation_requete_commande(mots_filtrees);
 
     envoyer_au_robot(requete);
+}
+
+void appeler_pilotage_vocal(){
+    system("python3 speech_to_text.py");
+    token phrase = tokeniser_phrase_courante(recuperer_commande_vocale());
+    token mots_filtrees = filtrer_mots(phrase);
+    token requete = transformation_requete_commande(mots_filtrees);
+    envoyer_au_robot(requete);
+
+}
+
+int main(void)
+{
+    
+    
+    appeler_pilotage_vocal();
 
     return 0;
 }
