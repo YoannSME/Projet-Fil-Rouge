@@ -160,7 +160,7 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
     case 1111:
         appeler_pilotage_vocal();
         switchInterfaceBis(currentInterface, "0");
-        //readInterface(currentInterface);
+        readInterface(currentInterface);
         break;
 
     case 1121:
@@ -182,6 +182,11 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         make_file("commande/transcription.txt");
         add_row_to_file("commande/transcription.txt", "backward(5)");
         switchInterfaceBis(currentInterface, "0");
+        break;
+    case 1129:
+        appeler_pilotage_manuel();
+        switchInterfaceBis(currentInterface,"0");
+        readInterface(currentInterface);
         break;
 
     case 14:
@@ -246,6 +251,11 @@ void actionByInterface(int *currentInterfaceButitsAnInteger, char *currentInterf
         temps_final = clock();
         temps_cpu = (temps_final - temps_initial) * 1e-5;
         printf("TEMPS CPU : %f\n", temps_cpu);
+        
+        if(system("python3 conversion.py")==-1){
+            Erreur("system conversion.py");
+        }
+
         readInterface(currentInterface);
         break;
 

@@ -241,12 +241,15 @@ void appeler_pilotage_manuel(){
         fprintf(stderr,"Commande %s invalide",instructions_a_effectuer);
         exit(1);
     }
-    printf("instruction = %s",instructions_a_effectuer);
     token phrase = tokeniser_phrase_courante(instructions_a_effectuer);
     token mots_filtrees = filtrer_mots(phrase);
     token requete = transformation_requete_commande(mots_filtrees);
-
     envoyer_au_robot(requete);
+    printf("Requete commande générée : ");
+     for(int i = 0;i<requete.nbMots;i++){
+        printf("%s ",requete.mots[i]);
+    }
+    printf("\n");
 }
 
 void appeler_pilotage_vocal(){

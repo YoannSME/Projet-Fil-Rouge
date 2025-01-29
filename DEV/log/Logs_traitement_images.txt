@@ -2,6 +2,32 @@ Fichier initialisé
 
 =====Image pré-traitée=====
 
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====
+
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Image seuillée=====
+
+=====Image étiquetée, 3 objets trouvés=====
+
+=====Boites englobantes filtrées, 3 objets restants après filtrage=====
+
+=====Boites englobantes calculées=====
+
+=====Coordonnées de la boite englobante : CG = 0 0 - CD = 0 144 - BG = 145 0  - BD = 145 144  - aire = 21170
+
+=====Objet reconnu : BALLE
+
+=====Coordonnées de la boite englobante : CG = 183 0 - CD = 183 144 - BG = 330 0  - BD = 330 144  - aire = 21460
+
+=====Objet reconnu : BALLE
+
+=====Coordonnées de la boite englobante : CG = 363 0 - CD = 363 144 - BG = 508 0  - BD = 508 144  - aire = 21170
+
+=====Objet reconnu : BALLE
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
 =====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
 
 =====Image seuillée=====
@@ -25,4 +51,30 @@ Fichier initialisé
 =====Objet reconnu : BALLE
 
 =====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====DEBUT DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====Image seuillée=====
+
+=====Image étiquetée, 7 objets trouvés=====
+
+=====Boites englobantes filtrées, 3 objets restants après filtrage=====
+
+=====Boites englobantes calculées=====
+
+=====Coordonnées de la boite englobante : CG = 377 453 - CD = 377 523 - BG = 497 453  - BD = 497 523  - aire = 8591
+
+=====Objet reconnu : BALLE
+
+=====Coordonnées de la boite englobante : CG = 13 454 - CD = 13 524 - BG = 133 454  - BD = 133 524  - aire = 8591
+
+=====Objet reconnu : BALLE
+
+=====Coordonnées de la boite englobante : CG = 192 453 - CD = 192 525 - BG = 324 453  - BD = 324 525  - aire = 9709
+
+=====Objet reconnu : BALLE
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA COULEUR=====
+
+=====FIN DU TRAITEMENT D'UNE IMAGE SELON SA FORME=====
 
