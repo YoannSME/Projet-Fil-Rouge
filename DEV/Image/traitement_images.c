@@ -716,6 +716,7 @@ void appel_traitement_image_selon_couleur(char entree[], char sortie[], CouleurN
     FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
     image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
     tab_boite_englobante tab = traitement_images(image_pretraitee, couleur);
+    printf("%d Objets détectés\n",tab.taille);
     if (tab.taille > 0)
         afficherImage(tab.tabBoites[0].image, fichier_sortie);
 
@@ -733,6 +734,7 @@ void appel_traitement_image_selon_forme(char entree[], char sortie[], Objet obje
     FILE *fichier_sortie = fopen(sortie, "w"); // Seulement utile pour visualiser l'image avec : python3 conversion.py
     image2D_ptr image_pretraitee = pre_traitement(fichier_entree);
     tab_boite_englobante tab = traiter_image_selon_forme(image_pretraitee, objet);
+    printf("%d Objets détectés\n",tab.taille);
     if (tab.taille > 0){
         afficherImage(tab.tabBoites[0].image, fichier_sortie);
          free_tab_boites_englobantes(tab);

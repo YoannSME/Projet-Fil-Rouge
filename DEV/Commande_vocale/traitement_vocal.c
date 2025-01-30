@@ -70,9 +70,11 @@ token tokeniser_phrase_courante(char buffer[MAX_BUFFER_SIZE])
                 j++;
             }
             phraseTokenise.mots[phraseTokenise.nbMots][j] = '\0';
+            
             phraseTokenise.nbMots += 1;
         }
     }
+    instructions_a_executer[strcspn(instructions_a_executer, "\n")] = '\0';
     return phraseTokenise;
 }
 
@@ -236,13 +238,17 @@ void appeler_pilotage_manuel(){
     //init_dictionnaires();
     printf("Instructions à donner au robot : ");
     char instructions_a_effectuer[MAX_BUFFER_SIZE];
-    fflush(stdin);
+    
     if(fgets(instructions_a_effectuer,MAX_BUFFER_SIZE,stdin)==NULL){
         fprintf(stderr,"Commande %s invalide",instructions_a_effectuer);
         exit(1);
     }
+    instructions_a_effectuer[strcspn(instructions_a_effectuer, "\n")] = '\0';
+    printf("%s",instructions_a_effectuer);
     token phrase = tokeniser_phrase_courante(instructions_a_effectuer);
+    
     token mots_filtrees = filtrer_mots(phrase);
+    
     token requete = transformation_requete_commande(mots_filtrees);
     envoyer_au_robot(requete);
     printf("Requete commande générée : ");
@@ -261,5 +267,9 @@ void appeler_pilotage_vocal(){
     token mots_filtrees = filtrer_mots(phrase);
     token requete = transformation_requete_commande(mots_filtrees);
     envoyer_au_robot(requete);
+    for(int i = 0;i<requete.nbMots;i++){
+        printf("%s ",requete.mots[i]);
+    }
+     printf("\n");
 
 }

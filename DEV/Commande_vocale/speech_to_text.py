@@ -31,6 +31,6 @@ print ("Vous avez dit : ", transcription)
 #tokens=normaliser_transcription(transcription)
 
 # Sauvegarder la transcription dans un fichier
-with open("transcription.txt", "w") as file:
+with open("Commande_vocale/transcription.txt", "w") as file:
     file.write(transcription)
 
