@@ -1,1 +1,1 @@
-backward(172) forward(100) right(90) left(90) backward(100) 
+forward(20) right(90) backward(100) forward(100) left(120) forward(100) right(90) 

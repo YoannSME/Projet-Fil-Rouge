@@ -244,7 +244,7 @@ void appeler_pilotage_manuel(){
         exit(1);
     }
     instructions_a_effectuer[strcspn(instructions_a_effectuer, "\n")] = '\0';
-    printf("%s",instructions_a_effectuer);
+    
     token phrase = tokeniser_phrase_courante(instructions_a_effectuer);
     
     token mots_filtrees = filtrer_mots(phrase);
