@@ -81,7 +81,7 @@ La documentation est consultable dans le fichier `index.html` du répertoire `do
 
 **Équipe de développement :**
 
-- GROUPE 3 PFR
+## GROUPE 3 PFR
 - APEDOH Senam Amenyo  Jules
 - LETEURTRE Martin
 - SICHI Axel
