@@ -30,13 +30,12 @@ Ce projet implémente un système permettant le traitement d'images et de comman
 
 2. **Traitement Vocal** :
 
-   - Tokenisation et filtrage des commandes vocales.
-   - Transformation des phrases en instructions robotisées.
-   - Interaction avec le module de pilotage vocal.
+   - Tokenisation et filtrage des commandes vocales/textuelles.
+   - Transformation des phrases en instructions exécutables par le robot.
 
 3. **Gestion de la Configuration et des Logs** :
 
-   - Gestion des paramètres de quantification et des logs.
+   - Gestion des paramètres de quantification, des différents dictionnaires et language de conversation avec l'utilisateur et des logs.
    - Lecture et modification des fichiers de configuration.
 
 4. **Interface Utilisateur** :
