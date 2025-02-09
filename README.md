@@ -24,7 +24,7 @@ Ce projet implémente un système permettant le traitement d'images et de comman
 
 1. **Traitement d'Images** :
 
-   - Lecture et manipulation d'images en niveaux de gris.
+   - Lecture et manipulation d'images en RGBs.
    - Segmentation et étiquetage des objets.
    - Détection et classification des formes (carré, balle).
 
