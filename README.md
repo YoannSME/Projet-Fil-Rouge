@@ -77,6 +77,9 @@ make doc
 
 La documentation est consultable dans le fichier `index.html` du répertoire `documentation`.
 
+# Documentation matérielle
+   Lidar : https://www.generationrobots.com/media/rplidar-a1m8-360-degree-laser-scanner-development-kit-datasheet-1.pdf?srsltid=AfmBOornViT6FE7mcD5hsgLTlgucdrQeHhofqze5cEt9Vei-qAXaTmdL
+
 ## Contributions
 
 **Équipe de développement :**
